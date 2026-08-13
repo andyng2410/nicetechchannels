@@ -1,0 +1,4 @@
+interface:
+  display_name: "Slide Visuals"
+  short_description: "Slide 1 hero plus visual QA"
+  default_prompt: "Use $slide-visuals to copy the fixed slide 1 hero template, then design or remix later slides with strong visual density, role-based color, and semantic animation."

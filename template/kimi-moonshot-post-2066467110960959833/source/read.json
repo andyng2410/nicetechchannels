@@ -1,0 +1,25 @@
+{
+  "id": "2066467110960959833",
+  "text": "🌘 Meet Kimi K2.7 Code HighSpeed!\nA high-speed mode of our latest open-source multimodal coding model, Kimi K2.7 Code.\n\n⚡️ Up to 6× faster: Around 180 tok/s on coding tasks with median-length inputs, and up to 260 tok/s on shorter-context tasks.\n\n🔷  Rolling out to Kimi Code Beta Program members, Kimi API developers, and Kimi Business users. (Access will remain limited for now due to capacity constraints.)\n\n🔷  No invite needed. Anyone who joins the Beta Program has a chance to get access 👉 https://t.co/eKogsFGJt6\n\nOpen intelligence should be instant, affordable, and borderless. We'll continue improving the model and expanding access as more capacity becomes available!\n\n🔗 Kimi Code: https://t.co/uvoSJKyGCY\n🔗 API: https://t.co/mzWxjgGO1h",
+  "createdAt": "Mon Jun 15 10:25:27 +0000 2026",
+  "replyCount": 146,
+  "retweetCount": 287,
+  "likeCount": 3556,
+  "conversationId": "2066467110960959833",
+  "author": {
+    "username": "Kimi_Moonshot",
+    "name": "Kimi.ai"
+  },
+  "authorId": "1863959670169501696",
+  "media": [
+    {
+      "type": "video",
+      "url": "https://pbs.twimg.com/amplify_video_thumb/2066462196595634176/img/T7ux8S37-tTzsa3T.jpg",
+      "width": 1920,
+      "height": 1080,
+      "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2066462196595634176/img/T7ux8S37-tTzsa3T.jpg:small",
+      "videoUrl": "https://video.twimg.com/amplify_video/2066462196595634176/vid/avc1/1920x1080/UlNcRNPHGNF43y2p.mp4?tag=27",
+      "durationMs": 1362300
+    }
+  ]
+}

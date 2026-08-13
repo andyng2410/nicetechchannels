@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perplexity Search as Code</title>
+  <meta name="description" content="Search as Code: agent tự viết Python để research." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=sac-20260602" />
+  <link rel="stylesheet" href="search-as-code.css?v=sac-20260602" />
+</head>
+<body class="sac-page">
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel"><div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div><div class="script-panel-badge" id="scriptSlideBadge">Ready</div><div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div></div>
+    <div class="audio-panel" id="audioPanel"><div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select id="bgmSelect" onchange="switchBGM(this.value)"><option value="ambient" selected>Ambient</option><option value="cinematic">Cinematic</option><option value="lofi">Lo-fi</option><option value="piano">Piano</option><option value="dark">Dark</option><option value="custom">Custom upload</option><option value="none">Tắt</option></select></div><div class="audio-panel-divider"></div><div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span><div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)"><option value="gong">Gong</option><option value="rise">Rise</option><option value="bass">Bass</option><option value="chime">Chime</option><option value="sweep">Sweep</option><option value="boom">Boom</option><option value="alarm">Alarm</option><option value="chord">Chord</option><option value="ascending">Ascending</option><option value="retro">Retro</option><option value="minimal">Minimal</option><option value="dramatic">Dramatic</option></select></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)"><option value="ping">Ping</option><option value="pop">Pop</option><option value="chime">Chime</option><option value="click">Click</option><option value="bubble">Bubble</option><option value="sparkle">Sparkle</option><option value="blip">Blip</option><option value="tick">Tick</option><option value="bell">Bell</option></select></div><div class="audio-actions"><button onclick="testTransition()">Test slide</button><button onclick="testReveal()">Test reveal</button></div></div>
+
+    <div id="slideContainer" class="slide-container sac-deck">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="brand-top-left"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+      <div class="brand-bottom-right"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+
+      <div class="slide active" data-slide="0">
+        <div class="slide-bg sac-bg hero-bg"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content sac-content sac-hero">
+          <div class="slide-element fade-up">
+            <div class="sac-hero-art">
+              <img class="sac-hero-photo" src="source/research-og.webp" alt="Search as Code research visual" />
+              <div class="sac-logo-core"><img src="source/perplexity-icon.png" alt="Perplexity" /></div>
+              <span class="sac-route r1"></span><span class="sac-route r2"></span><span class="sac-route r3"></span>
+              <span class="sac-packet p1"></span><span class="sac-packet p2"></span><span class="sac-packet p3"></span>
+            </div>
+            <h1 class="sac-hero-title title-shimmer"><span>Search</span> <em>as Code</em></h1>
+            <div class="sac-hero-sub"><i class="fa-brands fa-python"></i><span>agent tự viết Python để research</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="1">
+        <div class="slide-bg sac-bg"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content sac-content">
+          <div class="slide-element fade-up"><div class="sac-title-chip"><i class="fa-solid fa-hourglass-half"></i><strong>Vòng lặp cũ</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="sac-serial">
+              <div class="sac-turn"><b>turn 1</b><span>search()</span></div><i class="fa-solid fa-arrow-right"></i>
+              <div class="sac-wait">WAIT</div><i class="fa-solid fa-arrow-right"></i>
+              <div class="sac-turn"><b>turn 2</b><span>search()</span></div><i class="fa-solid fa-arrow-right"></i>
+              <div class="sac-wait">WAIT</div>
+            </div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sac-roundtrip"><div class="sac-model-node"><i class="fa-solid fa-brain"></i><span>model</span></div><div class="sac-trip-line"><b></b><b></b><b></b></div><div class="sac-search-node"><i class="fa-solid fa-magnifying-glass"></i><span>search</span></div></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sac-context-tank"><strong>context</strong><div class="sac-tank-grid"><i class="ok"></i><i></i><i></i><i></i><i></i><i></i><i class="ok"></i><i></i><i></i><i></i><i></i><i></i></div><span>nhiễu tăng dần</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="2">
+        <div class="slide-bg sac-bg"></div><canvas class="fx-canvas" data-fx="scan"></canvas>
+        <div class="slide-content sac-content">
+          <div class="slide-element fade-up"><div class="sac-title-chip mint"><i class="fa-solid fa-code"></i><strong>Search as Code</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="sac-python-box"><div class="top"><i></i><i></i><i></i><span>secure sandbox</span></div><code><b>def</b> research(task):<br/>  hits = search_many(task)<br/>  <em>return</em> rank(dedupe(hits))</code></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sac-fanout"><div class="sac-router"><i class="fa-brands fa-python"></i></div><b></b><b></b><b></b><b></b><span class="q1">query A</span><span class="q2">query B</span><span class="q3">query C</span><span class="q4">query D</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sac-filter-pipeline"><div><i class="fa-solid fa-clone"></i><span>dedupe</span></div><b></b><div><i class="fa-solid fa-filter"></i><span>filter</span></div><b></b><div><i class="fa-solid fa-code-merge"></i><span>join</span></div><b></b><div class="active"><i class="fa-solid fa-ranking-star"></i><span>rank</span></div><strong>context gọn</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3">
+        <div class="slide-bg sac-bg"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content sac-content">
+          <div class="slide-element fade-up"><div class="sac-title-chip gold"><i class="fa-solid fa-sliders"></i><strong>Quyền điều khiển</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="sac-scale-meter"><span>retrieval operations</span><strong>100 → 1.000+</strong><div><b></b></div><em>trong vài phút</em></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sac-one-turn"><div><i class="fa-solid fa-brain"></i><span>1 lượt suy luận</span></div><b></b><div class="burst"><i></i><i></i><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sac-hybrid"><div><i class="fa-solid fa-brain"></i><strong>model</strong><span>chọn chiến lược</span></div><b></b><div><i class="fa-solid fa-microchip"></i><strong>code</strong><span>chạy lặp, lọc dữ liệu</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="4">
+        <div class="slide-bg sac-bg"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content sac-content">
+          <div class="slide-element fade-up"><div class="sac-title-chip mint"><i class="fa-solid fa-chart-column"></i><strong>Benchmark khá mạnh</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="sac-proof-frame"><img src="source/tweet-benchmarks.png" alt="Perplexity benchmark chart" /><b class="sac-proof-metric"><small>DSQA</small><strong>0,871</strong><em>vs Anthropic 0,815</em></b><span class="sac-proof-source"><i class="fa-solid fa-link"></i> Perplexity</span></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sac-metric-compare"><div><span>WANDR</span><strong>0,386</strong><em>Search as Code</em></div><b>vs</b><div class="other"><span>đứng sau</span><strong>0,152</strong><em>hệ thống kế tiếp</em></div></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sac-wandr caveat"><i class="fa-solid fa-triangle-exclamation"></i><div><span>WANDR</span><strong>benchmark nội bộ</strong><em>chưa được phát hành</em></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="5">
+        <div class="slide-bg sac-bg"></div><canvas class="fx-canvas" data-fx="lorenz"></canvas>
+        <div class="slide-content sac-content">
+          <div class="slide-element fade-up"><div class="sac-title-chip red"><i class="fa-solid fa-shield-halved"></i><strong>Case rà CVE</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="sac-cve-radar"><div class="radar-ring a"></div><div class="radar-ring b"></div><div class="radar-sweep"></div><div class="radar-core"><i class="fa-solid fa-bug"></i><strong>200+</strong><span>CVE nghiêm trọng</span></div><i class="vendor v1">Mozilla</i><i class="vendor v2">Chrome</i><i class="vendor v3">Android</i><i class="vendor v4">Jenkins</i></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sac-accuracy"><span>accuracy</span><strong>100%</strong><i class="fa-solid fa-circle-check"></i></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sac-token-drop"><span>token</span><div><b class="before">288,7K</b><i class="fa-solid fa-arrow-right"></i><b class="after">42,9K</b></div><strong>−85,1%</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="6">
+        <div class="slide-bg sac-bg"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content sac-content">
+          <div class="slide-element fade-up"><div class="sac-title-chip gold"><i class="fa-solid fa-comments"></i><strong>Cộng đồng nói gì?</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="sac-reaction good"><i class="fa-solid fa-code"></i><div><strong>Code là lớp thực thi</strong><span>bớt chuỗi tool call cứng nhắc</span></div></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sac-reaction ask"><i class="fa-solid fa-magnifying-glass"></i><div><strong>Python lỗi thì debug sao?</strong><span>có xem được kế hoạch không?</span></div></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sac-reaction warn"><i class="fa-solid fa-triangle-exclamation"></i><div><strong>Không xóa được mọi giới hạn</strong><span>HTTP error · rate limit · code lỗi</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="7">
+        <div class="slide-bg sac-bg"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content sac-content">
+          <div class="slide-element fade-up"><div class="sac-title-chip mint"><i class="fa-solid fa-crosshairs"></i><strong>Điểm đáng xem</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="sac-final-pipeline"><div><i class="fa-solid fa-brain"></i><span>model</span></div><b></b><div><i class="fa-brands fa-python"></i><span>code</span></div><b></b><div><i class="fa-solid fa-earth-asia"></i><span>thông tin</span></div></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sac-available"><span>đã có trong</span><strong>Agent API</strong><strong>Computer</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sac-final-note"><i class="fa-solid fa-flask"></i><div><strong>Test bằng task research thật</strong><span>benchmark hiện vẫn do Perplexity tự công bố</span></div></div>
+            <div class="source-tag sac-source"><i class="fa-solid fa-link"></i> x.com/perplexity_ai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i class="fa-solid fa-volume-high"></i></button><div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-up"></i></button><div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">8</span></div><button class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+  <script src="app.js?v=sac-20260602"></script>
+</body>
+</html>

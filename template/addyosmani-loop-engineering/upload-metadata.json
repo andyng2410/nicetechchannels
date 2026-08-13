@@ -1,0 +1,13 @@
+{
+  "youtube": {
+    "title": "Loop Engineering: vì sao agent không chỉ cần prompt hay",
+    "description": "🧠 Một prompt chỉ cho bạn một câu trả lời. Một loop cho bạn một hệ thống biết tự làm, tự kiểm tra, và biết lúc nào phải dừng.\n\n⚙️ Video này tóm tắt ý chính từ bài Loop Engineering của Addy Osmani, kết hợp với góc nhìn Boris Cherny từ Claude Code và nguyên tắc xây agent hiệu quả của Anthropic.\n\n🔗 Nguồn: https://addyosmani.com/blog/loop-engineering/\n\n#Escbase #LoopEngineering #AIAgents #ClaudeCode #AddyOsmani #BorisCherny",
+    "privacyStatus": "private",
+    "tags": ["Escbase", "Loop Engineering", "AI agents", "Claude Code", "Addy Osmani", "Boris Cherny"]
+  },
+  "facebook": {
+    "caption": "Một prompt chỉ cho bạn một câu trả lời. Một loop cho bạn một hệ thống biết tự làm, tự kiểm tra, và biết lúc nào phải dừng.\n\n#Escbase #LoopEngineering #AIAgents #ClaudeCode",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://addyosmani.com/blog/loop-engineering/"
+  }
+}

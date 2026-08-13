@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Addy Osmani Loop Engineering</title>
+  <meta name="description" content="Deck Escbase về Loop Engineering của Addy Osmani, kết hợp góc nhìn Boris Cherny và Claude Code." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=loop-engineering-20260618" />
+</head>
+<body class="loop-page">
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel"><div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div><div class="script-panel-badge" id="scriptSlideBadge">Ready</div><div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div></div>
+    <div class="audio-panel" id="audioPanel"><div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select id="bgmSelect" onchange="switchBGM(this.value)"><option value="ambient">Ambient</option><option value="cinematic">Cinematic</option><option value="lofi">Lo-fi</option><option value="piano">Piano</option><option value="dark">Dark</option><option value="custom" selected>Custom upload</option><option value="none">Tắt</option></select></div><div class="audio-panel-divider"></div><div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span><div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)"><option value="gong">Gong</option><option value="rise">Rise</option><option value="bass">Bass</option><option value="chime">Chime</option><option value="sweep">Sweep</option><option value="boom">Boom</option><option value="alarm">Alarm</option><option value="chord">Chord</option><option value="ascending">Ascending</option><option value="retro">Retro</option><option value="minimal">Minimal</option><option value="dramatic">Dramatic</option></select></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)"><option value="ping">Ping</option><option value="pop">Pop</option><option value="chime">Chime</option><option value="click">Click</option><option value="bubble">Bubble</option><option value="sparkle">Sparkle</option><option value="blip">Blip</option><option value="tick">Tick</option><option value="bell">Bell</option></select></div><div class="audio-actions"><button onclick="testTransition()">Test slide</button><button onclick="testReveal()">Test reveal</button></div></div>
+
+    <div id="slideContainer" class="slide-container loop-deck">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="brand-top-left"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+      <div class="brand-bottom-right"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+
+      <div class="slide active" data-slide="0">
+        <div class="slide-bg loop-bg loop-bg-1"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content loop-hero">
+          <div class="slide-element fade-up">
+            <div class="addy-orbit-hero">
+              <div class="orbit-ring ring-a"></div>
+              <div class="orbit-ring ring-b"></div>
+              <div class="orbit-core"><img src="source/addy-avatar.png" alt="Addy Osmani" /></div>
+              <span class="orbit-chip chip-google"><img src="source/google-g.png" alt="" />Google</span>
+              <span class="orbit-chip chip-prompt">prompt</span>
+              <span class="orbit-chip chip-loop"><i class="fa-solid fa-rotate"></i> loop</span>
+              <span class="orbit-chip chip-claude"><img src="source/claude-mark.svg" alt="" />Claude</span>
+            </div>
+            <h1 class="loop-title title-shimmer">Loop Engineering</h1>
+            <div class="hero-verdict"><i class="fa-solid fa-infinity"></i><span>một loop cho bạn một hệ thống</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="1">
+        <div class="slide-bg loop-bg loop-bg-2"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content">
+          <div class="slide-element fade-up">
+            <div class="addy-source-scene">
+              <img class="source-avatar large-avatar" src="source/addy-avatar.png" alt="Addy Osmani" />
+              <div class="source-name">
+                <b>Addy Osmani</b>
+                <span>Director Cloud AI tại Google</span>
+              </div>
+              <img class="company-logo floating-logo" src="source/google-g.png" alt="Google" />
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="article-proof article-proof-open">
+              <img src="source/loop-engineering-og.jpg" alt="Loop Engineering article" />
+              <div class="proof-caption">
+                <span>Loop Engineering</span>
+                <b>thiết kế vòng làm việc</b>
+              </div>
+            </div>
+            <div class="shift-strip"><span>prompt hay hơn</span><i class="fa-solid fa-arrow-right-long"></i><strong>loop chạy thay bạn</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="2">
+        <div class="slide-bg loop-bg loop-bg-3"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content">
+          <div class="slide-element fade-up">
+            <div class="boris-source-scene">
+              <img class="source-avatar boris-avatar" src="source/boris-lenny-podcast.png" alt="Boris Cherny" />
+              <div class="source-name">
+                <b>Boris Cherny</b>
+                <span>creator of Claude Code</span>
+              </div>
+              <img class="company-logo wide-logo floating-logo" src="source/anthropic-logo.svg" alt="Anthropic" />
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="claude-loop-console">
+              <div class="console-head"><img src="source/claude-mark.svg" alt="Claude" /><span>Claude Code loop</span></div>
+              <div class="console-row old"><i class="fa-regular fa-keyboard"></i><span>prompt từng câu</span></div>
+              <div class="console-flow"><i class="fa-solid fa-rotate"></i><b>tìm việc</b><b>xử lý</b><b>bước tiếp</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3">
+        <div class="slide-bg loop-bg loop-bg-4"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content">
+          <div class="slide-element fade-up">
+            <div class="loop-machine-title"><i class="fa-solid fa-gears"></i><span>Không phải phép màu</span></div>
+          </div>
+          <div class="slide-element scale-in">
+              <div class="loop-machine">
+              <div class="machine-motion-ring ring-fast"></div>
+              <div class="machine-motion-ring ring-slow"></div>
+              <div class="machine-core"><i class="fa-solid fa-infinity"></i><b>LOOP</b></div>
+              <div class="machine-track">
+                <span class="machine-node n1">automation</span>
+                <span class="machine-node n2">worktree</span>
+                <span class="machine-node n3">skill</span>
+                <span class="machine-node n4">connector</span>
+                <span class="machine-node n5">sub-agent</span>
+                <span class="machine-node n6">memory</span>
+              </div>
+              <div class="packet-line"><i class="fa-solid fa-bolt"></i></div>
+              <div class="loop-packet p1"></div>
+              <div class="loop-packet p2"></div>
+              <div class="loop-packet p3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="4">
+        <div class="slide-bg loop-bg loop-bg-5"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content">
+          <div class="slide-element fade-up">
+            <div class="memory-head"><i class="fa-solid fa-file-shield"></i><span>Memory là xương sống</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="memory-stage memory-spine">
+              <div class="agent-run muted"><i class="fa-solid fa-robot"></i><span>run mới</span><small>quên context</small></div>
+              <div class="memory-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+              <div class="memory-transfer">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="state-file"><i class="state-pulse"></i><b>STATE.md</b><span>done · blocked · next</span><em class="state-cursor"></em></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="memory-resume">
+              <span>đã thử gì</span><span>lỗi còn mở</span><span>vòng tiếp theo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="5">
+        <div class="slide-bg loop-bg loop-bg-6"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content">
+          <div class="slide-element fade-up">
+            <div class="verify-head"><i class="fa-solid fa-circle-check"></i><span>Điểm ăn tiền là kiểm chứng</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="review-lanes review-gate-scene">
+              <div class="lane writer"><i class="fa-solid fa-code"></i><b>writer</b><span>viết code</span></div>
+              <div class="review-packet"></div>
+              <i class="fa-solid fa-arrow-right-long lane-arrow"></i>
+              <div class="lane checker"><i class="checker-scan"></i><i class="fa-solid fa-magnifying-glass"></i><b>checker</b><span>chấm bằng chuẩn thật</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="hard-gates">
+              <i class="gate-sweep"></i>
+              <span><i class="fa-solid fa-vial"></i>test</span>
+              <span><i class="fa-solid fa-hammer"></i>build</span>
+              <span><i class="fa-solid fa-broom"></i>lint</span>
+              <span><i class="fa-solid fa-user-check"></i>reviewer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="6">
+        <div class="slide-bg loop-bg loop-bg-7"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content">
+          <div class="slide-element fade-up">
+            <div class="warning-head"><i class="fa-solid fa-triangle-exclamation"></i><span>Loop càng mượt, lỗi càng nhanh</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="token-meter">
+              <div class="meter-fill"></div>
+              <div class="token-burst"><span></span><span></span><span></span></div>
+              <i class="fa-solid fa-coins"></i>
+              <span>token bay nhanh</span>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="brake-stage brake-open-stage">
+              <div class="motion-track"><i></i><i></i><i></i></div>
+              <div class="moving-loop"><i class="fa-solid fa-rotate"></i><b>overnight loop</b></div>
+              <div class="stop-gate"><i class="stop-impact"></i><i class="fa-solid fa-hand"></i><span>hard stop</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="7">
+        <div class="slide-bg loop-bg loop-bg-8"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content loop-content">
+          <div class="slide-element fade-up">
+            <div class="final-thesis"><i class="thesis-signal"></i><span>prompt vẫn cần</span><i class="fa-solid fa-arrow-right-long"></i><b>không còn là trò chơi chính</b></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="author-lockup author-open-lockup">
+              <i class="author-bridge"></i>
+              <div><img src="source/addy-avatar.png" alt="Addy Osmani" /><span>Addy đặt tên</span></div>
+              <div><img src="source/boris-lenny-podcast.png" alt="Boris Cherny" /><span>Boris đang sống trong nó</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="final-loop-lock">
+              <i class="lock-sweep"></i>
+              <span><i class="fa-solid fa-brain"></i>trí nhớ</span>
+              <span><i class="fa-solid fa-shield-halved"></i>kiểm chứng</span>
+              <span><i class="fa-solid fa-hand"></i>có phanh</span>
+            </div>
+            <div class="source-tag"><i class="fa-solid fa-link"></i> addyosmani.com/blog/loop-engineering</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i class="fa-solid fa-volume-high"></i></button><div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-up"></i></button><div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">8</span></div><button class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+  <script src="app.js?v=loop-engineering-20260618"></script>
+</body>
+</html>

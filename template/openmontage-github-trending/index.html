@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenMontage - GitHub Trending</title>
+  <meta name="description" content="Deck Escbase về calesthio/OpenMontage: agentic video production pipeline đang lên GitHub Trending." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=openmontage-github-trending-20260624" />
+</head>
+<body class="om-page">
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel"><div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div><div class="script-panel-badge" id="scriptSlideBadge">Ready</div><div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div></div>
+    <div class="audio-panel" id="audioPanel"><div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select id="bgmSelect" onchange="switchBGM(this.value)"><option value="ambient">Ambient</option><option value="cinematic">Cinematic</option><option value="lofi">Lo-fi</option><option value="piano">Piano</option><option value="dark">Dark</option><option value="custom" selected>Custom upload</option><option value="none">Tắt</option></select></div><div class="audio-panel-divider"></div><div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span><div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)"><option value="gong">Gong</option><option value="rise">Rise</option><option value="bass">Bass</option><option value="chime">Chime</option><option value="sweep">Sweep</option><option value="boom">Boom</option><option value="alarm">Alarm</option><option value="chord">Chord</option><option value="ascending">Ascending</option><option value="retro">Retro</option><option value="minimal">Minimal</option><option value="dramatic">Dramatic</option></select></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)"><option value="ping">Ping</option><option value="pop">Pop</option><option value="chime">Chime</option><option value="click">Click</option><option value="bubble">Bubble</option><option value="sparkle">Sparkle</option><option value="blip">Blip</option><option value="tick">Tick</option><option value="bell">Bell</option></select></div><div class="audio-actions"><button onclick="testTransition()">Test slide</button><button onclick="testReveal()">Test reveal</button></div></div>
+
+    <div id="slideContainer" class="slide-container om-deck">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="brand-top-left"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+      <div class="brand-bottom-right"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+
+      <div class="slide active" data-slide="0">
+        <div class="slide-bg om-bg om-bg-1"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content om-content om-hero">
+          <div class="slide-element fade-up">
+            <div class="mtd-hero-mark ask-github-mark om-hero-mark om-github-mark">
+              <div class="mtd-hero-halo"></div>
+              <img src="source/github-mark.svg" alt="GitHub" />
+              <span class="ask-github-label">GitHub Trending</span>
+            </div>
+            <h1 class="ask-title title-shimmer om-hero-title">OpenMontage</h1>
+            <div class="ask-hero-author om-hero-author"><i class="fa-brands fa-github"></i><span>calesthio/OpenMontage</span></div>
+            <div class="ask-hero-flow om-hero-flow"><b>Prompt</b><i class="fa-solid fa-arrow-right-long"></i><strong>Agent production pipeline</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="1">
+        <div class="slide-bg om-bg om-bg-2"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content om-content">
+          <div class="slide-element fade-up">
+            <div class="om-media-scene">
+              <div class="om-media-top"><i class="fa-solid fa-arrow-trend-up"></i><span>Số sao tăng rất nhanh</span></div>
+              <div class="om-video-frame">
+                <video class="om-demo-video" src="source/demo-videos/01-signal-from-tomorrow-user-attachment.mp4" poster="source/demo-videos/posters/01-signal-from-tomorrow-user-attachment.jpg" muted playsinline loop preload="metadata" data-keep-muted="true"></video>
+              </div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-stat-row">
+              <div><i class="fa-solid fa-star"></i><strong>~16K</strong><span>tổng sao</span></div>
+              <div><i class="fa-solid fa-bolt"></i><strong>+3.5K</strong><span>hôm nay</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-tool-strip">
+              <span>12 pipeline</span><span>52 tool</span><span>500+ skill</span>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-question-line"><i class="fa-solid fa-circle-question"></i><strong>Khác gì AI video generator?</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="2">
+        <div class="slide-bg om-bg om-bg-3"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content om-content">
+          <div class="slide-element fade-up">
+            <div class="om-media-scene">
+              <div class="om-media-top"><i class="fa-solid fa-diagram-project"></i><span>Cốt lõi là pipeline</span></div>
+              <div class="om-video-frame om-vertical-frame">
+                <video class="om-demo-video" src="source/demo-videos/02-last-banana.mp4" poster="source/demo-videos/posters/02-last-banana.jpg" muted playsinline loop preload="metadata" data-keep-muted="true"></video>
+              </div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-pipeline-ribbon"><span>research</span><i></i><span>script</span><i></i><span>assets</span><i></i><span>compose</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-stage-grid">
+              <div><i class="fa-solid fa-file-code"></i><span>manifest</span></div>
+              <div><i class="fa-solid fa-clapperboard"></i><span>director skill</span></div>
+              <div><i class="fa-brands fa-python"></i><span>Python tool</span></div>
+              <div><i class="fa-solid fa-check-double"></i><span>review</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-playbook-line"><i class="fa-solid fa-route"></i><strong>Agent đi theo playbook</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3">
+        <div class="slide-bg om-bg om-bg-4"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content om-content">
+          <div class="slide-element fade-up">
+            <div class="om-media-scene">
+              <div class="om-media-top"><i class="fa-solid fa-video"></i><span>Reference video</span></div>
+              <div class="om-video-frame">
+                <video class="om-demo-video" src="source/demo-videos/03-void-neural-interface.mp4" poster="source/demo-videos/posters/03-void-neural-interface.jpg" muted playsinline loop preload="metadata" data-keep-muted="true"></video>
+              </div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-input-dock">
+              <span>YouTube</span><span>Reel</span><span>TikTok</span><span>local clip</span>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-analysis-stack">
+              <div>transcript</div><div>pacing</div><div>scene</div><div>keyframe</div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-before-after">
+              <div><i class="fa-solid fa-bowl-food"></i><span>prompt mì ăn liền</span></div>
+              <i class="fa-solid fa-arrow-right-long"></i>
+              <div><i class="fa-solid fa-list-check"></i><span>kế hoạch có kiểm soát</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="4">
+        <div class="slide-bg om-bg om-bg-5"></div><canvas class="fx-canvas" data-fx="lorenz"></canvas>
+        <div class="slide-content om-content">
+          <div class="slide-element fade-up">
+            <div class="om-media-scene">
+              <div class="om-media-top"><i class="fa-solid fa-coins"></i><span>Không chỉ clip AI đắt tiền</span></div>
+              <div class="om-video-frame">
+                <video class="om-demo-video" src="source/demo-videos/04-afternoon-in-candyland.mp4" poster="source/demo-videos/posters/04-afternoon-in-candyland.jpg" muted playsinline loop preload="metadata" data-keep-muted="true"></video>
+              </div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-zero-key-grid">
+              <div>Piper TTS</div><div>Open footage</div><div>FFmpeg</div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-footage-lane"><i class="fa-solid fa-film"></i><span>motion clip miễn phí</span><i class="fa-solid fa-arrow-right-long"></i><strong>timeline</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-slideshow-warning"><i class="fa-solid fa-ban"></i><strong>Không phải slideshow giả video</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="5">
+        <div class="slide-bg om-bg om-bg-6"></div><canvas class="fx-canvas" data-fx="scan"></canvas>
+        <div class="slide-content om-content">
+          <div class="slide-element fade-up">
+            <div class="om-media-scene">
+              <div class="om-media-top"><i class="fa-solid fa-screwdriver-wrench"></i><span>Không phải app một nút bấm</span></div>
+              <div class="om-video-frame">
+                <video class="om-demo-video" src="source/demo-videos/05-mori-no-seishin.mp4" poster="source/demo-videos/posters/05-mori-no-seishin.jpg" muted playsinline loop preload="metadata" data-keep-muted="true"></video>
+              </div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-setup-grid">
+              <div><i class="fa-brands fa-python"></i><span>Python</span></div>
+              <div><i class="fa-solid fa-terminal"></i><span>FFmpeg</span></div>
+              <div><i class="fa-brands fa-node-js"></i><span>Node</span></div>
+              <div><i class="fa-solid fa-robot"></i><span>coding assistant</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-provider-rail"><span>FAL</span><span>OpenAI</span><span>ElevenLabs</span><span>Runway</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-license-warning"><i class="fa-solid fa-scale-balanced"></i><strong>AGPL: nghĩ kỹ trước khi nhúng kín</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="6">
+        <div class="slide-bg om-bg om-bg-7"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content om-content">
+          <div class="slide-element fade-up">
+            <div class="om-media-scene">
+              <div class="om-media-top"><i class="fa-solid fa-flag-checkered"></i><span>Tóm lại</span></div>
+              <div class="om-video-frame">
+                <video class="om-demo-video" src="source/demo-videos/06-into-the-abyss.mp4" poster="source/demo-videos/posters/06-into-the-abyss.jpg" muted playsinline loop preload="metadata" data-keep-muted="true"></video>
+              </div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-final-flow">
+              <div><i class="fa-solid fa-wand-magic-sparkles"></i><span>generator rời rạc</span></div>
+              <i class="fa-solid fa-arrow-right-long"></i>
+              <div><i class="fa-solid fa-industry"></i><span>production pipeline</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="om-final-verdict">
+              <strong>Chưa phải kéo-thả cho số đông</strong>
+              <span>Nhưng ai biết dùng agent thì rất đáng thử.</span>
+            </div>
+            <div class="source-tag om-source-tag"><i class="fa-brands fa-github"></i> calesthio/OpenMontage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i class="fa-solid fa-volume-high"></i></button><div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-up"></i></button><div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">7</span></div><button class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+  <script src="app.js?v=openmontage-github-trending-20260624"></script>
+</body>
+</html>

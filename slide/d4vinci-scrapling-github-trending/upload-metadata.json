@@ -1,0 +1,21 @@
+{
+  "youtube": {
+    "title": "Scrapling giúp agent cào dữ liệu web tốt hơn khi giao diện thay đổi",
+    "description": "🕷️ Scrapling đang lên GitHub Trending vì giúp agent cào dữ liệu website tốt hơn, kể cả khi giao diện thay đổi.\n\n🧩 Tool này dùng được từ một trang đơn lẻ tới crawl website lớn, đồng thời có MCP để lọc nội dung trước khi gửi cho AI.\n\n⚠️ Khả năng xử lý một số lớp chống bot là thông tin từ README của tác giả. Khi dùng vẫn phải tôn trọng điều khoản website, robots.txt, rate limit và dữ liệu cá nhân.\n\nNguồn: https://github.com/D4Vinci/Scrapling\n\n#Escbase #Scrapling #WebScraping #AI #MCP #Python #GitHubTrending",
+    "privacyStatus": "private",
+    "tags": [
+      "Escbase",
+      "Scrapling",
+      "Web Scraping",
+      "AI Agent",
+      "MCP",
+      "Python",
+      "GitHub Trending"
+    ]
+  },
+  "facebookReels": {
+    "caption": "🕷️ Scrapling giúp agent cào dữ liệu website tốt hơn, kể cả khi giao diện thay đổi. Tool này dùng được từ một trang đơn lẻ tới crawl website lớn, lại có MCP để lọc nội dung trước khi gửi cho AI.\n\n⚠️ Khi dùng vẫn phải tôn trọng điều khoản website, robots.txt, rate limit và dữ liệu cá nhân.\n\n#Escbase #Scrapling #WebScraping #AI #MCP #Python #GitHubTrending",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://github.com/D4Vinci/Scrapling"
+  }
+}

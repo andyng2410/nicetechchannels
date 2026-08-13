@@ -1,0 +1,625 @@
+[
+  {
+    "id": "2066479598578102432",
+    "text": "@Kimi_Moonshot Hi Highspeed a different (smaller) model or the same model just served differently?",
+    "createdAt": "Mon Jun 15 11:15:04 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "slap__tjips",
+      "name": "slap tjips"
+    },
+    "authorId": "2042230141770735616"
+  },
+  {
+    "id": "2066768425536700696",
+    "text": "@Kimi_Moonshot This is so epic. I applied already :)",
+    "createdAt": "Tue Jun 16 06:22:46 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "nexuslux88",
+      "name": "Tristan McInnis 麦瑞丹"
+    },
+    "authorId": "2007341492516597764"
+  },
+  {
+    "id": "2066493637672984673",
+    "text": "@Kimi_Moonshot it cost 2x more, but i would happily pay it for 6x the speed",
+    "createdAt": "Mon Jun 15 12:10:51 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "saneord",
+      "name": "san"
+    },
+    "authorId": "2011124351568056320"
+  },
+  {
+    "id": "2066468391049904507",
+    "text": "@Kimi_Moonshot Will this eat requests faster?",
+    "createdAt": "Mon Jun 15 10:30:32 +0000 2026",
+    "replyCount": 3,
+    "retweetCount": 0,
+    "likeCount": 7,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "_sunnymind",
+      "name": "Sunny"
+    },
+    "authorId": "342837757"
+  },
+  {
+    "id": "2066488177519440139",
+    "text": "@Kimi_Moonshot Joined to the beta, still no approval, 3 days passed :c  Im on paid plan Allegro, pls accept https://t.co/FjCizLMihZ",
+    "createdAt": "Mon Jun 15 11:49:09 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 0,
+    "likeCount": 5,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "zoom_will",
+      "name": "WK"
+    },
+    "authorId": "4784639461",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HK2j60JXgAAcXev.jpg",
+        "width": 2048,
+        "height": 582,
+        "previewUrl": "https://pbs.twimg.com/media/HK2j60JXgAAcXev.jpg:small"
+      }
+    ]
+  },
+  {
+    "id": "2066546005647278114",
+    "text": "@Kimi_Moonshot Can someone help me to understand how this high speed is achieved @grok ?",
+    "createdAt": "Mon Jun 15 15:38:56 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "hshimo_lavo",
+      "name": "Hari"
+    },
+    "authorId": "1879954092468142080"
+  },
+  {
+    "id": "2066666185564078532",
+    "text": "@Kimi_Moonshot @grok will kimi use my data for training?\nWho owns Kimi and can the Chinese government coordinate them",
+    "createdAt": "Mon Jun 15 23:36:30 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "EnochBowden",
+      "name": "Enoch Bowden"
+    },
+    "authorId": "1599694271946203136"
+  },
+  {
+    "id": "2066488307261850010",
+    "text": "@Kimi_Moonshot Who knows, why kimi web in kimi code not working anymore? https://t.co/J3kU0UMVBv",
+    "createdAt": "Mon Jun 15 11:49:40 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "zoom_will",
+      "name": "WK"
+    },
+    "authorId": "4784639461",
+    "quotedTweet": {
+      "id": "2066186508575404435",
+      "text": "Ahh, where kimi web gone? It was perfect web ui for kimi cli\n\n@KimiDevs @Kimi_Moonshot https://t.co/OiGX9cNC20",
+      "createdAt": "Sun Jun 14 15:50:26 +0000 2026",
+      "replyCount": 1,
+      "retweetCount": 0,
+      "likeCount": 26,
+      "conversationId": "2066186508575404435",
+      "author": {
+        "username": "zoom_will",
+        "name": "WK"
+      },
+      "authorId": "4784639461",
+      "media": [
+        {
+          "type": "photo",
+          "url": "https://pbs.twimg.com/media/HKyRqpuWQAAvGM-.png",
+          "width": 660,
+          "height": 116,
+          "previewUrl": "https://pbs.twimg.com/media/HKyRqpuWQAAvGM-.png:small"
+        }
+      ]
+    }
+  },
+  {
+    "id": "2066731732259545358",
+    "text": "@Kimi_Moonshot Applied last Friday, no change yet. https://t.co/rqiuDTQkTG",
+    "createdAt": "Tue Jun 16 03:56:57 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "FiMoTW",
+      "name": "FiMo ➕"
+    },
+    "authorId": "944209734810214400",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HK6BKrgbYAEofmT.png",
+        "width": 504,
+        "height": 131,
+        "previewUrl": "https://pbs.twimg.com/media/HK6BKrgbYAEofmT.png:small"
+      }
+    ]
+  },
+  {
+    "id": "2066508478177550806",
+    "text": "I noticed something: when I opened `https://t.co/4psQzBvhUK` and tried to translate it from English to Japanese using Google Translate in Chrome, the translation tool didn't respond at all. It might be due to some unique page structure, but it would be better if this website were compatible with Chrome's translation feature.",
+    "createdAt": "Mon Jun 15 13:09:49 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 3,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "lfji",
+      "name": "新着"
+    },
+    "authorId": "80010478"
+  },
+  {
+    "id": "2066691447840297292",
+    "text": "@Kimi_Moonshot Really nice!\nShould we add kimi code to https://t.co/aEwjNxPYch ?\nDo you guys have an SDK to control it?",
+    "createdAt": "Tue Jun 16 01:16:53 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "its_d_i_m_a",
+      "name": "Dmitry"
+    },
+    "authorId": "994170492901773312"
+  },
+  {
+    "id": "2066487525170930081",
+    "text": "@Kimi_Moonshot Does this lose any quality in exchange for speed?",
+    "createdAt": "Mon Jun 15 11:46:34 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "Ionkosm",
+      "name": "Ion"
+    },
+    "authorId": "1901816590615941121"
+  },
+  {
+    "id": "2066493674209317034",
+    "text": "@Kimi_Moonshot I this possible for the model itself or only via Kimi services?",
+    "createdAt": "Mon Jun 15 12:11:00 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "revolaition",
+      "name": "Revo Laition"
+    },
+    "authorId": "1963515652984946688"
+  },
+  {
+    "id": "2066489739549581699",
+    "text": "@Kimi_Moonshot @teortaxesTex Kimi high speed is underrated. Consider - a perfect thinking model at 40tok/sec or a model at 200tok/sec that can fix its mistakes fast. Suddenly 10 points higher matters a lot less",
+    "createdAt": "Mon Jun 15 11:55:22 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 18,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "mindragon",
+      "name": "JeffersonNunn.eth"
+    },
+    "authorId": "28648160"
+  },
+  {
+    "id": "2066482313240703444",
+    "text": "@Kimi_Moonshot Curious about the trust-me-bro benchmarks",
+    "createdAt": "Mon Jun 15 11:25:51 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "madebywout",
+      "name": "Wout"
+    },
+    "authorId": "2064717855799549952"
+  },
+  {
+    "id": "2066471254216135016",
+    "text": "@Kimi_Moonshot My beta tester request is still pending.. Approve it 🤪",
+    "createdAt": "Mon Jun 15 10:41:54 +0000 2026",
+    "replyCount": 3,
+    "retweetCount": 0,
+    "likeCount": 6,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "ai_for_success",
+      "name": "AshutoshShrivastava"
+    },
+    "authorId": "1618975370488999936"
+  },
+  {
+    "id": "2066552124440523146",
+    "text": "@Kimi_Moonshot You should make 120B kimi flash model, some people want to run locally",
+    "createdAt": "Mon Jun 15 16:03:15 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 8,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "bruce_x_offi",
+      "name": "bruce"
+    },
+    "authorId": "1843636086485966848"
+  },
+  {
+    "id": "2066475575863353536",
+    "text": "@Kimi_Moonshot 🫡\nhttps://t.co/phlohtpKwI",
+    "createdAt": "Mon Jun 15 10:59:05 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "MetaEraHK",
+      "name": "ME Group"
+    },
+    "authorId": "81834205",
+    "quotedTweet": {
+      "id": "2066475487850021206",
+      "text": "⚡ Kimi Launches K2.7 Code HighSpeed\n\n@Kimi_Moonshot introduced Kimi K2.7 Code HighSpeed, a faster mode for its latest open-source multimodal coding model.\n\nThe mode can run up to 6x faster, reaching around 180 tok/s on median-length coding tasks and up to 260 tok/s on shorter-context tasks.\n\nAccess is rolling out to Kimi Code Beta members, API developers and Business users.",
+      "createdAt": "Mon Jun 15 10:58:44 +0000 2026",
+      "replyCount": 0,
+      "retweetCount": 0,
+      "likeCount": 0,
+      "conversationId": "2066475487850021206",
+      "author": {
+        "username": "MetaEraHK",
+        "name": "ME Group"
+      },
+      "authorId": "81834205"
+    }
+  },
+  {
+    "id": "2066529407288725844",
+    "text": "@Kimi_Moonshot You keep releasing cool things, but still your users are getting rate-limited on your API...",
+    "createdAt": "Mon Jun 15 14:32:59 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "PedroNCS",
+      "name": "PedroNC"
+    },
+    "authorId": "1657052079318343680"
+  },
+  {
+    "id": "2066610790245748814",
+    "text": "@Kimi_Moonshot I'm running 4 parallel sessions with it now. Going to shift to Highspeed! Thank you for this!! 🎩🪽✨",
+    "createdAt": "Mon Jun 15 19:56:22 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "EnchantedRobot",
+      "name": "Robert E. Beckner III (Merlin)"
+    },
+    "authorId": "556197313"
+  },
+  {
+    "id": "2066468521639301203",
+    "text": "@Kimi_Moonshot I have this error for almost a week with the Kimi code on VS code . What should I do??? https://t.co/8Uq7N84zEy",
+    "createdAt": "Mon Jun 15 10:31:03 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 4,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "RealMetaBT",
+      "name": "MetaBT 💸"
+    },
+    "authorId": "1270705093722202112",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HK2SKy3WMAA1WCG.jpg",
+        "width": 1290,
+        "height": 629,
+        "previewUrl": "https://pbs.twimg.com/media/HK2SKy3WMAA1WCG.jpg:small"
+      }
+    ]
+  },
+  {
+    "id": "2066512685462704611",
+    "text": "@Kimi_Moonshot is @Kimi_Moonshot  accept France credit card from Societe general bank ? before I was unable to buy a plan",
+    "createdAt": "Mon Jun 15 13:26:32 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "electroheadfx",
+      "name": "Laurent Marques"
+    },
+    "authorId": "111574171"
+  },
+  {
+    "id": "2066468142402990182",
+    "text": "@Kimi_Moonshot Kimi to Frontier Models be like: https://t.co/SqTApjPWge",
+    "createdAt": "Mon Jun 15 10:29:32 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 4,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "airscript",
+      "name": "Francesco Sardone"
+    },
+    "authorId": "1344232241308827648",
+    "media": [
+      {
+        "type": "animated_gif",
+        "url": "https://pbs.twimg.com/tweet_video_thumb/HK2R0WnW4AAL_fb.jpg",
+        "width": 480,
+        "height": 270,
+        "previewUrl": "https://pbs.twimg.com/tweet_video_thumb/HK2R0WnW4AAL_fb.jpg:small",
+        "videoUrl": "https://video.twimg.com/tweet_video/HK2R0WnW4AAL_fb.mp4"
+      }
+    ]
+  },
+  {
+    "id": "2066568889912430890",
+    "text": "@Kimi_Moonshot open source FTW",
+    "createdAt": "Mon Jun 15 17:09:53 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "shiri_shh",
+      "name": "shirish"
+    },
+    "authorId": "2940321003"
+  },
+  {
+    "id": "2066480363543646359",
+    "text": "@Kimi_Moonshot I feel like I need someone to tell me to switch from Codex to this. Kind of tired of using the same tool for so long :)",
+    "createdAt": "Mon Jun 15 11:18:06 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "realtornikeo",
+      "name": "tornikeo"
+    },
+    "authorId": "1950965440085168130"
+  },
+  {
+    "id": "2066583018823991487",
+    "text": "@Kimi_Moonshot Hi Guys,\n\nPlease approve my beta tester request \n\nI need to try Highspeed Model\n\nOpus 4.8 is slow and frustrating (keeps thinking)",
+    "createdAt": "Mon Jun 15 18:06:01 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 3,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "heyshrutimishra",
+      "name": "Shruti"
+    },
+    "authorId": "1565028828329971713"
+  },
+  {
+    "id": "2066581696988758077",
+    "text": "@Kimi_Moonshot Applied! How long does it take to get approved?",
+    "createdAt": "Mon Jun 15 18:00:46 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "StripSlashes",
+      "name": "StripSlashes"
+    },
+    "authorId": "3303422130"
+  },
+  {
+    "id": "2066572595265487264",
+    "text": "@Kimi_Moonshot Kimi k2.7 cooking as well\n\ntime to testing CodeHighSpeed",
+    "createdAt": "Mon Jun 15 17:24:36 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "alphabatcher",
+      "name": "Alpha Batcher"
+    },
+    "authorId": "24208255"
+  },
+  {
+    "id": "2066493347276189828",
+    "text": "@Kimi_Moonshot You can't just slow down a normal model, then present a normal speed and claim it's \"high speed\"",
+    "createdAt": "Mon Jun 15 12:09:42 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "xiaopengyouu365",
+      "name": "xiaopengyou"
+    },
+    "authorId": "1673515080502353920"
+  },
+  {
+    "id": "2066473003274137941",
+    "text": "@Kimi_Moonshot Kimi woke up and chose speed :)",
+    "createdAt": "Mon Jun 15 10:48:51 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "socialwithaayan",
+      "name": "Muhammad Ayan"
+    },
+    "authorId": "1575650469787369473"
+  },
+  {
+    "id": "2066504863282864266",
+    "text": "@Kimi_Moonshot to the MOON",
+    "createdAt": "Mon Jun 15 12:55:27 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "aaliya_va",
+      "name": "Aaliya"
+    },
+    "authorId": "1484076421266001922"
+  },
+  {
+    "id": "2066495554755145852",
+    "text": "@Kimi_Moonshot Are there any other channels where this model can be used?",
+    "createdAt": "Mon Jun 15 12:18:28 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "kokosilly04",
+      "name": "可可不西里"
+    },
+    "authorId": "2066119012191539200"
+  },
+  {
+    "id": "2066758660131525076",
+    "text": "@Kimi_Moonshot for your ide would you mind giving this a chance?  https://t.co/dRecTAFKZZ",
+    "createdAt": "Tue Jun 16 05:43:57 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "Hagalaz_2001",
+      "name": "HADES"
+    },
+    "authorId": "975381099047108613"
+  },
+  {
+    "id": "2066675841829159294",
+    "text": "@Kimi_Moonshot Speed modes are underrated. Once latency drops enough, you can use the model for micro-iterations instead of batching big asks, which changes the whole coding workflow. Curious how much of the speedup holds on repo-sized contexts.",
+    "createdAt": "Tue Jun 16 00:14:52 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "FreeToolBoxDev",
+      "name": "ToolBoxDev"
+    },
+    "authorId": "1893268593892364288"
+  },
+  {
+    "id": "2066493610762067971",
+    "text": "@Kimi_Moonshot Nice https://t.co/XrH8PgZn4C",
+    "createdAt": "Mon Jun 15 12:10:45 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "Mila432",
+      "name": "Mila432"
+    },
+    "authorId": "109384149",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HK2o_JqXoAAdBME.jpg",
+        "width": 1470,
+        "height": 532,
+        "previewUrl": "https://pbs.twimg.com/media/HK2o_JqXoAAdBME.jpg:small"
+      }
+    ]
+  },
+  {
+    "id": "2066580545765560730",
+    "text": "@Kimi_Moonshot Could you share an image / wallpaper from viedo?",
+    "createdAt": "Mon Jun 15 17:56:11 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2066467110960959833",
+    "inReplyToStatusId": "2066467110960959833",
+    "author": {
+      "username": "8bitago",
+      "name": "8bitago"
+    },
+    "authorId": "740633292563730432"
+  }
+]

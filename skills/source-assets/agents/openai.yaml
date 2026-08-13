@@ -1,0 +1,4 @@
+interface:
+  display_name: "Source Assets"
+  short_description: "Thu thập source và visual assets cho slide."
+  default_prompt: "Chuẩn bị source folder đầy đủ text, facts, ảnh, logo/avatar, video và source.md inventory cho deck slide."

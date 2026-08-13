@@ -1,0 +1,13 @@
+{
+  "youtube": {
+    "title": "Perplexity Search as Code: Agent tự viết Python để research",
+    "description": "🔎 Perplexity vừa đổi cách agent tìm kiếm: thay vì gọi tool từng bước, agent tự viết Python để chạy cả pipeline research.\n\n⚙️ Search as Code cho phép chia nhánh truy vấn, lọc trùng, lọc rác, ghép dữ liệu và xếp hạng trước khi thông tin đi vào context.\n\n📊 Perplexity công bố điểm DSQA 0,871 và case CVE giảm 85,1% token. Đây vẫn là số liệu từ hãng, nên cần benchmark bằng task thật.\n\nNguồn: https://x.com/perplexity_ai/status/2061506359326384319\n\n#Escbase #Perplexity #SearchAsCode #Agent #AI #Automation #Python",
+    "privacyStatus": "private",
+    "tags": ["Escbase", "Perplexity", "Search as Code", "Agent", "AI", "Automation", "Python"]
+  },
+  "facebookReels": {
+    "caption": "🔎 Perplexity vừa đổi cách agent tìm kiếm: thay vì gọi tool từng bước, agent tự viết Python để chạy cả pipeline research.\n\n⚙️ Search as Code giúp chia nhánh truy vấn, lọc và xếp hạng dữ liệu trước khi thông tin đi vào context.\n\n📊 Số liệu của hãng khá mạnh, nhưng vẫn nên test bằng task research thật.\n\n#Escbase #Perplexity #SearchAsCode #Agent #AI #Automation #Python",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://x.com/perplexity_ai/status/2061506359326384319"
+  }
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1093" viewBox="0 0 2048 1093" role="img" aria-label="Chat voi Codex">
+  <rect width="2048" height="1093" fill="#181818"/>
+  <text x="1024" y="340" fill="#f7f7f7" font-family="Arial, Helvetica, sans-serif" font-size="58" text-anchor="middle">What should we build?</text>
+  <g transform="translate(350 450)">
+    <rect width="1348" height="196" rx="38" fill="#2b2b2b"/>
+    <text x="36" y="70" fill="#737373" font-family="Arial, Helvetica, sans-serif" font-size="31">Do anything</text>
+    <text x="38" y="148" fill="#b8b8b8" font-family="Arial, Helvetica, sans-serif" font-size="38">+</text>
+    <text x="118" y="148" fill="#ff8648" font-family="Arial, Helvetica, sans-serif" font-size="28">Full access</text>
+    <path d="M304 136 L318 150 L332 136" fill="none" stroke="#ff8648" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="1012" cy="138" r="12" fill="none" stroke="#555" stroke-width="5"/>
+    <text x="1054" y="148" fill="#f2f2f2" font-family="Arial, Helvetica, sans-serif" font-size="28">5.5</text>
+    <text x="1110" y="148" fill="#8e8e8e" font-family="Arial, Helvetica, sans-serif" font-size="28">Extra High</text>
+    <path d="M1275 128 L1275 158 M1260 143 L1275 128 L1290 143" fill="none" stroke="#e5e5e5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="1275" cy="143" r="33" fill="#a7a7a7"/>
+  </g>
+  <g transform="translate(350 682)" fill="#8b8b8b" font-family="Arial, Helvetica, sans-serif" font-size="28">
+    <text x="44" y="0">escbase_template</text>
+    <text x="458" y="0">Work locally</text>
+    <text x="758" y="0">main</text>
+  </g>
+  <text x="1024" y="88" fill="#f7f7f7" font-family="Arial, Helvetica, sans-serif" font-size="44" text-anchor="middle">Codex</text>
+</svg>

@@ -1,0 +1,21 @@
+{
+  "youtube": {
+    "title": "bird.fast: đưa X vào terminal để agent đọc thread và thao tác",
+    "description": "🐦 bird là CLI giúp agent đọc thread, tìm bài và thao tác với X ngay trong terminal.\n\n⚙️ Tool hỗ trợ đầu ra JSON cho automation, nhưng cần cấu hình hai cookie auth_token và ct0. Nếu dùng tài khoản phụ, người dùng có thể lưu biến môi trường để gọi lại nhanh hơn.\n\n⚠️ bird dùng GraphQL nội bộ của X, không phải API chính thức. Chỉ thử với tài khoản phụ và luôn xác nhận trước thao tác ghi.\n\nNguồn: https://bird.fast/\n\n#Escbase #birdfast #Agent #CLI #Automation #XTwitter",
+    "privacyStatus": "private",
+    "tags": [
+      "Escbase",
+      "bird.fast",
+      "Agent",
+      "CLI",
+      "Automation",
+      "X Twitter",
+      "GraphQL"
+    ]
+  },
+  "facebookReels": {
+    "caption": "🐦 bird là CLI giúp agent đọc thread, tìm bài và thao tác với X ngay trong terminal.\n\n⚙️ Tool có đầu ra JSON cho automation, nhưng cần cấu hình hai cookie auth_token và ct0.\n\n⚠️ Chỉ thử với tài khoản phụ và luôn xác nhận trước thao tác ghi.\n\n#Escbase #birdfast #Agent #CLI #Automation #XTwitter",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://bird.fast/"
+  }
+}

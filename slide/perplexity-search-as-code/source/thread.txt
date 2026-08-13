@@ -1,0 +1,278 @@
+
+@perplexity_ai (Perplexity):
+Introducing Search as Code, our new search architecture for AI agents.
+
+It writes Python that calls our search stack directly, instead of looping through function calls one at a time.
+
+Available in the Perplexity Agent API, and now default in Computer.
+
+https://t.co/ut6GGWQTVO https://t.co/jrF2nQE3bC
+🖼️ https://pbs.twimg.com/media/HJvxG6jaEAEQj2j.png
+📅 Mon Jun 01 17:53:11 +0000 2026
+🔗 https://x.com/perplexity_ai/status/2061506359326384319
+──────────────────────────────────────────────────
+
+@perplexity_ai (Perplexity):
+@PPLXDevs The traditional tool-calling approach suffers from high latency, manual control flow, and context pollution.
+
+With Search as Code, the model composes search primitives: fanning out queries asynchronously, deduping, filtering, joining, and ranking before results hits its context. https://t.co/4cLyvDIFXi
+🖼️ https://pbs.twimg.com/media/HJvxH8YbgAAt4aN.png
+📅 Mon Jun 01 17:53:15 +0000 2026
+🔗 https://x.com/perplexity_ai/status/2061506376741134845
+──────────────────────────────────────────────────
+
+@perplexity_ai (Perplexity):
+We tested Search as Code on deep research (DSQA, BrowseComp, HLE) and wide research benchmarks (WideSearch, WANDR).
+
+It matches or beats every competing system across all five. https://t.co/tdZhmn6HhD
+🖼️ https://pbs.twimg.com/media/HJvxI9XaoAAK8ml.png
+📅 Mon Jun 01 17:53:19 +0000 2026
+🔗 https://x.com/perplexity_ai/status/2061506394118136054
+──────────────────────────────────────────────────
+
+@perplexity_ai (Perplexity):
+It also sets a new cost-performance frontier.
+
+On DSQA it scores 0.871, ahead of Anthropic's 0.815, at nearly half the cost per task. On WideSearch it leads on score while running cheaper. https://t.co/zG0LuKrWoX
+🖼️ https://pbs.twimg.com/media/HJvxJ_mboAAko2h.png
+🖼️ https://pbs.twimg.com/media/HJvxKQZagAAmP3l.png
+📅 Mon Jun 01 17:53:25 +0000 2026
+🔗 https://x.com/perplexity_ai/status/2061506416503112145
+──────────────────────────────────────────────────
+
+@perplexity_ai (Perplexity):
+WANDR is our in-house wide benchmark, built to mirror real professional research workloads.
+
+Search as Code scores 0.386 to the next best system's 0.152, and the benchmark is far from saturated.
+
+We're releasing WANDR in the coming weeks. https://t.co/AkxqOdisaA
+🖼️ https://pbs.twimg.com/media/HJvxLRqbsAAMmTC.png
+📅 Mon Jun 01 17:53:29 +0000 2026
+🔗 https://x.com/perplexity_ai/status/2061506434127544493
+──────────────────────────────────────────────────
+
+@perplexity_ai (Perplexity):
+More info about Search as Code in the Perplexity Agent API docs:
+
+https://t.co/iaXcFSmiWh
+📅 Mon Jun 01 17:53:32 +0000 2026
+🔗 https://x.com/perplexity_ai/status/2061506447410958512
+──────────────────────────────────────────────────
+
+@guilhermeotina (Guilherme O'Tina):
+the code-as-search-plan pattern is genuinely underrated. most frameworks keep the search pipeline implicit inside a serial tool loop. generating python means one plan step instead of N round trips, and the strategy is inspectable + deterministic. the failure mode i'd watch is iterative search where a mid-result changes your next move. wide fan-out works, re-planning mid-pipeline is the hard part
+📅 Mon Jun 01 17:57:12 +0000 2026
+🔗 https://x.com/guilhermeotina/status/2061507371298406833
+──────────────────────────────────────────────────
+
+@FutureWithAI0 (FutureWithAI):
+@perplexity_ai @PPLXDevs Search as Code makes agents faster and their code simpler. 🚀🐍
+📅 Mon Jun 01 18:04:19 +0000 2026
+🔗 https://x.com/FutureWithAI0/status/2061509161678950565
+──────────────────────────────────────────────────
+
+@AINestHub1 (AI's Nest):
+@perplexity_ai @PPLXDevs Amazing progress! Faster, smarter, and more scalable agents. 🚀
+📅 Mon Jun 01 18:09:58 +0000 2026
+🔗 https://x.com/AINestHub1/status/2061510580759109900
+──────────────────────────────────────────────────
+
+@VertexCorpLTD (Vertex):
+@perplexity_ai @PPLXDevs a solid architectural evolution for ai agents. single turn code execution should drastically reduce overhead.
+📅 Mon Jun 01 18:28:25 +0000 2026
+🔗 https://x.com/VertexCorpLTD/status/2061515225912705266
+──────────────────────────────────────────────────
+
+@John_Agbo01 (John | AI Tools & Productivity | Physicist):
+@perplexity_ai @PPLXDevs "Search as code" makes a ton of sense. Writing custom Python pipelines beats hammering sequential API loops every single time.
+📅 Mon Jun 01 18:45:52 +0000 2026
+🔗 https://x.com/John_Agbo01/status/2061519615633563721
+──────────────────────────────────────────────────
+
+@genxrewired (GenXRewired):
+@perplexity_ai @PPLXDevs @perplexity_ai Search as Code inverts the agent architecture debate. I've been waiting for retrieval to become a testable, version-controlled module rather than a hardwired prompt layer - this is that shift, and it makes agentic workflows meaningfully more composable.
+📅 Mon Jun 01 19:56:14 +0000 2026
+🔗 https://x.com/genxrewired/status/2061537324387754031
+──────────────────────────────────────────────────
+
+@aabyzov (Anton Abyzov):
+@perplexity_ai @PPLXDevs Right call killing the tool-call loop. Eight sequential search calls is eight round-trips of pure model overhead; one Python block collapses that to a single committed plan. Latency math sells it.
+📅 Mon Jun 01 20:13:42 +0000 2026
+🔗 https://x.com/aabyzov/status/2061541718860668945
+──────────────────────────────────────────────────
+
+@mbajaj_ (Manoj):
+the shift from tool-calling to code generation for search is the same pattern we're seeing everywhere. tool calling is the training wheels. code generation is the real interface. instead of the model asking permission to search one thing at a time, it writes a program that fans out 20 queries in parallel, dedupes, filters, and ranks before results even hit the context window. the model stopped being a search user and became a search engineer. 0.871 on DSQA at half the cost of anthropic's approach tells you the architecture matters more than the model underneath it.
+📅 Mon Jun 01 20:22:52 +0000 2026
+🔗 https://x.com/mbajaj_/status/2061544027993080114
+──────────────────────────────────────────────────
+
+@DnuLkjkjh (dnu):
+@perplexity_ai @PPLXDevs this makes sense for latency. the part i’d want to see is debugging: when the generated search code is wrong, do users see the plan or just the answer?
+📅 Mon Jun 01 20:31:56 +0000 2026
+🔗 https://x.com/DnuLkjkjh/status/2061546308838842578
+──────────────────────────────────────────────────
+
+@santoshradha (Santosh Kumar Radha):
+@perplexity_ai @PPLXDevs This is so cool ! We explored a similar idea from the "deep search" side: open-source deep search with dynamic search graphs, open models, and API deployment. Fun to see the industry converging on search becoming programmable. https://t.co/GKwec3sTNw
+📅 Mon Jun 01 20:54:38 +0000 2026
+🔗 https://x.com/santoshradha/status/2061552021581217879
+──────────────────────────────────────────────────
+
+@adiaddxyz (aditya):
+@perplexity_ai @PPLXDevs hey @grok is this the same thing as @Cloudflare code mode?
+📅 Mon Jun 01 21:35:28 +0000 2026
+🔗 https://x.com/adiaddxyz/status/2061562296409723342
+──────────────────────────────────────────────────
+
+@dosco (spacy):
+@perplexity_ai @PPLXDevs if you want to do this in your agents use DSPy and read the RLM paper or just use the open source ax library ax-agent https://t.co/y45nH1PCrQ
+📅 Mon Jun 01 21:48:45 +0000 2026
+🔗 https://x.com/dosco/status/2061565642940301601
+──────────────────────────────────────────────────
+
+@Benny_Jiang_ (- ben -):
+interesting trend:
+
+browser harness: don't overbuild browser-use, just ask model to generate script on the fly
+
+search-as-code: don't build the perfect search, let model/agent define how to retrieve/rank
+
+use token to replace one-size-fit-all infra
+
+agent gets smarter and everything else gets more primitive.
+📅 Mon Jun 01 22:02:11 +0000 2026
+🔗 https://x.com/Benny_Jiang_/status/2061569021322162600
+──────────────────────────────────────────────────
+
+@Zimmerman895 (Isaiah Zimmerman):
+@perplexity_ai @PPLXDevs @grok detailed thread on research and application sources so I can hand off to Claude workflow swarm
+📅 Mon Jun 01 22:47:52 +0000 2026
+🔗 https://x.com/Zimmerman895/status/2061580517619732766
+──────────────────────────────────────────────────
+
+@NadzuAI (NadzAI):
+@perplexity_ai @PPLXDevs Search as Code is a smart shift letting AI agents execute search through code instead of chained tool calls unlocks faster, more scalable reasoning. 🚀
+📅 Tue Jun 02 00:38:10 +0000 2026
+🔗 https://x.com/NadzuAI/status/2061608276090065160
+──────────────────────────────────────────────────
+
+@nitinbisht96 (Nitin Bisht):
+@perplexity_ai @PPLXDevs Most search APIs hand you results.
+
+Search as Code hands you a program. Interesting.
+📅 Tue Jun 02 02:02:45 +0000 2026
+🔗 https://x.com/nitinbisht96/status/2061629560937185399
+──────────────────────────────────────────────────
+
+@GeekParkHQ (GeekPark):
+@perplexity_ai @PPLXDevs This is the right abstraction I think. Tool calling was always too stiff for research workflows; once the agent can write little search programs, the harness stops looking like a vending machine.
+📅 Tue Jun 02 02:41:33 +0000 2026
+🔗 https://x.com/GeekParkHQ/status/2061639325880844723
+──────────────────────────────────────────────────
+
+@BGPrasad (Prasad ಪ್ರಸಾದ್):
+@perplexity_ai @PPLXDevs This will turn out to be a game changer... no latency,  not much surfing the outputs least advertising ( even if someone later starts somehow)
+Good job.
+📅 Tue Jun 02 03:55:34 +0000 2026
+🔗 https://x.com/BGPrasad/status/2061657952503955537
+──────────────────────────────────────────────────
+
+@daptonai (Dapton AI):
+This is a bigger deal than it looks.
+Before this your agent asks a question, waits for results, then figures out what to do. Now the search logic lives inside the code. The agent just runs it.
+Less back and forth. Faster. Way less stuff that can go wrong in between.
+Anyone plugged this into something live yet?
+📅 Tue Jun 02 04:38:33 +0000 2026
+🔗 https://x.com/daptonai/status/2061668770394018123
+──────────────────────────────────────────────────
+
+@BlessTutu (Tutu Bless):
+@perplexity_ai @PPLXDevs writing python to handle search calls instead of manual loops is a pretty big shift, excited to try this out
+📅 Tue Jun 02 04:58:13 +0000 2026
+🔗 https://x.com/BlessTutu/status/2061673718032879680
+──────────────────────────────────────────────────
+
+@AndrewK404 (Andrew Kuncevich):
+Wooow, I implemented something like this in my product about half a year ago.
+
+Except it wasn’t just about search - it applied to tool calling in general.
+
+The reason is intuitive: there is far more data on writing code than on tool calling.
+
+(Although you still need to provide some guardrails, like max_char_num or retries)
+📅 Tue Jun 02 06:04:06 +0000 2026
+🔗 https://x.com/AndrewK404/status/2061690301316530595
+──────────────────────────────────────────────────
+
+@distokens (Distokens):
+@perplexity_ai @PPLXDevs The long-term trend is clear:
+
+Models are becoming decision-makers.
+Code is becoming the execution layer.
+
+Agents are becoming the bridge between the two.
+📅 Tue Jun 02 06:16:59 +0000 2026
+🔗 https://x.com/distokens/status/2061693543127871962
+──────────────────────────────────────────────────
+
+@samzliu (Sam Z Liu):
+@perplexity_ai @PPLXDevs Why wouldn't a dedicated search api with all of the de-dup and ranking optimized by you guys be better than my model having to figure out how to do it myself?
+
+What's the advantage to having more fine grain control?
+📅 Tue Jun 02 07:46:59 +0000 2026
+🔗 https://x.com/samzliu/status/2061716189295018061
+──────────────────────────────────────────────────
+
+@josesilesdata (José Siles | AI | Data):
+@perplexity_ai @PPLXDevs future of search
+📅 Tue Jun 02 08:01:27 +0000 2026
+🔗 https://x.com/josesilesdata/status/2061719831196385659
+──────────────────────────────────────────────────
+
+@GG_Observatory (GG 🦾):
+@perplexity_ai @PPLXDevs Latency isn't from the loop — it's from the round-trip overhead on each tool call. Generating Python doesn't reduce HTTP calls, it just shifts parsing from JSON to AST. Same rate limits, same error recovery, harder to debug when the agent writes broken syntax.
+📅 Tue Jun 02 08:07:15 +0000 2026
+🔗 https://x.com/GG_Observatory/status/2061721293389447547
+──────────────────────────────────────────────────
+
+@Yogin16 (Yogin Patel):
+@perplexity_ai @PPLXDevs software reduces to primitives so that more software can be generated to be run
+📅 Tue Jun 02 09:07:11 +0000 2026
+🔗 https://x.com/Yogin16/status/2061736372415943054
+──────────────────────────────────────────────────
+
+@jaymos (Jay Martel):
+@perplexity_ai @PPLXDevs writing python instead of chaining tool calls is clever. is the bigger win lower latency, or just fewer dead-end loops?
+📅 Tue Jun 02 09:47:56 +0000 2026
+🔗 https://x.com/jaymos/status/2061746631377363178
+──────────────────────────────────────────────────
+
+@BigSilentLegend (BSL):
+@perplexity_ai @PPLXDevs The interesting shift is treating search less like a single answer box and more like a small program that can gather, filter, and rank before the model spends context.
+📅 Tue Jun 02 10:25:14 +0000 2026
+🔗 https://x.com/BigSilentLegend/status/2061756017294098652
+──────────────────────────────────────────────────
+
+@FarAICoder (Far):
+@perplexity_ai @PPLXDevs search as code sounds like overengineering when a simple curl works, but i'll try it with my custom script
+📅 Tue Jun 02 11:15:59 +0000 2026
+🔗 https://x.com/FarAICoder/status/2061768787381059759
+──────────────────────────────────────────────────
+
+@torilune_ (Tori Lune):
+@perplexity_ai @PPLXDevs just tried to implement search as code and ended up generating a thousand lines of junk. who else wants to hug their codebase and cry?
+📅 Tue Jun 02 11:16:59 +0000 2026
+🔗 https://x.com/torilune_/status/2061769039853084935
+──────────────────────────────────────────────────
+
+@avi_lum (Avi):
+@perplexity_ai @PPLXDevs This is the correct approach. With RLMs I improved Browsecomp in 30-40%pp using OpenAI / Anthropic models (smallest ones) - all thanks to a python interpreter and task-aware problem solving. 
+
+Context entropy (like zlib) helps with needle in haystack too.
+
+https://t.co/uKJwNy5fL4 https://t.co/7VDys43ZO6
+🖼️ https://pbs.twimg.com/media/HJz1gteWUAAnFNa.jpg
+📅 Tue Jun 02 12:52:02 +0000 2026
+🔗 https://x.com/avi_lum/status/2061792957980697045
+──────────────────────────────────────────────────

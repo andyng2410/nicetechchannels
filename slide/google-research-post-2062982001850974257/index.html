@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Agentic RAG - Escbase</title>
+  <meta name="description" content="Google giới thiệu Agentic RAG biết tự kiểm tra ngữ cảnh và tìm tiếp khi chưa đủ bằng chứng." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=google-agentic-rag" />
+</head>
+<body>
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel"><div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div><div class="script-panel-badge" id="scriptSlideBadge">Ready</div><div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div></div>
+    <div class="audio-panel" id="audioPanel"><div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select id="bgmSelect" onchange="switchBGM(this.value)"><option value="ambient">Ambient</option><option value="cinematic">Cinematic</option><option value="lofi">Lo-fi</option><option value="piano">Piano</option><option value="dark">Dark</option><option value="custom" selected>Custom upload</option><option value="none">Tắt</option></select></div><div class="audio-panel-divider"></div><div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span><div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)"><option value="gong">Gong</option><option value="rise">Rise</option><option value="bass">Bass</option><option value="chime">Chime</option><option value="sweep">Sweep</option><option value="boom">Boom</option><option value="alarm">Alarm</option><option value="chord">Chord</option><option value="ascending">Ascending</option><option value="retro">Retro</option><option value="minimal">Minimal</option><option value="dramatic">Dramatic</option></select></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)"><option value="ping">Ping</option><option value="pop">Pop</option><option value="chime">Chime</option><option value="click">Click</option><option value="bubble">Bubble</option><option value="woosh">Woosh</option><option value="sparkle">Sparkle</option><option value="drop">Drop</option><option value="tick">Tick</option><option value="bell">Bell</option><option value="blip">Blip</option><option value="snap">Snap</option></select></div><div class="audio-actions"><button onclick="testTransition()">Test slide</button><button onclick="testReveal()">Test reveal</button></div></div>
+
+    <div id="slideContainer" class="slide-container google-rag-deck">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="brand-top-left"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+      <div class="brand-bottom-right"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+
+      <section class="slide active" data-slide="0">
+        <div class="slide-bg rag-bg rag-bg-1"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content rag-hero">
+          <div class="slide-element fade-up">
+            <div class="google-research-lockup"><img src="source/google-g.png" alt="Google" /><span>Google Research</span></div>
+            <div class="hero-rag-orbit">
+              <div class="hero-cover"><img src="source/agentic-rag-cover.png" alt="Agentic RAG pipeline" /></div>
+              <div class="hero-loop-arrow"><i class="fa-solid fa-rotate"></i></div>
+              <span class="hero-chip chip-find">Tìm</span>
+              <span class="hero-chip chip-check">Kiểm tra</span>
+              <span class="hero-chip chip-repeat">Tìm tiếp</span>
+            </div>
+            <h1 class="rag-main-title title-shimmer">Agentic RAG</h1>
+            <p class="rag-hook">Thiếu dữ liệu thì tự tìm tiếp</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="1">
+        <div class="slide-bg rag-bg rag-bg-2"></div><canvas class="fx-canvas" data-fx="scan"></canvas>
+        <div class="slide-content demo-content">
+          <div class="slide-element fade-up">
+            <div class="visual-beat"><i class="fa-solid fa-magnifying-glass"></i><span>RAG cũ dừng quá sớm</span></div>
+            <div class="rag-demo-frame">
+              <video muted loop playsinline preload="metadata" data-playback-rate="2">
+                <source src="source/x-2062981484861140992.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="source-mini">Source: X @GoogleResearch</div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="island-scene">
+              <div class="data-island"><i class="fa-solid fa-folder-tree"></i><span>Project X</span><b>Server ID</b></div>
+              <div class="broken-search"><i class="fa-solid fa-link-slash"></i></div>
+              <div class="data-island dim"><i class="fa-solid fa-server"></i><span>Kho hạ tầng</span><b>Cấu hình máy</b></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="partial-answer"><i class="fa-solid fa-triangle-exclamation"></i><strong>Thông tin nằm ở đây</strong><span>nhưng lượt tìm đầu đã dừng</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="2">
+        <div class="slide-bg rag-bg rag-bg-3"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content team-content">
+          <div class="slide-element fade-up">
+            <div class="visual-beat"><i class="fa-solid fa-people-group"></i><span>Một đội agent cùng làm</span></div>
+            <div class="root-agent"><i class="fa-solid fa-diagram-project"></i><strong>Root Agent</strong><span>điều phối</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="agent-fanout">
+              <div class="agent-node planner"><i class="fa-solid fa-map"></i><b>Planner</b><span>chọn đường tìm</span></div>
+              <div class="agent-node rewriter"><i class="fa-solid fa-pen-ruler"></i><b>Query Rewriter</b><span>viết lại câu hỏi</span></div>
+              <div class="agent-node retriever"><i class="fa-solid fa-magnifying-glass-chart"></i><b>RAG Agent</b><span>tìm nhiều nguồn</span></div>
+              <svg class="fanout-lines" viewBox="0 0 340 190" aria-hidden="true"><path d="M170 8 C170 48 57 42 57 86"/><path d="M170 8 L170 86"/><path d="M170 8 C170 48 283 42 283 86"/></svg>
+              <span class="flow-packet p1"></span><span class="flow-packet p2"></span><span class="flow-packet p3"></span>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="synthesis-node"><i class="fa-solid fa-wand-magic-sparkles"></i><strong>Synthesis Agent</strong><span>chỉ tổng hợp sau cùng</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="3">
+        <div class="slide-bg rag-bg rag-bg-4"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content context-content">
+          <div class="slide-element fade-up">
+            <div class="visual-beat"><i class="fa-solid fa-shield-halved"></i><span>Cổng kiểm tra ngữ cảnh</span></div>
+            <div class="context-gate"><i class="fa-solid fa-magnifying-glass-arrow-right"></i><strong>Sufficient Context</strong><span>Đã đủ bằng chứng chưa?</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="inspection-orbit">
+              <div><i class="fa-solid fa-file-lines"></i><span>Đoạn dữ liệu</span></div>
+              <div><i class="fa-solid fa-pen-to-square"></i><span>Bản nháp</span></div>
+              <div><i class="fa-solid fa-puzzle-piece"></i><span>Phần còn thiếu</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="retry-loop">
+              <span class="status-insufficient"><i class="fa-solid fa-xmark"></i> Chưa đủ</span>
+              <svg viewBox="0 0 330 115" aria-hidden="true"><path d="M275 65 C275 12 55 12 55 66"/><polyline points="43,56 55,68 67,55"/></svg>
+              <span class="retry-query"><i class="fa-solid fa-rotate"></i> Viết truy vấn mới</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="4">
+        <div class="slide-bg rag-bg rag-bg-5"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content doctor-content">
+          <div class="slide-element fade-up">
+            <div class="visual-beat"><i class="fa-solid fa-user-doctor"></i><span>Ví dụ hồ sơ bệnh án</span></div>
+            <div class="patient-file"><i class="fa-solid fa-folder-open"></i><strong>John Doe</strong><span>Sau phẫu thuật đầu gối</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="medical-branches">
+              <div class="med-branch found"><i class="fa-solid fa-pills"></i><b>Thuốc</b><span>đã tìm thấy</span></div>
+              <div class="med-branch found"><i class="fa-solid fa-bowl-food"></i><b>Chế độ ăn</b><span>đã tìm thấy</span></div>
+              <div class="med-branch missing"><i class="fa-solid fa-allergies"></i><b>Dị ứng</b><span>còn thiếu</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="allergy-recovery">
+              <div class="search-token"><i class="fa-solid fa-magnifying-glass"></i><span>rash / adverse events</span></div>
+              <i class="fa-solid fa-arrow-right-long"></i>
+              <div class="answer-unlocked"><i class="fa-solid fa-lock-open"></i><strong>Đủ dữ liệu</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="5">
+        <div class="slide-bg rag-bg rag-bg-6"></div><canvas class="fx-canvas" data-fx="scan"></canvas>
+        <div class="slide-content benchmark-content">
+          <div class="slide-element fade-up">
+            <div class="visual-beat"><i class="fa-solid fa-chart-column"></i><span>Benchmark khá đáng chú ý</span></div>
+            <div class="benchmark-proof"><img src="source/agentic-rag-comparison.png" alt="Benchmark Agentic RAG của Google" /></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="hero-metric metric-34"><strong data-count-to="34" data-count-suffix="%">0%</strong><span>độ chính xác về dữ kiện</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="metric-pair">
+              <div><strong data-count-to="90.1" data-count-suffix="%">0%</strong><span>cross-corpus đúng</span></div>
+              <div><strong data-count-to="3" data-count-prefix="~" data-count-suffix="%">0%</strong><span>chênh độ trễ</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="6">
+        <div class="slide-bg rag-bg rag-bg-7"></div><canvas class="fx-canvas" data-fx="noise"></canvas>
+        <div class="slide-content caveat-content">
+          <div class="slide-element fade-up">
+            <div class="preview-badge"><span>PUBLIC PREVIEW</span><strong>Gemini Enterprise<br />Agent Platform</strong><i class="fa-brands fa-google"></i></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="deployment-axis">
+              <div><i class="fa-solid fa-key"></i><span>Quyền truy cập</span></div>
+              <div><i class="fa-solid fa-file-circle-check"></i><span>Tài liệu sạch</span></div>
+              <div><i class="fa-solid fa-coins"></i><span>Chi phí tìm kiếm</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="not-open-source"><i class="fa-brands fa-github"></i><div><strong>Chưa phải repo open source</strong><span>Hiệu quả thực tế vẫn phải test trên dữ liệu của bạn</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-slide="7">
+        <div class="slide-bg rag-bg rag-bg-8"></div><canvas class="fx-canvas" data-fx="lorenz"></canvas>
+        <div class="slide-content conclusion-content rag-conclusion">
+          <div class="slide-element fade-up">
+            <div class="evidence-core"><i class="fa-solid fa-circle-check"></i><strong>Đủ bằng chứng</strong><span>mới trả lời</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="final-loop">
+              <span><i class="fa-solid fa-magnifying-glass"></i>Tìm</span>
+              <i class="fa-solid fa-arrow-right-long"></i>
+              <span><i class="fa-solid fa-shield-halved"></i>Kiểm tra</span>
+              <i class="fa-solid fa-arrow-right-long"></i>
+              <span><i class="fa-solid fa-rotate"></i>Tìm tiếp</span>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="final-thesis"><strong>Biết mình còn thiếu gì</strong><span>quan trọng hơn cố trả lời thật nhanh</span><div class="source-tag"><i class="fa-solid fa-link"></i> Google Research</div></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i class="fa-solid fa-volume-high"></i></button><div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-up"></i></button><div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">8</span></div><button class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+  <script src="app.js?v=google-agentic-rag"></script>
+</body>
+</html>

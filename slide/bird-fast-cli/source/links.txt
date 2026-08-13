@@ -1,0 +1,4 @@
+https://bird.fast/
+https://www.npmjs.com/package/@steipete/bird
+https://github.com/steipete
+https://github.com/steipete/bird

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google AI Studio - Interactions API</title>
+  <meta name="description"
+    content="Deck Escbase về Google Interactions API cho Gemini, agentic web và app AI nhiều bước." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=googleaistudio-interactions-api" />
+</head>
+
+<body>
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel">
+      <div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div>
+      <div class="script-panel-badge" id="scriptSlideBadge">Ready</div>
+      <div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div>
+    </div>
+    <div class="audio-panel" id="audioPanel">
+      <div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div>
+      <div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select
+          id="bgmSelect" onchange="switchBGM(this.value)">
+          <option value="ambient" selected>Ambient</option>
+          <option value="cinematic">Cinematic</option>
+          <option value="lofi">Lo-fi</option>
+          <option value="piano">Piano</option>
+          <option value="dark">Dark</option>
+          <option value="custom">Custom upload</option>
+          <option value="none">Tắt</option>
+        </select></div>
+      <div class="audio-panel-divider"></div>
+      <div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span>
+        <div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i
+              class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i
+              class="fa-solid fa-chevron-right"></i></button></div>
+      </div>
+      <div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển
+          slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)">
+          <option value="gong">Gong</option>
+          <option value="rise">Rise</option>
+          <option value="bass">Bass</option>
+          <option value="chime">Chime</option>
+          <option value="sweep">Sweep</option>
+          <option value="boom">Boom</option>
+          <option value="alarm">Alarm</option>
+          <option value="chord">Chord</option>
+          <option value="ascending">Ascending</option>
+          <option value="retro">Retro</option>
+          <option value="minimal">Minimal</option>
+          <option value="dramatic">Dramatic</option>
+        </select></div>
+      <div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện
+          element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)">
+          <option value="ping">Ping</option>
+          <option value="pop">Pop</option>
+          <option value="chime">Chime</option>
+          <option value="click">Click</option>
+          <option value="bubble">Bubble</option>
+          <option value="sparkle">Sparkle</option>
+          <option value="blip">Blip</option>
+          <option value="tick">Tick</option>
+          <option value="bell">Bell</option>
+        </select></div>
+      <div class="audio-actions"><button onclick="testTransition()">Test slide</button><button
+          onclick="testReveal()">Test reveal</button></div>
+    </div>
+
+    <div id="slideContainer" class="slide-container gia-deck">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="brand-top-left"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span>
+      </div>
+      <div class="brand-bottom-right"><img src="logo-escbase.ico" alt="escbase"
+          class="brand-logo" /><span>@escbase</span></div>
+
+      <div class="slide active" data-slide="0">
+        <div class="slide-bg slide-bg-1"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content gia-content gia-hero-content">
+          <div class="slide-element fade-up gia-hero">
+            <div class="gia-source-poster">
+              <img src="source/interactions-api-hero.png" alt="Interactions API Developer Guide" />
+            </div>
+            <div class="gia-hero-lockup">
+              <span class="gia-eyebrow">Google AI Studio</span>
+              <h1 class="title-main title-shimmer gia-hero-title"><span
+                  class="gradient-text hero-version-text">Interactions API</span></h1>
+              <div class="gia-hero-pill"><i class="fa-solid fa-code-branch"></i> Chuẩn API mới cho Model</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="1">
+        <div class="slide-bg slide-bg-2"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content gia-content">
+          <div class="slide-element fade-up gia-scene-head">
+            <span class="gia-kicker">Keyword</span>
+            <h2>interaction</h2>
+          </div>
+          <div class="slide-element scale-in gia-before-after">
+            <div class="gia-mini-terminal gia-muted">
+              <span>prompt</span>
+              <b>một lần hỏi</b>
+              <i class="fa-solid fa-arrow-right-long"></i>
+              <strong>text trả về</strong>
+            </div>
+          </div>
+          <div class="slide-element scale-in gia-session-card">
+            <div class="gia-session-core">
+              <i class="fa-solid fa-layer-group"></i>
+              <b>phiên làm việc</b>
+            </div>
+            <div class="gia-state-row">
+              <span>state</span>
+              <span>steps</span>
+              <span>history</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="2">
+        <div class="slide-bg slide-bg-3"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content gia-content">
+          <div class="slide-element fade-up gia-endpoint-head">
+            <div class="gia-endpoint-core"><i class="fa-solid fa-plug-circle-bolt"></i><span>1 endpoint</span></div>
+            <h2>toàn bộ workflow AI</h2>
+          </div>
+          <div class="slide-element scale-in gia-endpoint-map">
+            <div class="gia-map-bus"><small>agents</small><strong>API</strong><small>background</small></div>
+            <span class="m-text" aria-label="text generation"><i class="fa-solid fa-font"></i></span>
+            <span class="m-stream" aria-label="streaming"><i class="fa-solid fa-wave-square"></i></span>
+            <span class="m-chat" aria-label="multi-turn chat"><i class="fa-solid fa-comments"></i></span>
+            <span class="m-media" aria-label="multimodal inputs"><i class="fa-solid fa-photo-film"></i></span>
+            <span class="m-image" aria-label="image generation"><i class="fa-solid fa-image"></i></span>
+            <span class="m-json" aria-label="structured output"><i class="fa-solid fa-database"></i></span>
+            <span class="m-tool" aria-label="tool use"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+            <span class="m-fn" aria-label="function calling"><i class="fa-solid fa-code"></i></span>
+          </div>
+          <div class="slide-element scale-in gia-one-road">
+            <div class="gia-road-line"></div>
+            <strong>một đường chính</strong>
+            <small>đỡ ghép nhiều API rời rạc</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3">
+        <div class="slide-bg slide-bg-4"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content gia-content">
+          <div class="slide-element fade-up gia-agent-core">
+            <span class="gia-kicker">Agent layer</span>
+            <div class="gia-agent-orb"><i class="fa-solid fa-robot"></i></div>
+            <h2>không chỉ gọi model</h2>
+          </div>
+          <div class="slide-element scale-in gia-agent-timeline">
+            <span class="gia-semantic-only">tool call function result background</span>
+            <div class="gia-time-rail"></div>
+            <div class="gia-time-node node-tool" aria-label="tool call"><i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="gia-time-node node-json" aria-label="function result"><i class="fa-solid fa-database"></i></div>
+            <div class="gia-time-node node-bg" aria-label="background execution"><i class="fa-solid fa-clock"></i></div>
+          </div>
+          <div class="slide-element scale-in gia-progress-proof">
+            <div class="gia-progress-track"><span></span></div>
+            <strong>tiến trình</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="4">
+        <div class="slide-bg slide-bg-5"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content gia-content">
+          <div class="slide-element fade-up gia-migration-head">
+            <span class="gia-kicker">Migration</span>
+            <h2>Google đang đổi đường chính</h2>
+          </div>
+          <div class="slide-element scale-in gia-ga-badge">
+            <div class="gia-release-stamp">
+              <i class="fa-solid fa-certificate"></i>
+              <strong>06/2026</strong>
+              <span>official</span>
+            </div>
+          </div>
+          <div class="slide-element scale-in gia-route-switch">
+            <div class="gia-route old"><i class="fa-solid fa-file-code"></i><span>generateContent</span></div>
+            <i class="fa-solid fa-arrow-right-long"></i>
+            <div class="gia-route new"><i class="fa-solid fa-plug-circle-bolt"></i><span>Interactions API</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="5">
+        <div class="slide-bg slide-bg-6"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content gia-content">
+          <div class="slide-element fade-up gia-web-head">
+            <span class="gia-kicker">Ứng dụng rõ nhất</span>
+            <h2>agentic web</h2>
+          </div>
+          <div class="slide-element scale-in gia-web-pipeline">
+            <div class="gia-browser-mini"><b>AI làm nhiều bước</b></div>
+            <div class="gia-web-rails">
+              <div aria-label="search"><i class="fa-solid fa-magnifying-glass"></i><span>search</span></div>
+              <div aria-label="file"><i class="fa-solid fa-file-lines"></i><span>file</span></div>
+              <div aria-label="function"><i class="fa-solid fa-code"></i><span>function</span></div>
+              <div aria-label="JSON"><i class="fa-solid fa-database"></i><span>JSON</span></div>
+              <div aria-label="background"><i class="fa-solid fa-clock"></i><span>background</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in gia-usecase-cloud">
+            <span class="gia-semantic-only">dashboard support content step visibility</span>
+            <span><i class="fa-solid fa-chart-simple"></i><b>dashboard</b></span>
+            <span><i class="fa-solid fa-headset"></i><b>support</b></span>
+            <span><i class="fa-solid fa-wand-magic-sparkles"></i><b>content</b></span>
+            <span><i class="fa-solid fa-list-check"></i><b>steps</b></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="6">
+        <div class="slide-bg slide-bg-7"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content gia-content gia-final-content">
+          <div class="slide-element fade-up gia-final-lockup">
+            <span class="gia-kicker">Verdict</span>
+            <h2>cần chú ý</h2>
+            <strong>Interactions API</strong>
+          </div>
+          <div class="slide-element scale-in gia-final-stack">
+            <div><i class="fa-solid fa-screwdriver-wrench"></i><b>tool</b><span>dùng tool</span></div>
+            <div><i class="fa-solid fa-database"></i><b>context</b><span>nhớ ngữ cảnh</span></div>
+            <div><i class="fa-solid fa-shuffle"></i><b>multi-step</b><span>làm nhiều bước</span></div>
+            <small>Nguồn: Google AI Studio</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i
+          class="fa-solid fa-volume-high"></i></button>
+      <div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i
+          class="fa-solid fa-chevron-up"></i></button>
+      <div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">7</span></div><button
+        class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+  </div>
+  <script src="app.js?v=googleaistudio-interactions-api"></script>
+</body>
+
+</html>

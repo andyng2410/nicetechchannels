@@ -1,0 +1,14 @@
+Primary source:
+https://github.com/D4Vinci/Scrapling
+
+Documentation:
+https://scrapling.readthedocs.io/en/latest/
+https://scrapling.readthedocs.io/en/latest/ai/mcp-server.html
+https://scrapling.readthedocs.io/en/latest/spiders/architecture.html
+
+Trending snapshot:
+https://github.com/trending?since=daily
+
+Latest release:
+https://github.com/D4Vinci/Scrapling/releases/tag/v0.4.8
+

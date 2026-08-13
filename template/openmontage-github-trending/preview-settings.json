@@ -1,0 +1,154 @@
+{
+  "theme": {
+    "preset": "custom",
+    "variables": {
+      "--primary": "#ff6a00",
+      "--primary-light": "#ffbf80",
+      "--primary-dark": "#9a3900",
+      "--accent": "#8fa8ff",
+      "--accent-light": "#dbe3ff",
+      "--info": "#4fd0ff",
+      "--success": "#68f2b4",
+      "--bg-dark": "#07111e"
+    },
+    "customVariables": {
+      "--primary": "#ff6a00",
+      "--primary-light": "#ffbf80",
+      "--primary-dark": "#9a3900",
+      "--accent": "#8fa8ff",
+      "--accent-light": "#dbe3ff",
+      "--info": "#4fd0ff",
+      "--success": "#68f2b4",
+      "--bg-dark": "#07111e"
+    }
+  },
+  "bgm": {
+    "mode": "custom",
+    "preset": "ambient",
+    "volume": 0.3,
+    "custom": {
+      "name": "meta.mp3",
+      "path": "preview-assets/bgm/meta.mp3",
+      "url": "preview-assets/bgm/meta.mp3"
+    }
+  },
+  "subtitles": {
+    "enabled": true,
+    "color": "#ffffff",
+    "activeColor": "#66f2c0",
+    "fontSize": 18,
+    "bottom": 152,
+    "maxLines": 1
+  },
+  "visuals": {
+    "colorMode": "dark",
+    "backgroundColor": "#07111e",
+    "gridEnabled": false,
+    "gridLight": "#8fa8ff",
+    "iconGlow": "#ff6a00",
+    "iconBacklight": "#4fd0ff",
+    "iconLight": "#68f2b4",
+    "mainLight": "#ff6a00",
+    "mainLightPosition": "top-center",
+    "mainLightIntensity": "medium",
+    "softLight": "#8fa8ff",
+    "softLightPosition": "bottom-right",
+    "softLightIntensity": "medium",
+    "backgroundFx": "particles",
+    "slideLights": {
+      "0": {
+        "mainLight": "#ff6a00",
+        "mainLightPosition": "top-center",
+        "mainLightIntensity": "medium",
+        "softLight": "#8fa8ff",
+        "softLightPosition": "bottom-right",
+        "softLightIntensity": "medium"
+      },
+      "2": {
+        "mainLight": "#ff6a00",
+        "mainLightPosition": "top-center",
+        "mainLightIntensity": "medium",
+        "softLight": "#8fa8ff",
+        "softLightPosition": "bottom-right",
+        "softLightIntensity": "medium"
+      },
+      "3": {
+        "mainLight": "#ff6a00",
+        "mainLightPosition": "top-center",
+        "mainLightIntensity": "medium",
+        "softLight": "#8fa8ff",
+        "softLightPosition": "bottom-right",
+        "softLightIntensity": "medium"
+      }
+    },
+    "customValues": {
+      "backgroundColor": "#07111e",
+      "gridLight": "#8fa8ff",
+      "iconGlow": "#ff6a00",
+      "iconBacklight": "#4fd0ff",
+      "iconLight": "#68f2b4",
+      "mainLight": "#ff6a00",
+      "mainLightPosition": "top-center",
+      "mainLightIntensity": "medium",
+      "softLight": "#8fa8ff",
+      "softLightPosition": "bottom-right",
+      "softLightIntensity": "medium",
+      "slideLights": {
+        "0": {
+          "mainLight": "#ff6a00",
+          "mainLightPosition": "top-center",
+          "mainLightIntensity": "medium",
+          "softLight": "#8fa8ff",
+          "softLightPosition": "bottom-right",
+          "softLightIntensity": "medium"
+        },
+        "2": {
+          "mainLight": "#ff6a00",
+          "mainLightPosition": "top-center",
+          "mainLightIntensity": "medium",
+          "softLight": "#8fa8ff",
+          "softLightPosition": "bottom-right",
+          "softLightIntensity": "medium"
+        },
+        "3": {
+          "mainLight": "#ff6a00",
+          "mainLightPosition": "top-center",
+          "mainLightIntensity": "medium",
+          "softLight": "#8fa8ff",
+          "softLightPosition": "bottom-right",
+          "softLightIntensity": "medium"
+        }
+      }
+    }
+  },
+  "slides": {
+    "deletedIds": [],
+    "scriptLines": [
+      "OpenMontage không phải kiểu một prompt là ra video ngay; nó biến cả quy trình dựng video thành việc cho agent chạy được.",
+      "Số sao đang tăng rất nhanh. Repo hiện có tổng gần 16 nghìn sao, và riêng hôm nay đã thêm hơn 3,5 nghìn sao. GitHub mô tả repo này là 12 pipeline, 52 tool, hơn 500 agent skill. Nhưng câu hỏi thật là: nó có khác gì một AI video generator nữa không?",
+      "Cốt lõi là pipeline. Một brief đi qua research, proposal, script, scene plan, assets, edit rồi compose. Mỗi stage có manifest, skill đạo diễn, tool Python, checkpoint và bước review riêng. Nói nôm na: agent không đoán mò, nó đi theo playbook.",
+      "Điểm ăn tiền là reference video. Bạn đưa vào YouTube Short, Reel, TikTok hoặc clip local; nó phân tích transcript, nhịp dựng, scene và keyframe. Sau đó nó trả concept, hướng dùng tool, ước tính chi phí và sample trước khi sản xuất thật. Đây là khác biệt giữa kiểu prompt mì ăn liền và một kế hoạch dựng có kiểm soát.",
+      "Không chỉ có clip AI đắt tiền. README nói zero key vẫn có Piper TTS, footage mở từ Archive.org, NASA, Wikimedia, Remotion, HyperFrames và FFmpeg. Nếu cần footage thật, documentary montage pipeline sẽ tìm motion clip miễn phí rồi cắt thành timeline. Đây là góc khá đáng tiền cho ai ghét kiểu slideshow giả video.",
+      "Nhưng đừng tưởng đây là app một nút bấm. Bạn vẫn cần Python, FFmpeg, Node và một coding assistant biết đọc repo, chạy code. Các key như FAL, OpenAI, ElevenLabs, Runway chỉ mở thêm provider, nghĩa là setup càng ngon thì output càng rộng. Và vì license là AGPL, đem nhúng vào sản phẩm kín cũng phải nghĩ kỹ.",
+      "Tóm lại: OpenMontage đang đẩy AI video từ generator rời rạc sang production pipeline có kiểm tra, chi phí và checkpoint. Đây chưa phải công cụ kéo thả dễ dùng cho số đông. Nhưng với ai biết dùng agent, đây là một repo rất đáng thử."
+    ],
+    "transitionSounds": [
+      "dramatic",
+      "sweep",
+      "bass",
+      "rise",
+      "chord",
+      "minimal",
+      "ascending"
+    ],
+    "revealSounds": [
+      "sparkle",
+      "pop",
+      "blip",
+      "bubble",
+      "tick",
+      "bell",
+      "chime"
+    ]
+  }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenAI Sites in Codex</title>
+  <meta name="description" content="OpenAI đưa Sites vào Codex, biến ý tưởng thành web app có link chia sẻ." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=openai-sites-codex" />
+  <link rel="stylesheet" href="sites.css?v=openai-sites-codex" />
+</head>
+<body class="sites-page">
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel"><div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div><div class="script-panel-badge" id="scriptSlideBadge">Ready</div><div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div></div>
+    <div class="audio-panel" id="audioPanel"><div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select id="bgmSelect" onchange="switchBGM(this.value)"><option value="ambient" selected>Ambient</option><option value="cinematic">Cinematic</option><option value="lofi">Lo-fi</option><option value="piano">Piano</option><option value="dark">Dark</option><option value="custom">Custom upload</option><option value="none">Tắt</option></select></div><div class="audio-panel-divider"></div><div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span><div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)"><option value="gong">Gong</option><option value="rise">Rise</option><option value="bass">Bass</option><option value="chime">Chime</option><option value="sweep">Sweep</option><option value="boom">Boom</option><option value="alarm">Alarm</option><option value="chord">Chord</option><option value="ascending">Ascending</option><option value="retro">Retro</option><option value="minimal">Minimal</option><option value="dramatic">Dramatic</option></select></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)"><option value="ping">Ping</option><option value="pop">Pop</option><option value="chime">Chime</option><option value="click">Click</option><option value="bubble">Bubble</option><option value="sparkle">Sparkle</option><option value="blip">Blip</option><option value="tick">Tick</option><option value="bell">Bell</option></select></div><div class="audio-actions"><button onclick="testTransition()">Test slide</button><button onclick="testReveal()">Test reveal</button></div></div>
+
+    <div id="slideContainer" class="slide-container sites-deck">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="brand-top-left"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+      <div class="brand-bottom-right"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+
+      <div class="slide active" data-slide="0">
+        <div class="slide-bg sites-bg hero-bg"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content sites-content sites-hero">
+          <div class="slide-element fade-up">
+            <div class="sites-hero-media">
+              <img src="source/tweet-image.jpg" alt="OpenAI Sites now in Codex" />
+              <div class="sites-orbit-ring ring-one"></div><div class="sites-orbit-ring ring-two"></div>
+              <div class="sites-core"><span>[Sites]</span><b>Codex</b></div>
+              <div class="sites-competitor c1">Lovable</div><div class="sites-competitor c2">Bolt</div>
+            </div>
+            <h1 class="sites-hero-title title-shimmer">Sites trong <span>Codex</span></h1>
+            <div class="sites-hero-caption"><i class="fa-solid fa-link"></i> app builder có URL chia sẻ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide sites-demo-slide" data-slide="1">
+        <div class="slide-bg sites-bg sites-video-bg"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content sites-video-content">
+          <div class="slide-element scale-in sites-video-element">
+            <video class="sites-demo-video" src="source/openai-sites-demo.mp4" poster="source/openai-sites-demo-poster.jpg" playsinline preload="metadata"></video>
+            <div class="sites-video-source">Source X @OpenAI</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="2">
+        <div class="slide-bg sites-bg"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content sites-content">
+          <div class="slide-element fade-up">
+            <div class="sites-title-chip red"><i class="fa-solid fa-layer-group"></i><strong>Trước đây</strong></div>
+            <div class="sites-old-flow">
+              <div class="tool-node muted"><i class="fa-solid fa-lightbulb"></i><span>ý tưởng</span></div>
+              <b></b>
+              <div class="tool-node red"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>tool riêng</span></div>
+              <b></b>
+              <div class="tool-node muted"><i class="fa-solid fa-file-lines"></i><span>bản nháp</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sites-new-flow">
+              <div class="codex-tower"><i class="fa-solid fa-code"></i><strong>Codex</strong><span>làm luôn phần app</span></div>
+              <div class="build-rings"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="url-output"><i class="fa-solid fa-globe"></i><strong>web app tương tác</strong><span>share bằng URL</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3">
+        <div class="slide-bg sites-bg"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content sites-content">
+          <div class="slide-element fade-up">
+            <div class="sites-title-chip"><i class="fa-solid fa-chart-line"></i><strong>Không chỉ trang trí</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="sites-big-metric"><span>Codex weekly users</span><strong>5M+</strong><em>theo OpenAI</em></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="sites-audience-split"><div><strong>20%</strong><span>không phải developer</span></div><b>3x</b><p>tăng nhanh hơn nhóm dev</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="4">
+        <div class="slide-bg sites-bg"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content sites-content">
+          <div class="slide-element fade-up">
+            <div class="sites-title-chip gold"><i class="fa-solid fa-users-gear"></i><strong>Đúng điểm đau của team</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="team-loop"><div class="loop-node"><i class="fa-solid fa-comments"></i><span>ý tưởng</span></div><b></b><div class="loop-node active"><i class="fa-solid fa-window-maximize"></i><span>bản bấm thử</span></div></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="decision-board"><div><i class="fa-solid fa-eye"></i><span>nhìn thấy</span></div><div><i class="fa-solid fa-hand-pointer"></i><span>bấm thử</span></div><div><i class="fa-solid fa-check-double"></i><span>quyết định</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="5">
+        <div class="slide-bg sites-bg"></div><canvas class="fx-canvas" data-fx="noise"></canvas>
+        <div class="slide-content sites-content">
+          <div class="slide-element fade-up">
+            <div class="sites-title-chip red"><i class="fa-solid fa-triangle-exclamation"></i><strong>Phần khó vẫn còn</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="question-grid">
+              <span>Design tốt hơn?</span><span>Host ở đâu?</span><span>Auth?</span><span>State?</span><span>Security?</span>
+            </div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="demo-caveat"><i class="fa-solid fa-video"></i><strong>Demo đẹp chưa đủ</strong><span>production cần trả lời hết mấy câu này</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="6">
+        <div class="slide-bg sites-bg"></div><canvas class="fx-canvas" data-fx="lorenz"></canvas>
+        <div class="slide-content sites-content">
+          <div class="slide-element fade-up">
+            <div class="final-speed"><i class="fa-solid fa-bolt"></i><strong>Prototype nhanh hơn</strong><span>ý tưởng -> app thử được</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="final-responsibility"><i class="fa-solid fa-shield-halved"></i><strong>Sản phẩm thật vẫn cần người chịu trách nhiệm</strong><span>yêu cầu, logic, bảo mật</span></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="final-verdict"><strong>Prototype rẻ hơn.</strong><span>Sai prototype vẫn tốn tiền.</span><em>nguồn: x.com/OpenAI</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i class="fa-solid fa-volume-high"></i></button><div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-up"></i></button><div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">7</span></div><button class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+  <script src="app.js?v=openai-sites-codex"></script>
+</body>
+</html>

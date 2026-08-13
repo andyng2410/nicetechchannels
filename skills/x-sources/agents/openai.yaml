@@ -1,0 +1,4 @@
+interface:
+  display_name: "X Sources"
+  short_description: "Trích xuất X thread và media cho slide."
+  default_prompt: "Chuẩn bị source từ X/Twitter bằng bird và yt-dlp, lưu thread, links, media local rồi hoàn tất source.md inventory."

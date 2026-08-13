@@ -1,0 +1,8 @@
+Scrapling của D4Vinci đang lên GitHub Trending vì nó giúp agent cào dữ liệu website tốt hơn, kể cả khi giao diện vừa thay đổi.
+Số sao đang tăng nhanh. Repo hiện có 56 nghìn 716 sao, riêng hôm nay thêm 606 sao. Hiểu đơn giản, Scrapling là bộ công cụ lấy dữ liệu website. Dùng được từ một trang đơn lẻ tới crawl cả website lớn.
+Điểm hay nhất là scraper bớt gãy. Lần đầu, bạn chọn vùng dữ liệu cần lấy và lưu lại dấu vết. Nếu website đổi giao diện, Scrapling sẽ tìm vùng giống nhất để nối lại. Đỡ phải ngồi sửa selector mỗi lần website cập nhật.
+Cần đơn giản hay phức tạp đều có lựa chọn. Có `Fetcher` cho trang thường, `DynamicFetcher` cho website dùng nhiều JavaScript và `StealthyFetcher` cho trường hợp khó hơn. README nói `StealthyFetcher` có thể xử lý một số lớp chống bot. Nhưng đây là thông tin từ tác giả.
+Khi cần lấy dữ liệu nhiều trang, dùng `Spider`. Nó có thể chạy nhiều nhánh cùng lúc. Có sẵn nhiều session, đổi proxy và tạm dừng rồi chạy tiếp. Dữ liệu lấy được có thể đẩy ra ngay, không cần chờ crawl xong toàn bộ.
+Phần đáng chú ý với AI là MCP. Thay vì gửi nguyên cả trang web đầy code rác cho agent, Scrapling lọc đúng phần nội dung cần đọc. Context gọn hơn thì agent xử lý nhanh hơn và đỡ tốn token hơn. Repo cũng có `Agent Skill` để gắn vào workflow AI.
+Cách thử khá nhanh. Cài đầy đủ bằng lệnh `pip install "scrapling[all]"`. Sau đó chạy `scrapling install` để tải browser dependencies. Nhưng vẫn phải tôn trọng điều khoản website, `robots.txt`, rate limit và dữ liệu cá nhân.
+Tóm lại, Scrapling đáng thử nếu bạn cần lấy dữ liệu web cho AI agent. Điểm mạnh là scraper bớt gãy khi giao diện đổi, nhưng vẫn dùng được cho cả luồng crawl lớn. Trước khi đưa vào production, cứ benchmark trên một website thật trước.

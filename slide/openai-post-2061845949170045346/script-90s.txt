@@ -1,0 +1,7 @@
+OpenAI vừa thả `Sites` vào Codex, và nhóm app builder như Lovable, Bolt bắt đầu nóng gáy.
+Và đây là demo của họ.
+Trước đây muốn biến ý tưởng thành app, bạn thường phải mở thêm một tool riêng. Bây giờ OpenAI muốn Codex làm luôn phần đó. Đưa ý tưởng vào, nhận lại một web app tương tác, có URL để team dùng thử.
+Đây không chỉ là một tính năng trang trí. OpenAI nói Codex đang có hơn 5 triệu người dùng mỗi tuần. Đáng chú ý hơn, khoảng 20% người dùng Codex không phải developer.
+Kèo này đánh vào đúng điểm đau của team. Nhiều ý tưởng không cần build production ngay. Chỉ cần một bản đủ rõ để team nhìn thấy, bấm thử, sửa luồng và chốt xem có đáng làm tiếp không.
+Nhưng phần khó chưa biến mất. Cộng đồng đang hỏi ngay: thiết kế có đẹp hơn không, app host ở đâu, auth và state management xử lý sao, bảo mật có ổn không. Đây là mấy câu mà demo đẹp không trả lời hết được.
+Tóm lại, `Sites` làm tốc độ thử ý tưởng tăng rất mạnh. Nhưng sản phẩm thật vẫn cần người biết đặt yêu cầu, kiểm tra logic và chịu trách nhiệm phần bảo mật. Prototype rẻ hơn, nhưng sai prototype thì vẫn tốn tiền.

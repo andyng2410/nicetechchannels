@@ -1,0 +1,96 @@
+{
+  "theme": {
+    "preset": "custom",
+    "variables": {
+      "--primary": "#b7ff6a",
+      "--primary-light": "#ddffb5",
+      "--primary-dark": "#608b32",
+      "--accent": "#5ee4f0",
+      "--accent-light": "#c9fbff",
+      "--info": "#ffcc68",
+      "--success": "#b7ff6a",
+      "--bg-dark": "#080b0d"
+    },
+    "customVariables": {
+      "--primary": "#b7ff6a",
+      "--primary-light": "#ddffb5",
+      "--primary-dark": "#608b32",
+      "--accent": "#5ee4f0",
+      "--accent-light": "#c9fbff",
+      "--info": "#ffcc68",
+      "--success": "#b7ff6a",
+      "--bg-dark": "#080b0d"
+    }
+  },
+  "bgm": {
+    "mode": "custom",
+    "preset": "ambient",
+    "volume": 0.3,
+    "custom": {
+      "name": "meta.mp3",
+      "path": "preview-assets/bgm/meta.mp3",
+      "url": "preview-assets/bgm/meta.mp3"
+    }
+  },
+  "subtitles": {
+    "enabled": true,
+    "color": "#ffffff",
+    "fontSize": 18,
+    "bottom": 152,
+    "maxLines": 1,
+    "activeColor": "#b7ff6a"
+  },
+  "visuals": {
+    "colorMode": "dark",
+    "backgroundColor": "#080b0d",
+    "gridEnabled": false,
+    "gridLight": "#5ee4f0",
+    "iconGlow": "#b7ff6a",
+    "iconBacklight": "#5ee4f0",
+    "iconLight": "#ffcc68",
+    "backgroundFx": "particles",
+    "customValues": {
+      "backgroundColor": "#080b0d",
+      "gridLight": "#5ee4f0",
+      "iconGlow": "#b7ff6a",
+      "iconBacklight": "#5ee4f0",
+      "iconLight": "#ffcc68"
+    }
+  },
+  "slides": {
+    "deletedIds": [],
+    "scriptLines": [
+      "Đưa `bird` cho agent, nó có thể đọc thread, tìm bài và thao tác với X ngay trong terminal.",
+      "Phần đọc khá tiện. Dùng `bird read URL` để đọc một tweet, hoặc `bird thread URL` để lấy cả thread. Có thêm replies, search, mentions, bookmarks, likes, timeline và news. Đây là cách nhanh để agent tự gom thông tin từ X.",
+      "Điểm ăn tiền là đầu ra cho automation. Mặc định `bird` in nội dung dễ đọc cho người. Thêm `--json` hoặc `--plain` là agent có dữ liệu gọn hơn để phân tích, lưu lại hoặc đưa sang workflow khác.",
+      "Không chỉ đọc. `bird` còn đăng tweet, reply, like, bookmark, retweet, follow và upload media. Mình đã thử đăng một tweet bằng CLI và nó chạy thật. Nhưng các thao tác ghi nên luôn có bước xác nhận thủ công.",
+      "Cách cài khá nhanh. Trên macOS, dùng `brew install steipete/tap/bird`. Hoặc cài bằng npm với `npm install -g @steipete/bird`. Nhưng cài xong vẫn cần kết nối tài khoản X.",
+      "`bird` cần đúng hai cookie là `auth_token` và `ct0`. Có thể cho tool tự đọc cookie từ trình duyệt, nhưng quyền này khá nhạy cảm. Cách chủ động hơn là tự lấy hai giá trị rồi lưu vào biến môi trường.",
+      "Cách lấy cũng không khó. Đăng nhập `x.com`, mở DevTools bằng `Cmd + Option + I`. Vào `Application`, chọn `Cookies`, rồi chọn `https://x.com`. Tìm và lấy giá trị của `auth_token` và `ct0`.",
+      "Nếu dùng tài khoản phụ và chấp nhận rủi ro, có thể thêm hai biến vào `~/.zshrc` để dùng cho nhanh. Sau đó chạy `source ~/.zshrc` và `bird whoami` để kiểm tra đúng tài khoản. Cookie này khá nhạy cảm, nên không gửi cho người khác và không quay màn hình lúc lấy token.",
+      "Nhưng cần hiểu đúng giới hạn. `bird` dùng API GraphQL nội bộ của X, không phải API chính thức. X có thể đổi endpoint hoặc giới hạn tần suất gọi bất cứ lúc nào, còn repo GitHub hiện cũng đã chuyển private. Tóm lại, đây là tool tiện để thử workflow agent cá nhân, nhưng chưa nên xem là hạ tầng ổn định tuyệt đối."
+    ],
+    "transitionSounds": [
+      "dramatic",
+      "sweep",
+      "bass",
+      "rise",
+      "chord",
+      "minimal",
+      "ascending",
+      "dramatic",
+      "chord"
+    ],
+    "revealSounds": [
+      "sparkle",
+      "pop",
+      "blip",
+      "bubble",
+      "tick",
+      "bell",
+      "click",
+      "sparkle",
+      "chime"
+    ]
+  }
+}

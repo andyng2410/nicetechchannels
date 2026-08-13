@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yt-dlp - GitHub Open Source</title>
+  <meta name="description" content="Deck ngắn về yt-dlp: tool dòng lệnh open source để tải và xử lý media." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=ytdlp-20260601" />
+  <link rel="stylesheet" href="yt-dlp.css?v=ytdlp-20260601" />
+</head>
+<body class="ytd-page">
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel"><div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div><div class="script-panel-badge" id="scriptSlideBadge">Ready</div><div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div></div>
+    <div class="audio-panel" id="audioPanel"><div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select id="bgmSelect" onchange="switchBGM(this.value)"><option value="ambient" selected>Ambient</option><option value="cinematic">Cinematic</option><option value="lofi">Lo-fi</option><option value="piano">Piano</option><option value="dark">Dark</option><option value="custom">Custom upload</option><option value="none">Tắt</option></select></div><div class="audio-panel-divider"></div><div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span><div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)"><option value="gong">Gong</option><option value="rise">Rise</option><option value="bass">Bass</option><option value="chime">Chime</option><option value="sweep">Sweep</option><option value="boom">Boom</option><option value="alarm">Alarm</option><option value="chord">Chord</option><option value="ascending">Ascending</option><option value="retro">Retro</option><option value="minimal">Minimal</option><option value="dramatic">Dramatic</option></select></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)"><option value="ping">Ping</option><option value="pop">Pop</option><option value="chime">Chime</option><option value="click">Click</option><option value="bubble">Bubble</option><option value="sparkle">Sparkle</option><option value="blip">Blip</option><option value="tick">Tick</option><option value="bell">Bell</option></select></div><div class="audio-actions"><button onclick="testTransition()">Test slide</button><button onclick="testReveal()">Test reveal</button></div></div>
+
+    <div id="slideContainer" class="slide-container ytd-deck">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="brand-top-left"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+      <div class="brand-bottom-right"><img src="logo-escbase.ico" alt="escbase" class="brand-logo" /><span>@escbase</span></div>
+
+      <div class="slide active" data-slide="0">
+        <div class="slide-bg ytd-bg ytd-bg-1"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content ytd-content ytd-hero">
+          <div class="slide-element fade-up">
+            <div class="mtd-hero-mark">
+              <div class="mtd-hero-halo"></div>
+              <img src="source/github-mark.svg" alt="GitHub" />
+              <span>GitHub Open Source</span>
+            </div>
+            <h1 class="ytd-title title-shimmer">yt-dlp</h1>
+            <div class="ytd-hero-line"><i class="fa-solid fa-robot"></i><span>agent</span><i class="fa-solid fa-arrow-right-long"></i><strong>yt-dlp</strong><i class="fa-solid fa-arrow-right-long"></i><span>media</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="1">
+        <div class="slide-bg ytd-bg ytd-bg-2"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content ytd-content">
+          <div class="slide-element scale-in">
+            <div class="ytd-proof">
+              <div class="ytd-proof-label"><i class="fa-brands fa-github"></i><span>OPEN SOURCE</span></div>
+              <div class="ytd-starburst"><i class="fa-solid fa-star"></i></div>
+              <strong>167K+</strong><span>sao trên GitHub</span>
+            </div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="ytd-lineage">
+              <div class="ytd-lineage-node old"><i class="fa-solid fa-code-branch"></i><span>youtube-dl</span></div>
+              <div class="ytd-lineage-track"><i class="fa-solid fa-chevron-right"></i><b></b></div>
+              <div class="ytd-lineage-node active"><i class="fa-solid fa-terminal"></i><strong>yt-dlp</strong></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-capability-orbit">
+              <div class="ytd-capability-core"><i class="fa-solid fa-sliders"></i><span>nhiều tùy chọn</span></div>
+              <div class="ytd-cap c1"><i class="fa-solid fa-file-video"></i></div>
+              <div class="ytd-cap c2"><i class="fa-solid fa-closed-captioning"></i></div>
+              <div class="ytd-cap c3"><i class="fa-solid fa-list-ol"></i></div>
+              <div class="ytd-cap c4"><i class="fa-solid fa-cookie-bite"></i></div>
+              <div class="ytd-cap c5"><i class="fa-solid fa-file-code"></i></div>
+              <div class="ytd-cap c6"><i class="fa-solid fa-music"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="2">
+        <div class="slide-bg ytd-bg ytd-bg-3"></div><canvas class="fx-canvas" data-fx="scan"></canvas>
+        <div class="slide-content ytd-content">
+          <div class="slide-element fade-up">
+            <div class="ytd-scene-title"><i class="fa-solid fa-download"></i><strong>Cài khá nhanh</strong></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="ytd-install-command">
+              <div class="ytd-install-leds"><i></i><i></i><i></i><span>Python</span></div>
+              <code><em>&gt;</em> python3 -m pip install -U<br/><b>"yt-dlp[default]"</b></code>
+              <div class="ytd-command-cursor"></div>
+            </div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="ytd-install-command compact">
+              <div class="ytd-install-leds"><i></i><i></i><i></i><span>Homebrew</span></div>
+              <code><em>&gt;</em> brew install <b>yt-dlp</b></code>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-ffmpeg-dock">
+              <div class="ytd-gear"><i class="fa-solid fa-gear"></i></div>
+              <div><strong>ffmpeg</strong><span>ghép hình + tiếng</span></div>
+              <i class="fa-solid fa-plug"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3">
+        <div class="slide-bg ytd-bg ytd-bg-4"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content ytd-content">
+          <div class="slide-element fade-up"><div class="ytd-scene-title"><i class="fa-solid fa-bolt"></i><strong>Một dòng là chạy</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="ytd-router">
+              <div class="ytd-url-pill"><i class="fa-solid fa-link"></i><span>URL</span></div>
+              <div class="ytd-router-wire"><b></b><b></b><b></b></div>
+              <div class="ytd-router-core"><i class="fa-solid fa-terminal"></i><code>yt-dlp URL</code></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-output-node mp3"><i class="fa-solid fa-music"></i><b>MP3</b><small>-x --audio-format mp3</small></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-output-cluster">
+              <div class="ytd-output-node"><i class="fa-solid fa-list-ol"></i><b>playlist</b></div>
+              <div class="ytd-output-node"><i class="fa-solid fa-display"></i><b>1080p</b></div>
+              <div class="ytd-output-node merged"><i class="fa-solid fa-gears"></i><b>ffmpeg</b><small>file hoàn chỉnh</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="4">
+        <div class="slide-bg ytd-bg ytd-bg-5"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content ytd-content">
+          <div class="slide-element fade-up">
+            <div class="ytd-media-core"><div class="ytd-media-play"><i class="fa-solid fa-play"></i></div><i class="fa-solid fa-file-video"></i><strong>Không chỉ video</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-media-satellites">
+              <div class="sat s1"><i class="fa-solid fa-closed-captioning"></i><span>subtitle</span></div>
+              <div class="sat s2"><i class="fa-solid fa-image"></i><span>thumbnail</span></div>
+              <div class="sat s3"><i class="fa-solid fa-file-code"></i><span>metadata</span></div>
+            </div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="ytd-chapter-track"><i class="fa-solid fa-scissors"></i><b></b><b></b><b></b><b></b><b></b><span>chapter</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-sponsor-track"><span></span><span></span><span class="skip"></span><span></span><i class="fa-solid fa-forward-step"></i><strong>SponsorBlock</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="5">
+        <div class="slide-bg ytd-bg ytd-bg-6"></div><canvas class="fx-canvas" data-fx="scan"></canvas>
+        <div class="slide-content ytd-content">
+          <div class="slide-element fade-up"><div class="ytd-scene-title"><i class="fa-solid fa-robot"></i><strong>Đưa vào workflow agent</strong></div></div>
+          <div class="slide-element scale-in">
+            <div class="ytd-agent-pipeline">
+              <div><i class="fa-solid fa-link"></i><span>URL</span></div><b></b>
+              <div class="core"><i class="fa-solid fa-terminal"></i><span>yt-dlp</span></div><b></b>
+              <div><i class="fa-solid fa-file-code"></i><span>JSON</span></div><b></b>
+              <div class="agent"><i class="fa-solid fa-robot"></i><span>agent</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-cookie-unlock"><i class="fa-solid fa-cookie-bite"></i><div class="ytd-unlock-ring"><i class="fa-solid fa-lock-open"></i></div><span>cookie từ browser</span></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="ytd-adapters"><div><i class="fa-solid fa-puzzle-piece"></i><span>plugin</span></div><div><i class="fa-brands fa-python"></i><span>Python</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="6">
+        <div class="slide-bg ytd-bg ytd-bg-7"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content ytd-content">
+          <div class="slide-element fade-up">
+            <div class="ytd-update-scene">
+              <div class="ytd-globe"><i class="fa-solid fa-globe"></i></div>
+              <div class="ytd-update-signal"><b></b><b></b><b></b></div>
+              <div class="ytd-old-binary"><i class="fa-solid fa-terminal"></i><span>bản cũ</span><em></em></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-nightly-branch"><span>stable</span><strong>nightly <i class="fa-solid fa-circle-check"></i></strong><code>--update-to nightly</code></div>
+          </div>
+          <div class="slide-element fade-up">
+            <div class="ytd-final-lockup"><i class="fa-solid fa-toolbox"></i><div><strong>yt-dlp</strong><span>đáng giữ sẵn trong máy</span></div><i class="fa-solid fa-robot"></i></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="ytd-rights-shield"><i class="fa-solid fa-shield-halved"></i><div><strong>Chỉ tải nội dung được phép lấy</strong><span>kiểm tra điều khoản từng nền tảng</span></div></div>
+          </div>
+          <div class="ytd-source-static"><div class="source-tag"><i class="fa-solid fa-link"></i> github.com/yt-dlp/yt-dlp</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i class="fa-solid fa-volume-high"></i></button><div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-up"></i></button><div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">7</span></div><button class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+  <script src="app.js?v=ytdlp-20260601"></script>
+</body>
+</html>
