@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Pattern Gallery - NiceTechChannels</title>
+  <meta name="description" content="Template gallery full-size cho các visual pattern NiceTechChannels: slide 1 templates, proof, flow, metrics, terminal, highlight, traffic-light và final lockup." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=visual-pattern-gallery-full" />
+</head>
+<body>
+  <div class="main-wrapper">
+    <div class="script-panel" id="scriptPanel"><div class="script-panel-title"><i class="fa-solid fa-scroll"></i> Script</div><div class="script-panel-badge" id="scriptSlideBadge">Ready</div><div class="script-panel-text" id="scriptText">Bấm vào slide để bắt đầu...</div></div>
+    <div class="audio-panel" id="audioPanel"><div class="audio-panel-title"><i class="fa-solid fa-sliders"></i> Âm Thanh</div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-music"></i> Nhạc nền</label><select id="bgmSelect" onchange="switchBGM(this.value)"><option value="ambient" selected>Ambient</option><option value="cinematic">Cinematic</option><option value="lofi">Lo-fi</option><option value="piano">Piano</option><option value="dark">Dark</option><option value="custom">Custom upload</option><option value="none">Tắt</option></select></div><div class="audio-panel-divider"></div><div class="audio-slide-header"><span class="audio-slide-badge" id="audioPanelSlide">Ready</span><div class="audio-slide-nav"><button class="audio-nav-btn" onclick="audioPanelPrev()"><i class="fa-solid fa-chevron-left"></i></button><button class="audio-nav-btn" onclick="audioPanelNext()"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-forward"></i> Chuyển slide</label><select id="transitionSelect" onchange="setSlideTransition(currentSlide, this.value)"><option value="gong">Gong</option><option value="rise">Rise</option><option value="bass">Bass</option><option value="chime">Chime</option><option value="sweep">Sweep</option><option value="boom">Boom</option><option value="alarm">Alarm</option><option value="chord">Chord</option><option value="ascending">Ascending</option><option value="retro">Retro</option><option value="minimal">Minimal</option><option value="dramatic">Dramatic</option></select></div><div class="audio-group"><label class="audio-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Hiện element</label><select id="revealSelect" onchange="setSlideReveal(currentSlide, this.value)"><option value="ping">Ping</option><option value="pop">Pop</option><option value="chime">Chime</option><option value="click">Click</option><option value="bubble">Bubble</option><option value="sparkle">Sparkle</option><option value="blip">Blip</option><option value="tick">Tick</option><option value="bell">Bell</option></select></div><div class="audio-actions"><button onclick="testTransition()">Test slide</button><button onclick="testReveal()">Test reveal</button></div></div>
+
+    <div id="slideContainer" class="slide-container vpg-deck">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="brand-top-left"><img src="logo-nicetechchannels.ico" alt="nicetechchannels" class="brand-logo" /><span>@nicetechchannels</span></div>
+      <div class="brand-bottom-right"><img src="logo-nicetechchannels.ico" alt="nicetechchannels" class="brand-logo" /><span>@nicetechchannels</span></div>
+
+      <div class="slide active" data-slide="0" data-pattern="visual-gallery:source-image-hero">
+        <div class="slide-bg vpg-bg vpg-bg-1"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content gia-content gia-hero-content">
+          <div class="slide-element fade-up gia-hero vpg-source-hero">
+            <div class="gia-source-poster">
+              <img src="source/interactions-api-hero.png" alt="Source-image hero template" />
+            </div>
+            <div class="gia-hero-lockup">
+              <span class="gia-eyebrow">Source-image hero</span>
+              <h1 class="title-main title-shimmer gia-hero-title"><span class="gradient-text hero-version-text">Ảnh là bằng chứng</span></h1>
+              <div class="gia-hero-pill"><i class="fa-solid fa-image"></i> copy từ googleaistudio template</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide kimi-slide" data-slide="1" data-pattern="visual-gallery:product-logo-hero">
+        <div class="slide-bg vpg-bg vpg-bg-2"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content kimi-content kimi-hero-content">
+          <div class="slide-element fade-up">
+            <div class="kimi-hero-stage vpg-logo-hero">
+              <div class="kimi-logo-orbit">
+                <span class="kimi-orbit-ring kimi-ring-a"></span>
+                <span class="kimi-orbit-ring kimi-ring-b"></span>
+                <span class="kimi-orbit-chip kimi-chip-model">K2.7</span>
+                <span class="kimi-orbit-chip kimi-chip-code">Code</span>
+                <img class="kimi-logo-img" src="source/kimi-logo.png" alt="Logo hero template" />
+              </div>
+              <div class="kimi-speed-burst"><strong>6x</strong><span>faster</span></div>
+              <h1 class="kimi-hero-title kimi-title-shimmer">Kimi K2.7 Code HighSpeed</h1>
+              <p class="kimi-hero-sub">Nhanh gấp 6 lần so với K2.7 tiêu chuẩn</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="2" data-pattern="visual-gallery:avatar-person-hero">
+        <div class="slide-bg vpg-bg vpg-bg-3"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content loop-content loop-hero">
+          <div class="slide-element fade-up">
+            <div class="addy-orbit-hero">
+              <div class="orbit-ring ring-a"></div>
+              <div class="orbit-ring ring-b"></div>
+              <div class="orbit-core"><img src="source/addy-avatar.png" alt="Addy Osmani" /></div>
+              <span class="orbit-chip chip-google"><img src="source/google-g.png" alt="" />Google</span>
+              <span class="orbit-chip chip-prompt">prompt</span>
+              <span class="orbit-chip chip-loop"><i class="fa-solid fa-rotate"></i> loop</span>
+              <span class="orbit-chip chip-claude"><img src="source/claude-mark.svg" alt="" />Claude</span>
+            </div>
+            <h1 class="loop-title title-shimmer">Loop Engineering</h1>
+            <div class="hero-verdict"><i class="fa-solid fa-infinity"></i><span>một loop cho bạn một hệ thống</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3" data-pattern="visual-gallery:github-repo-hero">
+        <div class="slide-bg vpg-bg vpg-bg-4"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content om-content om-hero">
+          <div class="slide-element fade-up">
+            <div class="mtd-hero-mark ask-github-mark om-hero-mark om-github-mark">
+              <div class="mtd-hero-halo"></div>
+              <img src="source/github-mark.svg" alt="GitHub hero template" />
+              <span class="ask-github-label">GitHub Trending</span>
+            </div>
+            <h1 class="ask-title title-shimmer om-hero-title">OpenMontage</h1>
+            <div class="ask-hero-author om-hero-author"><i class="fa-brands fa-github"></i><span>calesthio/OpenMontage</span></div>
+            <div class="ask-hero-flow om-hero-flow"><b>Prompt</b><i class="fa-solid fa-arrow-right-long"></i><strong>Agent production pipeline</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="4" data-pattern="visual-gallery:media-first-frame">
+        <div class="slide-bg vpg-bg vpg-bg-5"></div><canvas class="fx-canvas" data-fx="scan"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Demo / media-first</div>
+            <div class="webui-frame vpg-media-full"><img src="source/interactions-api-hero.png" alt="Full-frame source media pattern" /></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-media-support-large">
+              <span><i class="fa-solid fa-user"></i> author/logo</span>
+              <span><i class="fa-solid fa-hashtag"></i> 1/3</span>
+              <span><i class="fa-solid fa-shield"></i> proof</span>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="source-tag"><i class="fa-solid fa-expand"></i> object-fit: contain, không crop/stretch</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="5" data-pattern="visual-gallery:performance-bars">
+        <div class="slide-bg vpg-bg vpg-bg-6"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Performance compare bars</div>
+            <div class="perf-compare benchmark-perf-compare vpg-perf-large">
+              <div class="perf-row"><span class="perf-label">Before</span><div class="perf-bar-track"><div class="perf-bar perf-c25"></div></div><span class="perf-value">3.2s</span></div>
+              <div class="perf-row"><span class="perf-label">After</span><div class="perf-bar-track"><div class="perf-bar perf-opus"></div></div><span class="perf-value">0.8s</span></div>
+              <div class="perf-row"><span class="perf-label">Local</span><div class="perf-bar-track"><div class="perf-bar perf-gpt"></div></div><span class="perf-value">on</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-metric-pair"><strong>4x</strong><span>faster</span><strong>75%</strong><span>less cost</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-proof-chip"><i class="fa-solid fa-chart-simple"></i> benchmark, cost, latency, score</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="6" data-pattern="visual-gallery:flow-diagram">
+        <div class="slide-bg vpg-bg vpg-bg-7"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Flow diagram</div>
+            <div class="flow-diagram cursor-shift-flow vpg-flow-large">
+              <div class="flow-node flow-old"><i class="fa-solid fa-file-lines"></i><span>Old</span><div class="flow-strike"></div></div>
+              <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+              <div class="flow-node flow-new"><i class="fa-solid fa-bolt"></i><span>New</span><div class="flow-glow"></div></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-route-lane"><span>input</span><i class="packet"></i><span>gate</span><i class="packet p2"></i><strong>output</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-proof-chip"><i class="fa-solid fa-code-branch"></i> old state bị gạch, new state sáng lên</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="7" data-pattern="visual-gallery:speed-gauge">
+        <div class="slide-bg vpg-bg vpg-bg-8"></div><canvas class="fx-canvas" data-fx="flow"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Speed gauge</div>
+            <div class="speed-gauge vpg-gauge-large"><div class="gauge-arc"></div><div class="gauge-needle"></div><div class="gauge-center"><i class="fa-solid fa-bolt-lightning"></i></div></div>
+          </div>
+          <div class="slide-element scale-in">
+            <h2 class="slide-title vpg-compact-title">Latency / speed / throughput</h2>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-proof-chip"><i class="fa-solid fa-gauge-high"></i> needle sweep thể hiện chuyển trạng thái</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="8" data-pattern="visual-gallery:chip-scan">
+        <div class="slide-bg vpg-bg vpg-bg-9"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">CPU / chip scan</div>
+            <div class="cpu-chip metric-chip vpg-chip-large">
+              <div class="chip-body"><div class="chip-pins left"></div><div class="chip-core"><i class="fa-solid fa-microchip"></i><span>CACHE</span></div><div class="chip-pins right"></div></div>
+              <p class="chip-label">scanner chạy qua layer/model/cache</p>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-layer-stack"><span>layer 01</span><span>layer 02</span><span>layer 03</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-proof-chip"><i class="fa-solid fa-wave-square"></i> dùng cho model internals / memory / optimization</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="9" data-pattern="visual-gallery:data-stream">
+        <div class="slide-bg vpg-bg vpg-bg-10"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Data stream</div>
+            <div class="stream-visual daily-coding-stream vpg-stream-large"><div class="stream-pipe"><div class="stream-data d1"></div><div class="stream-data d2"></div><div class="stream-data d3"></div></div><div class="stream-status"><i class="fa-solid fa-forward"></i> streaming</div><p class="stream-caption">packet chạy qua pipeline</p></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="workflow-grid vpg-mini-grid"><div class="workflow-step"><b>01</b><i class="fa-solid fa-inbox"></i><span>input</span></div><div class="workflow-step"><b>02</b><i class="fa-solid fa-route"></i><span>route</span></div><div class="workflow-step"><b>03</b><i class="fa-solid fa-check"></i><span>done</span></div></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-proof-chip"><i class="fa-solid fa-network-wired"></i> API, stream, non-blocking pipeline</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="10" data-pattern="visual-gallery:mock-terminal">
+        <div class="slide-bg vpg-bg vpg-bg-11"></div><canvas class="fx-canvas" data-fx="noise"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Mock terminal</div>
+            <div class="mock-terminal vpg-terminal-large">
+              <div class="terminal-bar"><span class="td red"></span><span class="td yellow"></span><span class="td green"></span><span class="terminal-title">terminal</span></div>
+              <div class="terminal-body">
+                <code class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd typing-anim">npm create nicetechchannels-slide</span></code>
+                <code class="terminal-line t-output"><span class="t-success">✓</span> copied starter</code>
+                <code class="terminal-line t-output"><span class="t-success">✓</span> validate_slide PASS</code>
+              </div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-file-tree-large"><b>project/</b><span>index.html</span><span>style.css</span><span>source/source.md</span></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-proof-chip"><i class="fa-solid fa-terminal"></i> CLI, build, install, test output</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="11" data-pattern="visual-gallery:workflow-grid">
+        <div class="slide-bg vpg-bg vpg-bg-12"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Workflow grid</div>
+            <div class="workflow-grid vpg-workflow-large">
+              <div class="workflow-step"><b>01</b><i class="fa-solid fa-magnifying-glass"></i><span>Source</span></div>
+              <div class="workflow-step"><b>02</b><i class="fa-solid fa-pen-nib"></i><span>Script</span></div>
+              <div class="workflow-step"><b>03</b><i class="fa-solid fa-shapes"></i><span>Visual</span></div>
+              <div class="workflow-step"><b>04</b><i class="fa-solid fa-check-double"></i><span>QA</span></div>
+            </div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-route-lane"><span>find</span><i class="packet"></i><span>build</span><i class="packet p2"></i><strong>render</strong></div>
+          </div>
+          <div class="slide-element scale-in">
+            <div class="vpg-proof-chip"><i class="fa-solid fa-diagram-project"></i> quy trình nhiều bước, thứ tự rõ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="12" data-mode="highlight" data-pattern="visual-gallery:highlight-mode">
+        <div class="slide-bg vpg-bg vpg-bg-13"></div><canvas class="fx-canvas" data-fx="rings"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Highlight mode</div>
+            <div class="core-module-grid vpg-core-grid">
+              <div class="core-module highlightable"><div class="module-icon"><div class="module-ring"></div><i class="fa-solid fa-map"></i></div><div class="module-info"><span>01</span><p>Plan scene-first</p></div></div>
+              <div class="core-module highlightable"><div class="module-icon"><div class="module-ring"></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="module-info"><span>02</span><p>Semantic motion</p></div></div>
+              <div class="core-module highlightable"><div class="module-icon"><div class="module-ring"></div><i class="fa-solid fa-mobile-screen"></i></div><div class="module-info"><span>03</span><p>Phone QA</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="13" data-mode="traffic-light" data-pattern="visual-gallery:risk-cards">
+        <div class="slide-bg vpg-bg vpg-bg-14"></div><canvas class="fx-canvas" data-fx="noise"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Risk cards / traffic-light</div>
+            <div class="risk-cards-container cursor-tech-risks vpg-risk-large">
+              <div class="risk-card lightable" data-light-color="red"><div class="risk-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="risk-text"><strong>Đỏ</strong><span>risk hoặc phản ứng mạnh</span></div></div>
+              <div class="risk-card lightable" data-light-color="yellow"><div class="risk-icon"><i class="fa-solid fa-circle-question"></i></div><div class="risk-text"><strong>Vàng</strong><span>điểm cần kiểm chứng</span></div></div>
+              <div class="risk-card lightable" data-light-color="green"><div class="risk-icon"><i class="fa-solid fa-circle-check"></i></div><div class="risk-text"><strong>Xanh</strong><span>tín hiệu tích cực</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="14" data-mode="traffic-light" data-pattern="visual-gallery:traffic-light-pole">
+        <div class="slide-bg vpg-bg vpg-bg-15"></div><canvas class="fx-canvas" data-fx="noise"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up">
+            <div class="vpg-pattern-label">Traffic-light pole</div>
+            <div class="vpg-traffic-pole">
+              <div class="vpg-traffic-housing">
+                <div class="vpg-lamp"><div class="vpg-dot lightable" data-light-color="red"></div></div>
+                <div class="vpg-lamp"><div class="vpg-dot lightable" data-light-color="yellow"></div></div>
+                <div class="vpg-lamp"><div class="vpg-dot lightable" data-light-color="green"></div></div>
+              </div>
+              <div class="vpg-traffic-labels">
+                <p><strong>Risk</strong><span>không đạt</span></p>
+                <p><strong>Unknown</strong><span>cần check</span></p>
+                <p><strong>Upside</strong><span>đáng thử</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="15" data-pattern="visual-gallery:chat-bubbles">
+        <div class="slide-bg vpg-bg vpg-bg-16"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content">
+          <div class="slide-element fade-up c-message left-msg vpg-chat-message">
+            <div class="msg-avatar discord"><i class="fa-brands fa-discord"></i></div>
+            <div class="msg-bubble"><strong>Community</strong><span>câu hỏi hoặc nghi ngờ ngắn</span></div>
+          </div>
+          <div class="slide-element scale-in c-message right-msg vpg-chat-message">
+            <div class="msg-bubble"><strong>Builder</strong><span>đưa proof hoặc demo</span></div>
+            <div class="msg-avatar telegram"><i class="fa-brands fa-telegram"></i></div>
+          </div>
+          <div class="slide-element scale-in c-message left-msg vpg-chat-message">
+            <div class="msg-avatar whatsapp"><i class="fa-brands fa-whatsapp"></i></div>
+            <div class="msg-bubble"><strong>Signal</strong><span>sentiment chuyển trạng thái</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="16" data-pattern="visual-gallery:revenue-balance">
+        <div class="slide-bg vpg-bg vpg-bg-17"></div><canvas class="fx-canvas" data-fx="particles"></canvas>
+        <div class="slide-content vpg-content revenue-balance-scene vpg-revenue-balance">
+          <div class="slide-element fade-up"><div class="open-scene-title"><i class="fa-solid fa-scale-balanced"></i><span>REVENUE BALANCE</span></div><div class="balance-beam"><b></b></div></div>
+          <div class="slide-element scale-in"><div class="revenue-column notewave-column"><div class="column-mark">A</div><strong>370K</strong><small>USER</small><div class="column-fill"></div><b>$19K</b><em>/ MONTH</em></div></div>
+          <div class="slide-element scale-in"><div class="revenue-column meddeep-column"><div class="column-mark"><i class="fa-solid fa-heart-pulse"></i></div><strong>20K</strong><small>USER</small><div class="column-fill"></div><b>$9K</b><em>/ MONTH</em></div></div>
+          <div class="slide-element fade-up"><div class="revenue-verdict"><span><b>1/18</b> lượng user</span><i class="fa-solid fa-arrow-trend-up"></i><span><b>~1/2</b> doanh thu</span></div></div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="17" data-pattern="visual-gallery:final-lockup">
+        <div class="slide-bg vpg-bg vpg-bg-18"></div><canvas class="fx-canvas" data-fx="lorenz"></canvas>
+        <div class="slide-content vpg-content conclusion-content">
+          <div class="slide-element fade-up">
+            <div class="glowing-conclusion cursor-glowing-conclusion vpg-final-large">
+              <div class="glowing-orb"></div>
+              <div class="icon-badge icon-badge-large icon-badge-success"><i class="fa-solid fa-check-double"></i></div>
+              <h2 class="slide-title">Chốt lại</h2>
+              <p class="conclusion-text"><strong class="gradient-text">Một thesis nhớ được</strong></p>
+            </div>
+          </div>
+          <div class="slide-element fade-up"><div class="split-panel active cursor-verdict-panel"><span>Final lockup</span><strong>icon + thesis + source</strong><i class="fa-solid fa-scale-balanced"></i></div></div>
+          <div class="slide-element fade-up"><div class="source-tag"><i class="fa-solid fa-link"></i> Source / CTA / next action</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-controls"><button class="side-btn" id="muteBtn" onclick="toggleMute()"><i class="fa-solid fa-volume-high"></i></button><div class="side-divider"></div><button class="side-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-up"></i></button><div class="side-counter"><span id="currentSlide">1</span>/<span id="totalSlides">18</span></div><button class="side-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+  <script src="app.js?v=visual-pattern-gallery-full"></script>
+</body>
+</html>

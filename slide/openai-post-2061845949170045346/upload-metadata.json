@@ -1,0 +1,23 @@
+{
+  "youtube": {
+    "title": "OpenAI đưa Sites vào Codex: app builder có link chia sẻ",
+    "description": "🚀 OpenAI vừa đưa Sites vào Codex, biến ý tưởng và kế hoạch thành web app có URL để team dùng thử.\n\n🔎 Video này tóm tắt điểm mới, demo chính thức, vì sao Lovable/Bolt/Webflow bị nhắc tên nhiều, và các câu hỏi thực tế về hosting, auth, state, bảo mật.\n\nNguồn: https://x.com/OpenAI/status/2061845949170045346\n\n#NiceTechChannels #OpenAI #Codex #Sites #AI",
+    "privacyStatus": "private",
+    "tags": [
+      "NiceTechChannels",
+      "OpenAI",
+      "Codex",
+      "Sites",
+      "AI app builder",
+      "Lovable",
+      "Bolt",
+      "Webflow",
+      "AI tools"
+    ]
+  },
+  "facebookReels": {
+    "caption": "OpenAI vừa đưa Sites vào Codex: ý tưởng, kế hoạch, phân tích có thể thành web app có URL để team dùng thử.\n\nĐáng chú ý, đây không chỉ là chuyện tạo page nhanh. Codex đang được kéo từ tool cho dev thành tool làm việc cho cả team.\n\n#NiceTechChannels #OpenAI #Codex #Sites #AI",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://x.com/OpenAI/status/2061845949170045346"
+  }
+}

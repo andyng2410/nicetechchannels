@@ -1,0 +1,98 @@
+{
+  "theme": {
+    "preset": "custom",
+    "variables": {
+      "--primary": "#a855f7",
+      "--primary-light": "#d8b4fe",
+      "--primary-dark": "#6d28d9",
+      "--accent": "#38bdf8",
+      "--accent-light": "#bae6fd",
+      "--info": "#fbbf24",
+      "--success": "#34d399",
+      "--bg-dark": "#070712"
+    },
+    "customVariables": {
+      "--primary": "#a855f7",
+      "--primary-light": "#d8b4fe",
+      "--primary-dark": "#6d28d9",
+      "--accent": "#38bdf8",
+      "--accent-light": "#bae6fd",
+      "--info": "#fbbf24",
+      "--success": "#34d399",
+      "--bg-dark": "#070712"
+    }
+  },
+  "bgm": {
+    "mode": "custom",
+    "preset": "ambient",
+    "volume": 0.3,
+    "muteSlides": [
+      2
+    ],
+    "custom": {
+      "name": "meta.mp3",
+      "path": "preview-assets/bgm/meta.mp3",
+      "url": "preview-assets/bgm/meta.mp3"
+    }
+  },
+  "subtitles": {
+    "enabled": true,
+    "color": "#ffffff",
+    "activeColor": "#d33c3c",
+    "fontSize": 18,
+    "bottom": 152,
+    "maxLines": 1
+  },
+  "visuals": {
+    "colorMode": "dark",
+    "backgroundColor": "#070712",
+    "gridEnabled": false,
+    "gridLight": "#38bdf8",
+    "iconGlow": "#a855f7",
+    "iconBacklight": "#38bdf8",
+    "iconLight": "#34d399",
+    "backgroundFx": "particles",
+    "customValues": {
+      "backgroundColor": "#070712",
+      "gridLight": "#38bdf8",
+      "iconGlow": "#a855f7",
+      "iconBacklight": "#38bdf8",
+      "iconLight": "#34d399"
+    }
+  },
+  "videoTiming": {
+    "preferVideoDurationSlides": [
+      2
+    ]
+  },
+  "slides": {
+    "deletedIds": [],
+    "scriptLines": [
+      "OpenAI vừa thả `Sites` vào Codex, và nhóm app builder như Lovable, Bolt bắt đầu nóng gáy.",
+      "Và đây là demo của họ.",
+      "Trước đây muốn biến ý tưởng thành app, bạn thường phải mở thêm một tool riêng. Bây giờ OpenAI muốn Codex làm luôn phần đó. Đưa ý tưởng vào, nhận lại một web app tương tác, có URL để team dùng thử.",
+      "Đây không chỉ là một tính năng trang trí. OpenAI nói Codex đang có hơn 5 triệu người dùng mỗi tuần. Đáng chú ý hơn, khoảng 20% người dùng Codex không phải developer.",
+      "Kèo này đánh vào đúng điểm đau của team. Nhiều ý tưởng không cần build production ngay. Chỉ cần một bản đủ rõ để team nhìn thấy, bấm thử, sửa luồng và chốt xem có đáng làm tiếp không.",
+      "Nhưng phần khó chưa biến mất. Cộng đồng đang hỏi ngay: thiết kế có đẹp hơn không, app host ở đâu, auth và state management xử lý sao, bảo mật có ổn không. Đây là mấy câu mà demo đẹp không trả lời hết được.",
+      "Tóm lại, `Sites` làm tốc độ thử ý tưởng tăng rất mạnh. Nhưng sản phẩm thật vẫn cần người biết đặt yêu cầu, kiểm tra logic và chịu trách nhiệm phần bảo mật. Prototype rẻ hơn, nhưng sai prototype thì vẫn tốn tiền."
+    ],
+    "transitionSounds": [
+      "dramatic",
+      "sweep",
+      "bass",
+      "rise",
+      "chord",
+      "alarm",
+      "retro"
+    ],
+    "revealSounds": [
+      "sparkle",
+      "pop",
+      "blip",
+      "bubble",
+      "tick",
+      "bell",
+      "chime"
+    ]
+  }
+}

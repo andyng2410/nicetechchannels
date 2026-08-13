@@ -1,0 +1,64 @@
+
+@GoogleResearch (Google Research):
+Introducing our new agentic RAG framework. A collab with Google Cloud, our multi-agent workflow goes beyond standard RAG by breaking down complex enterprise queries &amp; iteratively searching for sufficient context before generating dependable responses. 
+📜→https://t.co/A8l499bLrj https://t.co/5fZT49j8TL
+🎬 https://pbs.twimg.com/amplify_video_thumb/2062981484861140992/img/GEikD2S39U00PtAV.jpg
+📅 Fri Jun 05 19:36:52 +0000 2026
+🔗 https://x.com/GoogleResearch/status/2062982001850974257
+──────────────────────────────────────────────────
+
+@srpanwar (Shailesh Panwar):
+@GoogleResearch I believe, RAG is not the biggest problem when it comes to enterprises. It is usually RBAC
+📅 Fri Jun 05 23:24:40 +0000 2026
+🔗 https://x.com/srpanwar/status/2063039330466357321
+──────────────────────────────────────────────────
+
+@getpochi (Pochi):
+@GoogleResearch this iterative context gathering is exactly what's needed. 
+
+curious how you're handling the latency trade-off when the agents have to perform Multiple search hops before generating the final responsee
+📅 Sat Jun 06 01:13:48 +0000 2026
+🔗 https://x.com/getpochi/status/2063066794454323632
+──────────────────────────────────────────────────
+
+@PalashBagchi11 (Bagchi da 🥬):
+@GoogleResearch This is the solution I always needed !!
+📅 Sat Jun 06 01:51:07 +0000 2026
+🔗 https://x.com/PalashBagchi11/status/2063076186948046953
+──────────────────────────────────────────────────
+
+@johngonzalezv (John):
+@GoogleResearch What is the latency of this approach?
+📅 Sat Jun 06 02:50:43 +0000 2026
+🔗 https://x.com/johngonzalezv/status/2063091183014822178
+──────────────────────────────────────────────────
+
+@Deployed_Mind (Deployed Mind):
+@GoogleResearch Interesting Any benchmark results?
+📅 Sat Jun 06 03:09:17 +0000 2026
+🔗 https://x.com/Deployed_Mind/status/2063095855725339119
+──────────────────────────────────────────────────
+
+@ernesto_lana (Ernesto Lana | Quantum Computing):
+@GoogleResearch That's exactly what I needed for my #BuildWithGemini submission 🙏
+📅 Sat Jun 06 05:53:48 +0000 2026
+🔗 https://x.com/ernesto_lana/status/2063137259495264682
+──────────────────────────────────────────────────
+
+@ZOPHOSLLC (ZOPHOS):
+@GoogleResearch Dont stop AI research PLZ
+📅 Sat Jun 06 05:58:32 +0000 2026
+🔗 https://x.com/ZOPHOSLLC/status/2063138448815337644
+──────────────────────────────────────────────────
+
+@wamanarix (wamanarix):
+@GoogleResearch Can this be used with external retrieval tools?
+📅 Sat Jun 06 06:27:39 +0000 2026
+🔗 https://x.com/wamanarix/status/2063145777526927708
+──────────────────────────────────────────────────
+
+@richarddeetlefs (Richard Deetlefs):
+@GoogleResearch Lame. No code. Closed source
+📅 Sat Jun 06 09:56:12 +0000 2026
+🔗 https://x.com/richarddeetlefs/status/2063198262497083892
+──────────────────────────────────────────────────

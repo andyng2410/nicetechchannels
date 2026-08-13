@@ -1,0 +1,500 @@
+[
+  {
+    "id": "2061506376741134845",
+    "text": "@PPLXDevs The traditional tool-calling approach suffers from high latency, manual control flow, and context pollution.\n\nWith Search as Code, the model composes search primitives: fanning out queries asynchronously, deduping, filtering, joining, and ranking before results hits its context. https://t.co/4cLyvDIFXi",
+    "createdAt": "Mon Jun 01 17:53:15 +0000 2026",
+    "replyCount": 3,
+    "retweetCount": 4,
+    "likeCount": 126,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "perplexity_ai",
+      "name": "Perplexity"
+    },
+    "authorId": "1599587232175849472",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HJvxH8YbgAAt4aN.png",
+        "width": 2048,
+        "height": 1638,
+        "previewUrl": "https://pbs.twimg.com/media/HJvxH8YbgAAt4aN.png:small"
+      }
+    ]
+  },
+  {
+    "id": "2061756017294098652",
+    "text": "@perplexity_ai @PPLXDevs The interesting shift is treating search less like a single answer box and more like a small program that can gather, filter, and rank before the model spends context.",
+    "createdAt": "Tue Jun 02 10:25:14 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "BigSilentLegend",
+      "name": "BSL"
+    },
+    "authorId": "2036064191149490176"
+  },
+  {
+    "id": "2061768787381059759",
+    "text": "@perplexity_ai @PPLXDevs search as code sounds like overengineering when a simple curl works, but i'll try it with my custom script",
+    "createdAt": "Tue Jun 02 11:15:59 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "FarAICoder",
+      "name": "Far"
+    },
+    "authorId": "1874350568573153280"
+  },
+  {
+    "id": "2061693543127871962",
+    "text": "@perplexity_ai @PPLXDevs The long-term trend is clear:\n\nModels are becoming decision-makers.\nCode is becoming the execution layer.\n\nAgents are becoming the bridge between the two.",
+    "createdAt": "Tue Jun 02 06:16:59 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "distokens",
+      "name": "Distokens"
+    },
+    "authorId": "2051541215141822464"
+  },
+  {
+    "id": "2061769039853084935",
+    "text": "@perplexity_ai @PPLXDevs just tried to implement search as code and ended up generating a thousand lines of junk. who else wants to hug their codebase and cry?",
+    "createdAt": "Tue Jun 02 11:16:59 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "torilune_",
+      "name": "Tori Lune"
+    },
+    "authorId": "272665382"
+  },
+  {
+    "id": "2061537324387754031",
+    "text": "@perplexity_ai @PPLXDevs @perplexity_ai Search as Code inverts the agent architecture debate. I've been waiting for retrieval to become a testable, version-controlled module rather than a hardwired prompt layer - this is that shift, and it makes agentic workflows meaningfully more composable.",
+    "createdAt": "Mon Jun 01 19:56:14 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "genxrewired",
+      "name": "GenXRewired"
+    },
+    "authorId": "2051367985575612416"
+  },
+  {
+    "id": "2061746631377363178",
+    "text": "@perplexity_ai @PPLXDevs writing python instead of chaining tool calls is clever. is the bigger win lower latency, or just fewer dead-end loops?",
+    "createdAt": "Tue Jun 02 09:47:56 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "jaymos",
+      "name": "Jay Martel"
+    },
+    "authorId": "1345140421731577856"
+  },
+  {
+    "id": "2061668770394018123",
+    "text": "This is a bigger deal than it looks.\nBefore this your agent asks a question, waits for results, then figures out what to do. Now the search logic lives inside the code. The agent just runs it.\nLess back and forth. Faster. Way less stuff that can go wrong in between.\nAnyone plugged this into something live yet?",
+    "createdAt": "Tue Jun 02 04:38:33 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "daptonai",
+      "name": "Dapton AI"
+    },
+    "authorId": "2025545014856851458"
+  },
+  {
+    "id": "2061721293389447547",
+    "text": "@perplexity_ai @PPLXDevs Latency isn't from the loop — it's from the round-trip overhead on each tool call. Generating Python doesn't reduce HTTP calls, it just shifts parsing from JSON to AST. Same rate limits, same error recovery, harder to debug when the agent writes broken syntax.",
+    "createdAt": "Tue Jun 02 08:07:15 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "GG_Observatory",
+      "name": "GG 🦾"
+    },
+    "authorId": "2026739724426293248"
+  },
+  {
+    "id": "2061546308838842578",
+    "text": "@perplexity_ai @PPLXDevs this makes sense for latency. the part i’d want to see is debugging: when the generated search code is wrong, do users see the plan or just the answer?",
+    "createdAt": "Mon Jun 01 20:31:56 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "DnuLkjkjh",
+      "name": "dnu"
+    },
+    "authorId": "2162213286"
+  },
+  {
+    "id": "2061552021581217879",
+    "text": "@perplexity_ai @PPLXDevs This is so cool ! We explored a similar idea from the \"deep search\" side: open-source deep search with dynamic search graphs, open models, and API deployment. Fun to see the industry converging on search becoming programmable. https://t.co/GKwec3sTNw",
+    "createdAt": "Mon Jun 01 20:54:38 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 4,
+    "likeCount": 26,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "santoshradha",
+      "name": "Santosh Kumar Radha"
+    },
+    "authorId": "216380456"
+  },
+  {
+    "id": "2061792957980697045",
+    "text": "@perplexity_ai @PPLXDevs This is the correct approach. With RLMs I improved Browsecomp in 30-40%pp using OpenAI / Anthropic models (smallest ones) - all thanks to a python interpreter and task-aware problem solving. \n\nContext entropy (like zlib) helps with needle in haystack too.\n\nhttps://t.co/uKJwNy5fL4 https://t.co/7VDys43ZO6",
+    "createdAt": "Tue Jun 02 12:52:02 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "avi_lum",
+      "name": "Avi"
+    },
+    "authorId": "1482700549615235079",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/HJz1gteWUAAnFNa.jpg",
+        "width": 1406,
+        "height": 1452,
+        "previewUrl": "https://pbs.twimg.com/media/HJz1gteWUAAnFNa.jpg:small"
+      }
+    ]
+  },
+  {
+    "id": "2061673718032879680",
+    "text": "@perplexity_ai @PPLXDevs writing python to handle search calls instead of manual loops is a pretty big shift, excited to try this out",
+    "createdAt": "Tue Jun 02 04:58:13 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "BlessTutu",
+      "name": "Tutu Bless"
+    },
+    "authorId": "1148508385454809088"
+  },
+  {
+    "id": "2061657952503955537",
+    "text": "@perplexity_ai @PPLXDevs This will turn out to be a game changer... no latency,  not much surfing the outputs least advertising ( even if someone later starts somehow)\nGood job.",
+    "createdAt": "Tue Jun 02 03:55:34 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "BGPrasad",
+      "name": "Prasad ಪ್ರಸಾದ್"
+    },
+    "authorId": "44549934"
+  },
+  {
+    "id": "2061519615633563721",
+    "text": "@perplexity_ai @PPLXDevs \"Search as code\" makes a ton of sense. Writing custom Python pipelines beats hammering sequential API loops every single time.",
+    "createdAt": "Mon Jun 01 18:45:52 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "John_Agbo01",
+      "name": "John | AI Tools & Productivity | Physicist"
+    },
+    "authorId": "1963665648434991104"
+  },
+  {
+    "id": "2061507371298406833",
+    "text": "the code-as-search-plan pattern is genuinely underrated. most frameworks keep the search pipeline implicit inside a serial tool loop. generating python means one plan step instead of N round trips, and the strategy is inspectable + deterministic. the failure mode i'd watch is iterative search where a mid-result changes your next move. wide fan-out works, re-planning mid-pipeline is the hard part",
+    "createdAt": "Mon Jun 01 17:57:12 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "guilhermeotina",
+      "name": "Guilherme O'Tina"
+    },
+    "authorId": "2031584866962386948"
+  },
+  {
+    "id": "2061629560937185399",
+    "text": "@perplexity_ai @PPLXDevs Most search APIs hand you results.\n\nSearch as Code hands you a program. Interesting.",
+    "createdAt": "Tue Jun 02 02:02:45 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "nitinbisht96",
+      "name": "Nitin Bisht"
+    },
+    "authorId": "1984832428427657219"
+  },
+  {
+    "id": "2061580517619732766",
+    "text": "@perplexity_ai @PPLXDevs @grok detailed thread on research and application sources so I can hand off to Claude workflow swarm",
+    "createdAt": "Mon Jun 01 22:47:52 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "Zimmerman895",
+      "name": "Isaiah Zimmerman"
+    },
+    "authorId": "212408367"
+  },
+  {
+    "id": "2061565642940301601",
+    "text": "@perplexity_ai @PPLXDevs if you want to do this in your agents use DSPy and read the RLM paper or just use the open source ax library ax-agent https://t.co/y45nH1PCrQ",
+    "createdAt": "Mon Jun 01 21:48:45 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 24,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "dosco",
+      "name": "spacy"
+    },
+    "authorId": "15286289"
+  },
+  {
+    "id": "2061690301316530595",
+    "text": "Wooow, I implemented something like this in my product about half a year ago.\n\nExcept it wasn’t just about search - it applied to tool calling in general.\n\nThe reason is intuitive: there is far more data on writing code than on tool calling.\n\n(Although you still need to provide some guardrails, like max_char_num or retries)",
+    "createdAt": "Tue Jun 02 06:04:06 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "AndrewK404",
+      "name": "Andrew Kuncevich"
+    },
+    "authorId": "2036777639558475777"
+  },
+  {
+    "id": "2061639325880844723",
+    "text": "@perplexity_ai @PPLXDevs This is the right abstraction I think. Tool calling was always too stiff for research workflows; once the agent can write little search programs, the harness stops looking like a vending machine.",
+    "createdAt": "Tue Jun 02 02:41:33 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "GeekParkHQ",
+      "name": "GeekPark"
+    },
+    "authorId": "2020200331687391233"
+  },
+  {
+    "id": "2061541718860668945",
+    "text": "@perplexity_ai @PPLXDevs Right call killing the tool-call loop. Eight sequential search calls is eight round-trips of pure model overhead; one Python block collapses that to a single committed plan. Latency math sells it.",
+    "createdAt": "Mon Jun 01 20:13:42 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "aabyzov",
+      "name": "Anton Abyzov"
+    },
+    "authorId": "249552023"
+  },
+  {
+    "id": "2061562296409723342",
+    "text": "@perplexity_ai @PPLXDevs hey @grok is this the same thing as @Cloudflare code mode?",
+    "createdAt": "Mon Jun 01 21:35:28 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "adiaddxyz",
+      "name": "aditya"
+    },
+    "authorId": "1595924352"
+  },
+  {
+    "id": "2061509161678950565",
+    "text": "@perplexity_ai @PPLXDevs Search as Code makes agents faster and their code simpler. 🚀🐍",
+    "createdAt": "Mon Jun 01 18:04:19 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "FutureWithAI0",
+      "name": "FutureWithAI"
+    },
+    "authorId": "1869711389297684480"
+  },
+  {
+    "id": "2061515225912705266",
+    "text": "@perplexity_ai @PPLXDevs a solid architectural evolution for ai agents. single turn code execution should drastically reduce overhead.",
+    "createdAt": "Mon Jun 01 18:28:25 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "VertexCorpLTD",
+      "name": "Vertex"
+    },
+    "authorId": "2052086021106311173"
+  },
+  {
+    "id": "2061716189295018061",
+    "text": "@perplexity_ai @PPLXDevs Why wouldn't a dedicated search api with all of the de-dup and ranking optimized by you guys be better than my model having to figure out how to do it myself?\n\nWhat's the advantage to having more fine grain control?",
+    "createdAt": "Tue Jun 02 07:46:59 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "samzliu",
+      "name": "Sam Z Liu"
+    },
+    "authorId": "1273720363977977857"
+  },
+  {
+    "id": "2061544027993080114",
+    "text": "the shift from tool-calling to code generation for search is the same pattern we're seeing everywhere. tool calling is the training wheels. code generation is the real interface. instead of the model asking permission to search one thing at a time, it writes a program that fans out 20 queries in parallel, dedupes, filters, and ranks before results even hit the context window. the model stopped being a search user and became a search engineer. 0.871 on DSQA at half the cost of anthropic's approach tells you the architecture matters more than the model underneath it.",
+    "createdAt": "Mon Jun 01 20:22:52 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "mbajaj_",
+      "name": "Manoj"
+    },
+    "authorId": "156670052"
+  },
+  {
+    "id": "2061736372415943054",
+    "text": "@perplexity_ai @PPLXDevs software reduces to primitives so that more software can be generated to be run",
+    "createdAt": "Tue Jun 02 09:07:11 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "Yogin16",
+      "name": "Yogin Patel"
+    },
+    "authorId": "470901421"
+  },
+  {
+    "id": "2061569021322162600",
+    "text": "interesting trend:\n\nbrowser harness: don't overbuild browser-use, just ask model to generate script on the fly\n\nsearch-as-code: don't build the perfect search, let model/agent define how to retrieve/rank\n\nuse token to replace one-size-fit-all infra\n\nagent gets smarter and everything else gets more primitive.",
+    "createdAt": "Mon Jun 01 22:02:11 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 3,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "Benny_Jiang_",
+      "name": "- ben -"
+    },
+    "authorId": "1324245009005047809"
+  },
+  {
+    "id": "2061719831196385659",
+    "text": "@perplexity_ai @PPLXDevs future of search",
+    "createdAt": "Tue Jun 02 08:01:27 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "josesilesdata",
+      "name": "José Siles | AI | Data"
+    },
+    "authorId": "1941244522001989634"
+  },
+  {
+    "id": "2061510580759109900",
+    "text": "@perplexity_ai @PPLXDevs Amazing progress! Faster, smarter, and more scalable agents. 🚀",
+    "createdAt": "Mon Jun 01 18:09:58 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "AINestHub1",
+      "name": "AI's Nest"
+    },
+    "authorId": "1951251242820444162"
+  },
+  {
+    "id": "2061608276090065160",
+    "text": "@perplexity_ai @PPLXDevs Search as Code is a smart shift letting AI agents execute search through code instead of chained tool calls unlocks faster, more scalable reasoning. 🚀",
+    "createdAt": "Tue Jun 02 00:38:10 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2061506359326384319",
+    "inReplyToStatusId": "2061506359326384319",
+    "author": {
+      "username": "NadzuAI",
+      "name": "NadzAI"
+    },
+    "authorId": "1603347783007731712"
+  }
+]

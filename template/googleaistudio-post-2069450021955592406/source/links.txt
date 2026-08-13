@@ -1,0 +1,12 @@
+https://x.com/GoogleAIStudio/status/2069450021955592406
+https://x.com/GoogleAIStudio/status/2069108412453908791
+https://ai.google.dev/gemini-api/docs/interactions
+https://ai.google.dev/gemini-api/docs/interactions/quickstart
+https://ai.google.dev/gemini-api/docs/migrate-to-interactions
+https://ai.google.dev/gemini-api/docs/interactions/text-generation
+https://ai.google.dev/gemini-api/docs/interactions/streaming
+https://ai.google.dev/gemini-api/docs/interactions/structured-output
+https://ai.google.dev/gemini-api/docs/interactions/function-calling
+https://ai.google.dev/gemini-api/docs/interactions/interactions-overview#background-execution
+https://ai.google.dev/gemini-api/docs/custom-agents
+https://ai.google.dev/gemini-api/docs/managed-agents-quickstart

@@ -1,0 +1,20 @@
+{
+  "youtube": {
+    "title": "Google ra Agentic RAG: thiếu dữ liệu thì tự tìm tiếp",
+    "description": "🔎 Google Research và Google Cloud vừa giới thiệu Agentic RAG cho Gemini Enterprise Agent Platform.\n\n🧠 Hệ thống dùng nhiều agent để lập kế hoạch, viết lại truy vấn, tìm qua nhiều nguồn và kiểm tra xem bằng chứng đã đủ hay chưa trước khi trả lời.\n\n📊 Google công bố độ chính xác tăng tối đa 34% so với RAG thông thường và đạt 90,1% trên bài test cross-corpus FramesQA.\n\nNguồn: https://x.com/GoogleResearch/status/2062982001850974257\n\n#NiceTechChannels #GoogleResearch #AgenticRAG #RAG #AI #Gemini",
+    "privacyStatus": "private",
+    "tags": [
+      "NiceTechChannels",
+      "Google Research",
+      "Agentic RAG",
+      "RAG",
+      "AI",
+      "Gemini"
+    ]
+  },
+  "facebook": {
+    "caption": "🔎 Google vừa giới thiệu Agentic RAG: hệ thống không chỉ tìm dữ liệu một lần, mà còn tự kiểm tra phần còn thiếu rồi tìm tiếp trước khi trả lời.\n\n📊 Google công bố độ chính xác tăng tối đa 34% so với RAG thông thường và đạt 90,1% trong bài test cross-corpus FramesQA.\n\n#NiceTechChannels #GoogleResearch #AgenticRAG #RAG #AI #Gemini",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://x.com/GoogleResearch/status/2062982001850974257"
+  }
+}

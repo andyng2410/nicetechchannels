@@ -1,0 +1,14 @@
+Primary source:
+https://github.com/yt-dlp/yt-dlp
+
+README:
+https://github.com/yt-dlp/yt-dlp/blob/master/README.md
+
+Supported sites:
+https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md
+
+Latest stable release snapshot:
+https://github.com/yt-dlp/yt-dlp/releases/tag/2026.03.17
+
+Installation wiki:
+https://github.com/yt-dlp/yt-dlp/wiki/Installation

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "youtube": {
+    "title": "OpenMontage: repo AI video đang nóng trên GitHub",
+    "description": "🎬 OpenMontage không phải kiểu một prompt là ra video ngay. Nó biến cả quy trình dựng video thành việc cho agent chạy được.\n\n📈 Số sao đang tăng rất nhanh: snapshot mình lưu được là gần 16 nghìn sao, và riêng hôm nay đã thêm hơn 3,5 nghìn sao trên GitHub Trending.\n\n🧩 Điểm hay nằm ở workflow: research, proposal, script, scene plan, assets, edit, compose. Mỗi stage có manifest, director skill, tool Python, self-review và checkpoint riêng.\n\n🎞️ Phần đáng chú ý hơn nữa là reference video: đưa YouTube Short, Reel, TikTok hoặc clip local vào, rồi để agent phân tích transcript, pacing, scene, keyframe và đề xuất hướng sản xuất.\n\n⚠️ Nhưng đây chưa phải app một nút bấm. Bạn vẫn cần Python, FFmpeg, Node, một coding assistant biết chạy repo, và nhiều provider sẽ cần API key nếu muốn output mạnh hơn.\n\n✅ Tóm lại: OpenMontage đang đẩy AI video từ generator rời rạc sang production pipeline có kiểm tra, chi phí và checkpoint. Với ai biết dùng agent, đây là một repo rất đáng thử.\n\nNguồn: https://github.com/calesthio/OpenMontage\n\n#NiceTechChannels #OpenMontage #AIVideo #GitHubTrending #AgenticAI #Remotion #FFmpeg",
+    "privacyStatus": "private",
+    "tags": [
+      "NiceTechChannels",
+      "OpenMontage",
+      "AI video",
+      "GitHub Trending",
+      "Agentic AI",
+      "Remotion",
+      "FFmpeg",
+      "Claude Code",
+      "Codex",
+      "Cursor"
+    ]
+  },
+  "facebook": {
+    "caption": "🎬 OpenMontage không phải kiểu một prompt là ra video ngay. Nó biến cả quy trình dựng video thành việc cho agent chạy được.\n\n📈 Số sao đang tăng rất nhanh: snapshot mình lưu được là gần 16 nghìn sao, và riêng hôm nay đã thêm hơn 3,5 nghìn sao trên GitHub Trending.\n\n🧩 Điểm hay nằm ở workflow: research, proposal, script, scene plan, assets, edit, compose.\n\n⚠️ Nhưng đây chưa phải app một nút bấm. Bạn vẫn cần Python, FFmpeg, Node, một coding assistant biết chạy repo, và provider/API key nếu muốn output mạnh hơn.\n\n✅ Tóm lại: OpenMontage đang đẩy AI video từ generator rời rạc sang production pipeline có kiểm tra, chi phí và checkpoint. Với ai biết dùng agent, đây là một repo rất đáng thử.\n\n#NiceTechChannels #OpenMontage #AIVideo #GitHubTrending #AgenticAI #Remotion #FFmpeg",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://github.com/calesthio/OpenMontage"
+  }
+}

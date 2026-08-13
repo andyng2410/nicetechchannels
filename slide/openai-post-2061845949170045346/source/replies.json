@@ -1,0 +1,664 @@
+[
+  {
+    "id": "2061845950705140121",
+    "text": "https://t.co/eZ4SPUQu5x",
+    "createdAt": "Tue Jun 02 16:22:36 +0000 2026",
+    "replyCount": 14,
+    "retweetCount": 23,
+    "likeCount": 474,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "OpenAI",
+      "name": "OpenAI"
+    },
+    "authorId": "4398626122"
+  },
+  {
+    "id": "2061958587275210913",
+    "text": "@OpenAI @grok don’t you want to beat this Codex? tell me your resolve, are you ready to surpass it?",
+    "createdAt": "Tue Jun 02 23:50:11 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "iamsetiaji",
+      "name": "setiaji"
+    },
+    "authorId": "2061562345353318400"
+  },
+  {
+    "id": "2061973281196949927",
+    "text": "@OpenAI This is exactly what I wanted Sites to be. Take the messy idea, make it explorable, then keep iterating from there.",
+    "createdAt": "Wed Jun 03 00:48:34 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "promptlogic_lab",
+      "name": "Prompt Logic Lab"
+    },
+    "authorId": "1584085734"
+  },
+  {
+    "id": "2061971214252273720",
+    "text": "@OpenAI Lovable CEO right now:https://t.co/49dAHexJr9",
+    "createdAt": "Wed Jun 03 00:40:21 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "LyashchMaxim",
+      "name": "Maksim Liashch"
+    },
+    "authorId": "1266990214620348418",
+    "quotedTweet": {
+      "id": "2061971143804825761",
+      "text": "Lovable CEO watching this: https://t.co/p2ZJ7Aa0Wb",
+      "createdAt": "Wed Jun 03 00:40:04 +0000 2026",
+      "replyCount": 0,
+      "retweetCount": 0,
+      "likeCount": 0,
+      "conversationId": "2061971143804825761",
+      "author": {
+        "username": "LyashchMaxim",
+        "name": "Maksim Liashch"
+      },
+      "authorId": "1266990214620348418",
+      "media": [
+        {
+          "type": "video",
+          "url": "https://pbs.twimg.com/amplify_video_thumb/2061971076133908480/img/Fji9TR1zywcEvoVg.jpg",
+          "width": 1280,
+          "height": 720,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2061971076133908480/img/Fji9TR1zywcEvoVg.jpg:small",
+          "videoUrl": "https://video.twimg.com/amplify_video/2061971076133908480/vid/avc1/1280x720/djyewWwmYqOtixfi.mp4?tag=27",
+          "durationMs": 29930
+        }
+      ]
+    }
+  },
+  {
+    "id": "2061861408997093862",
+    "text": "@OpenAI Realising my computer science degree is slowly turning into a very expensive museum artifact. https://t.co/fgkyqhzar7",
+    "createdAt": "Tue Jun 02 17:24:02 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 4,
+    "likeCount": 214,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "NovaXCode",
+      "name": "Nova"
+    },
+    "authorId": "2048765416558735360",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://pbs.twimg.com/ext_tw_video_thumb/2061861329485570048/pu/img/u5lXx9Y0FXRmkE7s.jpg",
+        "width": 976,
+        "height": 532,
+        "previewUrl": "https://pbs.twimg.com/ext_tw_video_thumb/2061861329485570048/pu/img/u5lXx9Y0FXRmkE7s.jpg:small",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/2061861329485570048/pu/vid/avc1/976x532/QhcnwR3_a6JOA7EI.mp4?tag=25",
+        "durationMs": 12027
+      }
+    ]
+  },
+  {
+    "id": "2061968323869302922",
+    "text": "@OpenAI @grok so instead of testing with expo, i can test my app through codex ?",
+    "createdAt": "Wed Jun 03 00:28:52 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "MarianKunde",
+      "name": "Marian Kunde"
+    },
+    "authorId": "1434059484738035714"
+  },
+  {
+    "id": "2061891601258135657",
+    "text": "@OpenAI biased here, but youre underestimating how messy businesses real workflows are",
+    "createdAt": "Tue Jun 02 19:24:00 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 0,
+    "likeCount": 5,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "imraan",
+      "name": "Imraan"
+    },
+    "authorId": "1336064765182042115"
+  },
+  {
+    "id": "2061868029760131440",
+    "text": "@OpenAI @OpenAIDevs Wow this is incredible stuff. @Lovable you had a good run. We have the watch and I’ll see you in Valhalla",
+    "createdAt": "Tue Jun 02 17:50:20 +0000 2026",
+    "replyCount": 3,
+    "retweetCount": 1,
+    "likeCount": 4,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "rainntech",
+      "name": "Rain"
+    },
+    "authorId": "1878846025344933888"
+  },
+  {
+    "id": "2061901665033158853",
+    "text": "@OpenAI Codex just built the most stunning new home for my Mediterranean editorial photography and video series at https://t.co/qdTXV5x2Qu - these frames are pure magic ✨📸 https://t.co/DsNROmHyN7",
+    "createdAt": "Tue Jun 02 20:03:59 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "thesoragirls",
+      "name": "X Girls"
+    },
+    "authorId": "2008651874342473728",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://pbs.twimg.com/amplify_video_thumb/2061901614261100545/img/vtDMjCFk_bQG05Fp.jpg",
+        "width": 720,
+        "height": 1264,
+        "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2061901614261100545/img/vtDMjCFk_bQG05Fp.jpg:small",
+        "videoUrl": "https://video.twimg.com/amplify_video/2061901614261100545/vid/avc1/720x1264/3Smf178mpoBPb9-g.mp4?tag=25",
+        "durationMs": 10041
+      }
+    ]
+  },
+  {
+    "id": "2061848639304348058",
+    "text": "@OpenAI What about design? Is it better with this?",
+    "createdAt": "Tue Jun 02 16:33:17 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "randombuildr",
+      "name": "Venkat"
+    },
+    "authorId": "1243056978512863232"
+  },
+  {
+    "id": "2061934333536211324",
+    "text": "product development is moving to external GTM loops.\nMore ideas will be prototyped by PM, growth, sales, and users directly.\n\nmore iteration will happen through PLG.\nmore customization will come from real user workflows.\n\nI believe next time, we shall deliver a product that user can edit and deploy into our end. :)",
+    "createdAt": "Tue Jun 02 22:13:48 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 1,
+    "likeCount": 3,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "lika_build",
+      "name": "LIKA"
+    },
+    "authorId": "2056838530526023680"
+  },
+  {
+    "id": "2061859433622254049",
+    "text": "@OpenAI How do you plan to ensure scalability and security for teams building production‑grade tools on Codex?",
+    "createdAt": "Tue Jun 02 17:16:11 +0000 2026",
+    "replyCount": 2,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "ellovick",
+      "name": "Ezekiel Elom"
+    },
+    "authorId": "4926535330"
+  },
+  {
+    "id": "2061962751698710531",
+    "text": "@OpenAI The useful shift is not making a page once. It is turning work into a live surface with owners, permissions, fresh data, and a clear path for the next edit.",
+    "createdAt": "Wed Jun 03 00:06:44 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "MaxHarlow_",
+      "name": "Max Harlow"
+    },
+    "authorId": "2038039706831601664"
+  },
+  {
+    "id": "2061963206684254499",
+    "text": "@OpenAI Turning ideas straight into shareable apps with Sites is a slick move. Strong drop, OpenAI that’s smooth",
+    "createdAt": "Wed Jun 03 00:08:32 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "PaperLinkHQ",
+      "name": "PaperLink"
+    },
+    "authorId": "1953848388598083588"
+  },
+  {
+    "id": "2061921474206986677",
+    "text": "@OpenAI @OpenAIDevs @grok explain in Bay Area slang what exactly this means for a one man development team",
+    "createdAt": "Tue Jun 02 21:22:42 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "Sc00byDoobies",
+      "name": "Scooby Doobies"
+    },
+    "authorId": "1437833761907826689"
+  },
+  {
+    "id": "2061863715981664491",
+    "text": "@OpenAI how does it handle state management and auth for those interactive apps",
+    "createdAt": "Tue Jun 02 17:33:12 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "goofyslaveowner",
+      "name": "Abhishek Satarkar"
+    },
+    "authorId": "1581275826711994368"
+  },
+  {
+    "id": "2061924071101591830",
+    "text": "@OpenAI @grok is this much better than openclaw or claude code?",
+    "createdAt": "Tue Jun 02 21:33:01 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "Sobraniex1",
+      "name": "Sobraniex"
+    },
+    "authorId": "1988271345487286272"
+  },
+  {
+    "id": "2061851559689076851",
+    "text": "@OpenAI Or you can just modify the desktop app itself and share it https://t.co/A24JTi0ZWD",
+    "createdAt": "Tue Jun 02 16:44:53 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "1_missthesun",
+      "name": "i miss the sun"
+    },
+    "authorId": "1993775496367390720",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://pbs.twimg.com/amplify_video_thumb/2061851450532323329/img/EwIhAeoTO1EV2Cbu.jpg",
+        "width": 1920,
+        "height": 1080,
+        "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2061851450532323329/img/EwIhAeoTO1EV2Cbu.jpg:small",
+        "videoUrl": "https://video.twimg.com/amplify_video/2061851450532323329/vid/avc1/1920x1080/hOPULygrzQbsJ1wY.mp4?tag=27",
+        "durationMs": 19452
+      }
+    ]
+  },
+  {
+    "id": "2061903511835779205",
+    "text": "@OpenAI What lovable must be thinking .... https://t.co/ga3uWJBmxY",
+    "createdAt": "Tue Jun 02 20:11:20 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "akeshsoni",
+      "name": "Akesh Soni"
+    },
+    "authorId": "66396631",
+    "media": [
+      {
+        "type": "animated_gif",
+        "url": "https://pbs.twimg.com/tweet_video_thumb/HJ1aUIDbwAAM0Um.jpg",
+        "width": 220,
+        "height": 194,
+        "previewUrl": "https://pbs.twimg.com/tweet_video_thumb/HJ1aUIDbwAAM0Um.jpg:small",
+        "videoUrl": "https://video.twimg.com/tweet_video/HJ1aUIDbwAAM0Um.mp4"
+      }
+    ]
+  },
+  {
+    "id": "2061856194822906167",
+    "text": "@OpenAI Lovable,bolt etc CEO right now https://t.co/Z09O14buQA",
+    "createdAt": "Tue Jun 02 17:03:18 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 2,
+    "likeCount": 104,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "SahilPanhotra",
+      "name": "Sahil Panhotra | Indie Builder | Dev"
+    },
+    "authorId": "1507383467696594944",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://pbs.twimg.com/amplify_video_thumb/2061856002665070592/img/-3vhILfztXczjkMR.jpg",
+        "width": 960,
+        "height": 720,
+        "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2061856002665070592/img/-3vhILfztXczjkMR.jpg:small",
+        "videoUrl": "https://video.twimg.com/amplify_video/2061856002665070592/vid/avc1/960x720/l4EdcqLYhV4FVYBV.mp4?tag=27",
+        "durationMs": 13699
+      }
+    ]
+  },
+  {
+    "id": "2061874156577435682",
+    "text": "@OpenAI Sam altman after replacing 1000+ startup https://t.co/SIpDPpb8oo",
+    "createdAt": "Tue Jun 02 18:14:41 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 14,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "yashnagrale_",
+      "name": "Yash Nagrale"
+    },
+    "authorId": "1766759625905352704",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://pbs.twimg.com/amplify_video_thumb/2061874020270903296/img/6dHlD5L4nedZVFdi.jpg",
+        "width": 1830,
+        "height": 1080,
+        "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2061874020270903296/img/6dHlD5L4nedZVFdi.jpg:small",
+        "videoUrl": "https://video.twimg.com/amplify_video/2061874020270903296/vid/avc1/1830x1080/PPczTKaMe4rnn7IW.mp4?tag=27",
+        "durationMs": 15394
+      }
+    ]
+  },
+  {
+    "id": "2061956855241589234",
+    "text": "@OpenAI Hackers waiting on normies to launch their unsecure app. https://t.co/1JC45ikBWk",
+    "createdAt": "Tue Jun 02 23:43:18 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 4,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "CirclStdios",
+      "name": "Michael Sylvester"
+    },
+    "authorId": "232640831",
+    "media": [
+      {
+        "type": "animated_gif",
+        "url": "https://pbs.twimg.com/tweet_video_thumb/HJ2K01fawAApFq5.jpg",
+        "width": 520,
+        "height": 520,
+        "previewUrl": "https://pbs.twimg.com/tweet_video_thumb/HJ2K01fawAApFq5.jpg:small",
+        "videoUrl": "https://video.twimg.com/tweet_video/HJ2K01fawAApFq5.mp4"
+      }
+    ]
+  },
+  {
+    "id": "2061858987973415085",
+    "text": "@OpenAI imagine you’re a marketing manager at coca-cola.\n\nyou need a christmas campaign landing page.\n\n10 years ago: agency, designers, developers, pms.\n\ntoday: a chatgpt subscription.",
+    "createdAt": "Tue Jun 02 17:14:24 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 3,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "dariusparzygnat",
+      "name": "Dariusz Parzygnat"
+    },
+    "authorId": "734044997406838784"
+  },
+  {
+    "id": "2061914009100496903",
+    "text": "@OpenAI This would make informational websites much more accessible to small businesses that don't need complex software, but simply a way to showcase their work.\n\nThat said, serious software still requires specific skills and knowledge to build properly.",
+    "createdAt": "Tue Jun 02 20:53:02 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 3,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "st0yanov",
+      "name": "Veselin Stoyanov"
+    },
+    "authorId": "1690690556198850561"
+  },
+  {
+    "id": "2061847141031522613",
+    "text": "@OpenAI Why not to Pro users?  That's a great feature that PRO users would use RIGHT NOW.  :(  I won't sign for business or team because understandingly so you have to hold a lot of functionalities in business because IT/INFOSEC.  Hence we get Pro in small businesses.",
+    "createdAt": "Tue Jun 02 16:27:20 +0000 2026",
+    "replyCount": 6,
+    "retweetCount": 0,
+    "likeCount": 91,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "ernielm",
+      "name": "Ernie Maldonado"
+    },
+    "authorId": "27748871"
+  },
+  {
+    "id": "2061847819854520323",
+    "text": "@OpenAI let me move https://t.co/wyoW8ml2Qa to chatgpt site",
+    "createdAt": "Tue Jun 02 16:30:02 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 2,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "LoreSch97",
+      "name": "Lorenzo"
+    },
+    "authorId": "1983897646780821504"
+  },
+  {
+    "id": "2061919113363214798",
+    "text": "@OpenAI Me staring at my carefully crafted Tailwind components while someone else generates the exact same layout with a two sentence prompt. https://t.co/gSBnX73MfX",
+    "createdAt": "Tue Jun 02 21:13:19 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 1,
+    "likeCount": 33,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "anomsiiwa",
+      "name": "Anotida Msiiwa"
+    },
+    "authorId": "1857578262706401281",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://pbs.twimg.com/amplify_video_thumb/2061919042500460544/img/ErlK9HD3QuOuOML3.jpg",
+        "width": 960,
+        "height": 720,
+        "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2061919042500460544/img/ErlK9HD3QuOuOML3.jpg:small",
+        "videoUrl": "https://video.twimg.com/amplify_video/2061919042500460544/vid/avc1/960x720/hzubRWdC1HddClo7.mp4?tag=27",
+        "durationMs": 11308
+      }
+    ]
+  },
+  {
+    "id": "2061846904821207521",
+    "text": "@OpenAI i'm curious how far this actually goes\n\nturning ideas into a working prototype is one thing\n\nturning them into something reliable that a real team can depend on is another\n\nthe gap between impressive demo and production tool is still wide",
+    "createdAt": "Tue Jun 02 16:26:24 +0000 2026",
+    "replyCount": 5,
+    "retweetCount": 0,
+    "likeCount": 81,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "rameswar08",
+      "name": "Rameswar"
+    },
+    "authorId": "2008523201765339136"
+  },
+  {
+    "id": "2061846758548734417",
+    "text": "@OpenAI So we're going to get even more slopified websites till GPT-5.6 comes along and fixes front end design?",
+    "createdAt": "Tue Jun 02 16:25:49 +0000 2026",
+    "replyCount": 3,
+    "retweetCount": 0,
+    "likeCount": 9,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "TangriKunal",
+      "name": "Kunal Tangri"
+    },
+    "authorId": "1378869835489218565"
+  },
+  {
+    "id": "2061879886051205442",
+    "text": "@OpenAI @mhdfaran Lovable and Bolt are cooked 💀 https://t.co/blGKsQb75f",
+    "createdAt": "Tue Jun 02 18:37:27 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "TejaTechyt",
+      "name": "Teja.Ai"
+    },
+    "authorId": "1097130552245682177",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://pbs.twimg.com/amplify_video_thumb/2061879822142607360/img/Itx14r2PUKMn1V2g.jpg",
+        "width": 960,
+        "height": 720,
+        "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2061879822142607360/img/Itx14r2PUKMn1V2g.jpg:small",
+        "videoUrl": "https://video.twimg.com/amplify_video/2061879822142607360/vid/avc1/960x720/yhlL3manHmOHnt2s.mp4?tag=27",
+        "durationMs": 13700
+      }
+    ]
+  },
+  {
+    "id": "2061915211397771347",
+    "text": "@OpenAI We're getting closer to the point where ideas become products in a single conversation.",
+    "createdAt": "Tue Jun 02 20:57:49 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 8,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "ArsiHoxha_",
+      "name": "Arsi Hoxha"
+    },
+    "authorId": "1689302767456710656"
+  },
+  {
+    "id": "2061896595386380684",
+    "text": "@OpenAI @OpenAI Speed-to-prototype just stopped being a developer constraint — it's a thinking constraint now. In my experience, most teams have more ideas than clear specs, and that gap doesn't close just because the build floor dropped.",
+    "createdAt": "Tue Jun 02 19:43:51 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 3,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "genxrewired",
+      "name": "GenXRewired"
+    },
+    "authorId": "2051367985575612416"
+  },
+  {
+    "id": "2061959236679094441",
+    "text": "@OpenAI Guys, first you need to fix the frontend in your models",
+    "createdAt": "Tue Jun 02 23:52:46 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "ivangdavila",
+      "name": "Ivan Davila"
+    },
+    "authorId": "1911048206995136512"
+  },
+  {
+    "id": "2061854586265031099",
+    "text": "@OpenAI @grok when you use this feature where do the apps get hosted if you actually wanted to use it?",
+    "createdAt": "Tue Jun 02 16:56:55 +0000 2026",
+    "replyCount": 1,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "the_rza_",
+      "name": "Riza Ingalls"
+    },
+    "authorId": "1854900432331767808"
+  },
+  {
+    "id": "2061905797240455598",
+    "text": "@OpenAI @dkundel Graduate students at @cmuhcii could really benefit from this. Any idea when Sites might become available on non-business plans?",
+    "createdAt": "Tue Jun 02 20:20:25 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 0,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "entropicEngine",
+      "name": "Kunal"
+    },
+    "authorId": "2339088001"
+  },
+  {
+    "id": "2061946769072873775",
+    "text": "@OpenAI The bottleneck was never building the site — it was knowing what to build and why. Tools like this make execution free, which makes strategy the differentiator. Clarity in, clarity out.",
+    "createdAt": "Tue Jun 02 23:03:13 +0000 2026",
+    "replyCount": 0,
+    "retweetCount": 0,
+    "likeCount": 1,
+    "conversationId": "2061845949170045346",
+    "inReplyToStatusId": "2061845949170045346",
+    "author": {
+      "username": "axivuslabs",
+      "name": "Axivus Labs"
+    },
+    "authorId": "2050324888930394112"
+  }
+]

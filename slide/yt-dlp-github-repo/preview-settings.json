@@ -1,0 +1,90 @@
+{
+  "theme": {
+    "preset": "custom",
+    "variables": {
+      "--primary": "#ff365c",
+      "--primary-light": "#ffb0bf",
+      "--primary-dark": "#8c1830",
+      "--accent": "#5ce1e6",
+      "--accent-light": "#c7fbff",
+      "--info": "#ffca68",
+      "--success": "#82f5ad",
+      "--bg-dark": "#080b12"
+    },
+    "customVariables": {
+      "--primary": "#ff365c",
+      "--primary-light": "#ffb0bf",
+      "--primary-dark": "#8c1830",
+      "--accent": "#5ce1e6",
+      "--accent-light": "#c7fbff",
+      "--info": "#ffca68",
+      "--success": "#82f5ad",
+      "--bg-dark": "#080b12"
+    }
+  },
+  "bgm": {
+    "mode": "custom",
+    "preset": "ambient",
+    "volume": 0.3,
+    "custom": {
+      "name": "meta.mp3",
+      "path": "preview-assets/bgm/meta.mp3",
+      "url": "preview-assets/bgm/meta.mp3"
+    }
+  },
+  "subtitles": {
+    "enabled": true,
+    "color": "#ffffff",
+    "fontSize": 18,
+    "bottom": 152,
+    "maxLines": 1,
+    "activeColor": "#ff365c"
+  },
+  "visuals": {
+    "colorMode": "dark",
+    "backgroundColor": "#080b12",
+    "gridEnabled": false,
+    "gridLight": "#5ce1e6",
+    "iconGlow": "#ff365c",
+    "iconBacklight": "#5ce1e6",
+    "iconLight": "#ffca68",
+    "backgroundFx": "particles",
+    "customValues": {
+      "backgroundColor": "#080b12",
+      "gridLight": "#5ce1e6",
+      "iconGlow": "#ff365c",
+      "iconBacklight": "#5ce1e6",
+      "iconLight": "#ffca68"
+    }
+  },
+  "slides": {
+    "deletedIds": [],
+    "scriptLines": [
+      "Hãy bảo agent của bạn dùng `yt-dlp`, nó sẽ có thể tải video, audio, playlist và phụ đề từ gần như mọi website cho bạn.",
+      "Tool này open source và đã có hơn 167 nghìn sao trên GitHub. `yt-dlp` là tool dòng lệnh phát triển từ `youtube-dl`. Điểm mạnh là rất nhiều tùy chọn để lấy media đúng cách mình cần.",
+      "Cách cài khá nhanh. Dùng Python thì chạy `python3 -m pip install -U \"yt-dlp[default]\"`. Trên macOS hoặc Linux có Homebrew thì dùng `brew install yt-dlp`. Cài thêm `ffmpeg` để ghép hình với tiếng và xử lý file đầy đủ hơn.",
+      "Cách dùng cơ bản chỉ có một dòng. Gõ `yt-dlp URL` là tải video. Muốn lấy riêng MP3, thêm `-x --audio-format mp3`. Tool cũng có thể tải cả playlist, chọn độ phân giải và dùng `ffmpeg` để ghép hình với tiếng.",
+      "Không chỉ có video. Tool tải được subtitle, thumbnail và metadata. Có thể tách video theo chapter. `SponsorBlock` còn giúp đánh dấu hoặc bỏ qua một số đoạn.",
+      "Đưa vào workflow của agent cũng khá tiện. `yt-dlp` có thể xuất JSON để script xử lý tiếp. Có thể đọc cookie từ browser cho nội dung mà tài khoản của bạn được quyền truy cập. Repo còn hỗ trợ plugin và nhúng trực tiếp vào Python.",
+      "Nhưng phải cập nhật đều vì website thay đổi liên tục. README nói kênh `nightly` phù hợp hơn cho người dùng thường xuyên. Tóm lại, `yt-dlp` đáng giữ sẵn trong máy nếu bạn hay xử lý media hoặc xây agent. Chỉ tải nội dung bạn được phép lấy và nhớ kiểm tra điều khoản của từng nền tảng."
+    ],
+    "transitionSounds": [
+      "dramatic",
+      "sweep",
+      "bass",
+      "rise",
+      "chord",
+      "minimal",
+      "ascending"
+    ],
+    "revealSounds": [
+      "sparkle",
+      "pop",
+      "blip",
+      "bubble",
+      "tick",
+      "bell",
+      "click"
+    ]
+  }
+}

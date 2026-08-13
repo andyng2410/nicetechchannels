@@ -1,0 +1,317 @@
+.scp-page {
+  --primary: #adff2f;
+  --primary-light: #e5ff9b;
+  --primary-dark: #527b0c;
+  --accent: #63e7da;
+  --accent-light: #b9fff7;
+  --info: #ffbf69;
+  --success: #adff2f;
+  --danger: #ff6b81;
+  --bg-dark: #07110f;
+}
+
+.scp-deck { background: #07110f; }
+.scp-bg {
+  background: radial-gradient(circle at 76% 16%, rgba(255,191,105,.12), transparent 32%),
+    radial-gradient(circle at 16% 84%, rgba(99,231,218,.13), transparent 36%),
+    linear-gradient(145deg, #06110f 0%, #07101a 58%, #110d16 100%);
+}
+.scp-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .24;
+  background-image: linear-gradient(rgba(173,255,47,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(173,255,47,.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, transparent 4%, #000 30%, #000 78%, transparent);
+}
+.scp-content { padding: 100px 28px 200px; justify-content: flex-start; gap: 12px; }
+.scp-hero { justify-content: center; text-align: center; padding-bottom: 226px; }
+.scp-content > .slide-element { width: 200%; zoom: .5; }
+.scp-hero > .slide-element { width: 181.82%; zoom: .55; }
+.slide[data-slide="1"] .scp-content > .slide-element { width: 172.42%; zoom: .58; }
+.slide[data-slide="4"] .scp-content > .slide-element { width: 208.34%; zoom: .48; }
+.slide[data-slide="5"] .scp-content > .slide-element { width: 178.58%; zoom: .56; }
+.slide[data-slide="7"] .scp-content > .slide-element { width: 188.68%; zoom: .53; }
+.scp-hero .mtd-hero-mark { width: 300px; height: 300px; margin: 0 auto 30px; }
+.scp-hero .mtd-hero-mark img { width: 170px; height: 170px; filter: none; }
+.scp-hero .mtd-hero-mark > span { bottom: 27px; font-size: 11px; }
+.scp-title { max-width: 690px; margin: 0 auto; font-size: 92px; line-height: .94; font-weight: 900; color: #fff; }
+.scp-title small { display: block; margin-top: 18px; font-size: 44px; color: #adff2f; }
+
+.scp-hero-line, .scp-scale-rail, .scp-feature-row, .scp-clean-row, .scp-final-chips {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px;
+}
+.scp-hero-line {
+  width: fit-content; margin: 44px auto 0; padding: 20px 26px; border: 1px solid rgba(99,231,218,.38);
+  border-radius: 999px; background: rgba(7,25,27,.82); color: #d8fff9; font-size: 28px; font-weight: 700;
+}
+.scp-hero-line i:first-child, .scp-hero-line strong { color: #adff2f; }
+.scp-kicker {
+  display: inline-flex; align-items: center; align-self: center; gap: 13px; margin: 0 auto; padding: 15px 24px;
+  border: 1px solid rgba(99,231,218,.28); border-radius: 999px; background: rgba(6,24,28,.88);
+  color: #f5ffff; font-size: 28px; font-weight: 800; box-shadow: 0 14px 34px rgba(0,0,0,.22);
+}
+.scp-kicker i { color: #adff2f; }
+
+.scp-metric-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+.scp-metric {
+  min-height: 182px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;
+  border: 1px solid rgba(99,231,218,.42); border-radius: 32px; background: rgba(4,25,29,.8);
+}
+.scp-metric.hot { border-color: rgba(255,191,105,.55); background: linear-gradient(135deg, rgba(36,33,12,.92), rgba(7,27,28,.84)); }
+.scp-metric b { color: #adff2f; font-size: 72px; line-height: 1; }
+.scp-metric.hot b { color: #ffcf7d; }
+.scp-metric span { margin-top: 16px; color: #c4d6d4; font-size: 23px; }
+.scp-logo-panel {
+  display: flex; align-items: center; gap: 26px; min-height: 202px; padding: 22px 34px;
+  border: 1px solid rgba(173,255,47,.34); border-radius: 34px; background: linear-gradient(135deg, rgba(12,29,22,.94), rgba(5,23,30,.9));
+}
+.scp-logo-panel img { width: 154px; height: 154px; object-fit: contain; filter: drop-shadow(0 0 18px rgba(173,255,47,.36)); }
+.scp-logo-panel div { display: flex; flex-direction: column; gap: 9px; }
+.scp-logo-panel b { color: #adff2f; font-size: 42px; }
+.scp-logo-panel span { color: #cfdddc; font-size: 26px; }
+.scp-scale-rail {
+  width: 100%; padding: 22px 18px; border: 1px solid rgba(255,255,255,.14); border-radius: 28px;
+  background: rgba(5,19,23,.8); color: #f6ffff; font-size: 26px; font-weight: 800;
+}
+.scp-scale-rail i { color: #63e7da; } .scp-scale-rail > i { color: #ffbf69; }
+
+.scp-dom-stage {
+  position: relative; height: 480px; overflow: hidden; border: 1px solid rgba(99,231,218,.42);
+  border-radius: 34px; background: linear-gradient(160deg, rgba(6,24,29,.98), rgba(9,12,20,.96));
+}
+.scp-browser-bar, .scp-terminal > div {
+  height: 52px; display: flex; align-items: center; gap: 9px; padding: 0 18px;
+  border-bottom: 1px solid rgba(255,255,255,.09); color: #8faaa8; font-size: 18px;
+}
+.scp-browser-bar i, .scp-terminal > div i { width: 11px; height: 11px; border-radius: 50%; background: #ff6b81; }
+.scp-browser-bar i:nth-child(2), .scp-terminal > div i:nth-child(2) { background: #ffbf69; }
+.scp-browser-bar i:nth-child(3), .scp-terminal > div i:nth-child(3) { background: #adff2f; }
+.scp-browser-bar span, .scp-terminal > div span { margin-left: 10px; }
+.scp-dom-card {
+  position: absolute; display: flex; align-items: center; justify-content: center; width: 158px; height: 108px;
+  border: 1px solid rgba(255,255,255,.11); border-radius: 18px; background: rgba(255,255,255,.055); color: #6f8d91; font-size: 36px;
+}
+.scp-dom-card.c1 { top: 104px; left: 55px; } .scp-dom-card.c2 { top: 104px; right: 55px; } .scp-dom-card.c3 { bottom: 56px; left: 55px; }
+.scp-dom-card.target { width: 236px; height: 124px; flex-direction: column; gap: 8px; border-color: rgba(173,255,47,.74); background: rgba(33,57,20,.9); color: #e9ffd0; }
+.scp-dom-card.target b { font-size: 22px; } .scp-dom-card.target span { color: #ffcf7d; font-size: 27px; font-weight: 900; }
+.scp-dom-card.target.old { top: 260px; left: 58px; opacity: .25; border-style: dashed; }
+.scp-dom-card.target.moved { right: 56px; bottom: 54px; }
+.scp-crawler-thread {
+  position: absolute; left: 233px; top: 330px; width: 270px; height: 138px; border-top: 4px solid #63e7da;
+  border-right: 4px solid #63e7da; border-radius: 0 80px 0 0; filter: drop-shadow(0 0 8px rgba(99,231,218,.65)); transform-origin: left top;
+}
+.scp-crawler-thread::after { content: ""; position: absolute; right: -10px; bottom: -7px; width: 16px; height: 16px; border-radius: 50%; background: #adff2f; box-shadow: 0 0 18px #adff2f; }
+.scp-crawler { position: absolute; left: 168px; top: 284px; width: 86px; height: 86px; padding: 7px; border: 1px solid rgba(173,255,47,.62); border-radius: 50%; background: rgba(9,21,20,.96); }
+.scp-crawler img { width: 100%; height: 100%; object-fit: contain; }
+.scp-lock { position: absolute; right: 138px; bottom: 87px; color: #adff2f; font-size: 50px; filter: drop-shadow(0 0 14px rgba(173,255,47,.76)); }
+.slide-element.visible .scp-crawler-thread { animation: scpReroute 1.4s ease-out both; }
+.slide-element.visible .scp-lock { animation: scpLock 1.4s ease-out both; }
+@keyframes scpReroute { 0% { width: 68px; height: 0; opacity: 0; transform: rotate(-18deg); } 35% { opacity: 1; } 100% { width: 270px; height: 138px; opacity: 1; transform: rotate(0); } }
+@keyframes scpLock { 0%,55% { opacity: 0; transform: scale(1.8) rotate(-22deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+
+.scp-move-note, .scp-result, .scp-turnstile, .scp-caveat, .scp-agent-skill, .scp-benchmark {
+  display: flex; align-items: center; justify-content: center; gap: 14px; padding: 19px 22px; border-radius: 24px;
+  color: #f2ffff; font-size: 25px; background: rgba(7,26,28,.9); border: 1px solid rgba(99,231,218,.32);
+}
+.scp-move-note i, .scp-result i, .scp-agent-skill i, .scp-benchmark i { color: #adff2f; }
+.scp-result { border-color: rgba(173,255,47,.48); background: rgba(24,48,18,.88); }
+
+.scp-fetch-grid { display: grid; gap: 18px; }
+.scp-fetch-card {
+  display: grid; grid-template-columns: 76px 1fr; grid-template-rows: auto auto; align-items: center; min-height: 154px;
+  padding: 24px 30px; border: 1px solid rgba(99,231,218,.3); border-radius: 28px; background: rgba(6,24,29,.84);
+}
+.scp-fetch-card.hot { border-color: rgba(255,191,105,.56); background: linear-gradient(135deg, rgba(40,33,13,.9), rgba(6,25,29,.88)); }
+.scp-fetch-card i { grid-row: span 2; color: #63e7da; font-size: 44px; } .scp-fetch-card.hot i { color: #ffbf69; }
+.scp-fetch-card b { color: #fff; font-size: 31px; } .scp-fetch-card span { color: #b5ccca; font-size: 22px; }
+.scp-turnstile { border-color: rgba(255,191,105,.46); } .scp-turnstile i, .scp-caveat i { color: #ffbf69; }
+.scp-turnstile span { color: #b9ccca; }
+.scp-caveat { color: #ffd1d9; font-size: 20px; border-color: rgba(255,107,129,.44); background: rgba(41,15,26,.9); }
+
+.scp-spider-stage { position: relative; height: 520px; }
+.scp-spider-core {
+  position: absolute; left: 50%; top: 50%; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 188px; height: 188px; border: 1px solid rgba(173,255,47,.54); border-radius: 50%; background: rgba(17,38,25,.96);
+  box-shadow: 0 0 48px rgba(173,255,47,.18); transform: translate(-50%, -50%);
+}
+.scp-spider-core img { width: 112px; height: 112px; object-fit: contain; } .scp-spider-core b { color: #adff2f; font-size: 26px; }
+.scp-spider-wire { position: absolute; left: 50%; top: 50%; width: 230px; height: 3px; background: linear-gradient(90deg, #63e7da, rgba(99,231,218,.1)); transform-origin: left center; }
+.scp-spider-wire.w1 { transform: rotate(-150deg); } .scp-spider-wire.w2 { transform: rotate(-30deg); } .scp-spider-wire.w3 { transform: rotate(90deg); }
+.scp-spider-node {
+  position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 142px; height: 114px; gap: 8px;
+  border: 1px solid rgba(99,231,218,.38); border-radius: 22px; background: rgba(5,24,30,.92); color: #d9ffff;
+}
+.scp-spider-node i { color: #63e7da; font-size: 32px; } .scp-spider-node span { font-size: 20px; font-weight: 800; }
+.scp-spider-node.n1 { top: 56px; left: 48px; } .scp-spider-node.n2 { top: 56px; right: 48px; } .scp-spider-node.n3 { bottom: 15px; left: calc(50% - 71px); }
+.slide-element.visible .scp-spider-node { animation: scpNodePulse 1.8s ease-in-out infinite alternate; }
+@keyframes scpNodePulse { from { box-shadow: 0 0 0 rgba(99,231,218,0); } to { box-shadow: 0 0 28px rgba(99,231,218,.22); } }
+.scp-feature-row { gap: 12px; }
+.scp-feature-row span, .scp-clean-row span, .scp-final-chips span {
+  padding: 15px 18px; border: 1px solid rgba(99,231,218,.28); border-radius: 999px; background: rgba(6,24,29,.86); color: #e6ffff; font-size: 19px; font-weight: 800;
+}
+.scp-feature-row i, .scp-clean-row i { margin-right: 7px; color: #adff2f; }
+.scp-stream { position: relative; display: flex; align-items: center; gap: 14px; min-height: 86px; padding: 0 28px; overflow: hidden; border: 1px solid rgba(255,191,105,.46); border-radius: 26px; background: rgba(37,29,14,.72); color: #fff0cd; font-size: 24px; }
+.scp-stream i { color: #ffbf69; }
+.scp-packet { position: absolute; right: 22px; width: 15px; height: 15px; border-radius: 50%; background: #adff2f; box-shadow: 0 0 14px #adff2f; }
+.scp-packet.p2 { right: 62px; opacity: .7; } .scp-packet.p3 { right: 102px; opacity: .4; }
+.slide-element.visible .scp-packet { animation: scpStream 1.6s linear infinite; }
+@keyframes scpStream { from { transform: translateX(-10px); } to { transform: translateX(34px); } }
+
+.scp-mcp-flow { display: grid; grid-template-columns: 1fr 44px 132px 44px 154px; align-items: center; gap: 11px; min-height: 350px; }
+.scp-mcp-flow > i { color: #ffbf69; font-size: 28px; }
+.scp-page-noise, .scp-filter, .scp-agent { display: flex; align-items: center; justify-content: center; border: 1px solid rgba(99,231,218,.34); background: rgba(6,24,29,.86); }
+.scp-page-noise { height: 298px; flex-direction: column; gap: 14px; border-radius: 26px; overflow: hidden; }
+.scp-page-noise b { color: #e5ffff; font-size: 34px; }
+.scp-page-noise i { width: 78%; height: 13px; border-radius: 999px; background: rgba(255,255,255,.14); }
+.scp-page-noise i:nth-of-type(2n) { width: 56%; } .scp-page-noise i:nth-of-type(3n) { width: 68%; background: rgba(255,107,129,.28); }
+.scp-filter, .scp-agent { flex-direction: column; gap: 12px; height: 150px; border-radius: 28px; }
+.scp-filter { border-color: rgba(173,255,47,.6); color: #adff2f; } .scp-filter i, .scp-agent i { font-size: 48px; }
+.scp-filter span, .scp-agent b { font-size: 23px; } .scp-agent { color: #63e7da; }
+.slide-element.visible .scp-filter { animation: scpFilterGlow 1.5s ease-in-out infinite alternate; }
+@keyframes scpFilterGlow { from { box-shadow: 0 0 0 rgba(173,255,47,0); } to { box-shadow: 0 0 36px rgba(173,255,47,.28); } }
+.scp-agent-skill { justify-content: flex-start; padding-left: 28px; border-color: rgba(173,255,47,.42); } .scp-agent-skill span { color: #b9ccca; }
+
+.scp-terminal { overflow: hidden; border: 1px solid rgba(99,231,218,.36); border-radius: 28px; background: rgba(3,17,22,.94); }
+.scp-terminal code { display: block; padding: 34px 28px; color: #f4ffff; font-family: "SFMono-Regular", Consolas, monospace; font-size: 25px; line-height: 1.5; }
+.scp-terminal em { margin-right: 10px; color: #adff2f; } .scp-terminal b { color: #ffcf7d; } .scp-terminal.second code { color: #63e7da; }
+.scp-safety { display: grid; gap: 14px; }
+.scp-safety span { display: flex; align-items: center; gap: 16px; min-height: 78px; padding: 0 24px; border: 1px solid rgba(255,191,105,.34); border-radius: 22px; background: rgba(36,28,14,.74); color: #ffe1a8; font-size: 22px; font-weight: 800; }
+.scp-safety i { color: #ffbf69; font-size: 28px; }
+
+.scp-final { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 514px; }
+.scp-final-orbit { position: absolute; width: 430px; height: 430px; border: 2px solid rgba(99,231,218,.34); border-radius: 50%; box-shadow: 0 0 46px rgba(173,255,47,.14); }
+.scp-final-orbit::before, .scp-final-orbit::after { content: ""; position: absolute; width: 28px; height: 28px; border-radius: 50%; background: #ffbf69; box-shadow: 0 0 22px rgba(255,191,105,.78); }
+.scp-final-orbit::before { top: 52px; right: 42px; } .scp-final-orbit::after { bottom: 58px; left: 26px; background: #63e7da; }
+.slide-element.visible .scp-final-orbit { animation: scpOrbit 8s linear infinite; }
+@keyframes scpOrbit { to { transform: rotate(360deg); } }
+.scp-final img { z-index: 1; width: 270px; height: 270px; object-fit: contain; filter: drop-shadow(0 0 34px rgba(173,255,47,.34)); }
+.scp-final b, .scp-final span { z-index: 1; } .scp-final b { color: #adff2f; font-size: 60px; }
+.scp-final span { margin-top: 4px; color: #d7e5e4; font-size: 28px; }
+.scp-final-chips span { min-width: 140px; text-align: center; color: #eaffc9; border-color: rgba(173,255,47,.36); }
+.scp-benchmark { justify-content: flex-start; padding: 24px 28px; border-color: rgba(255,191,105,.46); background: rgba(37,29,14,.76); }
+.scp-benchmark i { color: #ffbf69; font-size: 34px; } .scp-benchmark div { display: flex; flex-direction: column; gap: 4px; }
+.scp-benchmark b { color: #fff; font-size: 25px; } .scp-benchmark span { color: #e9c988; font-size: 20px; }
+.scp-source-static { margin-top: 6px; }
+
+/* Native 390x693 composition: keep each visual centered and readable. */
+.scp-content { gap: 10px; }
+.scp-content > .slide-element,
+.scp-hero > .slide-element,
+.slide[data-slide="1"] .scp-content > .slide-element,
+.slide[data-slide="4"] .scp-content > .slide-element,
+.slide[data-slide="5"] .scp-content > .slide-element,
+.slide[data-slide="7"] .scp-content > .slide-element { width: 100%; zoom: 1; }
+
+.scp-hero .mtd-hero-mark { width: 188px; height: 188px; margin-bottom: 18px; }
+.scp-hero > .slide-element.visible { transform: translateY(10px); }
+.scp-hero .mtd-hero-mark img { width: 106px; height: 106px; }
+.scp-hero .mtd-hero-mark > span { bottom: 17px; padding: 5px 8px; font-size: 8px; }
+.scp-title { max-width: 360px; font-size: 54px; line-height: .96; }
+.scp-title small { margin-top: 10px; font-size: 27px; }
+.scp-hero-line { margin-top: 20px; gap: 6px; padding: 11px 12px; font-size: 13px; white-space: nowrap; }
+
+.scp-kicker { gap: 8px; padding: 9px 14px; font-size: 16px; }
+.scp-metric-grid { gap: 10px; }
+.scp-metric { min-height: 88px; padding: 12px; border-radius: 20px; }
+.scp-metric b { font-size: 42px; }
+.scp-metric span { margin-top: 7px; font-size: 14px; }
+.scp-logo-panel { gap: 15px; min-height: 116px; padding: 12px 17px; border-radius: 22px; }
+.scp-logo-panel img {
+  width: 92px; height: 92px; padding: 8px; border-radius: 22px; background: #efffd4;
+  filter: drop-shadow(0 0 14px rgba(173,255,47,.4));
+}
+.scp-logo-panel b { font-size: 25px; }
+.scp-logo-panel span { font-size: 15px; }
+.scp-scale-rail { gap: 10px; padding: 13px 12px; border-radius: 18px; font-size: 16px; }
+
+.scp-dom-stage { width: 100%; height: 218px; border-radius: 22px; }
+.scp-browser-bar, .scp-terminal > div { height: 31px; gap: 5px; padding: 0 11px; font-size: 10px; }
+.scp-browser-bar i, .scp-terminal > div i { width: 7px; height: 7px; }
+.scp-browser-bar span, .scp-terminal > div span { margin-left: 6px; }
+.scp-dom-card { width: 68px; height: 45px; border-radius: 11px; font-size: 19px; }
+.scp-dom-card.c1 { top: 48px; left: 26px; }
+.scp-dom-card.c2 { top: 48px; right: 26px; }
+.scp-dom-card.c3 { bottom: 20px; left: 26px; }
+.scp-dom-card.target { width: 118px; height: 58px; gap: 3px; }
+.scp-dom-card.target b { font-size: 11px; }
+.scp-dom-card.target span { font-size: 15px; }
+.scp-dom-card.target.old { top: 103px; left: 27px; }
+.scp-dom-card.target.moved { right: 25px; bottom: 20px; }
+.scp-crawler-thread { left: 120px; top: 134px; width: 128px; height: 51px; border-width: 2px; border-radius: 0 46px 0 0; }
+.scp-crawler-thread::after { right: -7px; bottom: -5px; width: 10px; height: 10px; }
+.scp-crawler { left: 88px; top: 111px; width: 49px; height: 49px; padding: 4px; background: #efffd4; }
+.scp-lock { right: 63px; bottom: 32px; font-size: 27px; }
+@keyframes scpReroute { 0% { width: 36px; height: 0; opacity: 0; transform: rotate(-18deg); } 35% { opacity: 1; } 100% { width: 128px; height: 51px; opacity: 1; transform: rotate(0); } }
+.scp-move-note, .scp-result, .scp-turnstile, .scp-caveat, .scp-agent-skill, .scp-benchmark {
+  gap: 8px; padding: 11px 13px; border-radius: 16px; font-size: 15px;
+}
+
+.scp-fetch-grid { gap: 8px; }
+.scp-fetch-card { grid-template-columns: 45px 1fr; min-height: 61px; padding: 10px 15px; border-radius: 17px; }
+.scp-fetch-card i { font-size: 25px; }
+.scp-fetch-card b { font-size: 18px; }
+.scp-fetch-card span { font-size: 13px; }
+.scp-turnstile { font-size: 14px; }
+.scp-caveat { font-size: 12px; }
+
+.scp-spider-stage { height: 218px; }
+.scp-spider-core { width: 104px; height: 104px; }
+.scp-spider-core img { width: 68px; height: 68px; padding: 5px; border-radius: 50%; background: #efffd4; }
+.scp-spider-core b { font-size: 15px; }
+.scp-spider-wire { width: 123px; height: 2px; }
+.scp-spider-node { width: 77px; height: 60px; gap: 3px; border-radius: 14px; }
+.scp-spider-node i { font-size: 17px; }
+.scp-spider-node span { font-size: 11px; }
+.scp-spider-node.n1 { top: 20px; left: 20px; }
+.scp-spider-node.n2 { top: 20px; right: 20px; }
+.scp-spider-node.n3 { bottom: 0; left: calc(50% - 38px); }
+.scp-feature-row { gap: 5px; }
+.scp-feature-row span, .scp-clean-row span, .scp-final-chips span { padding: 8px 9px; font-size: 11px; }
+.scp-stream { min-height: 47px; gap: 8px; padding: 0 15px; border-radius: 16px; font-size: 14px; }
+.scp-packet { right: 16px; width: 9px; height: 9px; }
+.scp-packet.p2 { right: 40px; } .scp-packet.p3 { right: 64px; }
+
+.scp-mcp-flow { grid-template-columns: 1fr 20px 70px 20px 82px; gap: 7px; min-height: 180px; }
+.scp-mcp-flow > i { font-size: 15px; }
+.scp-page-noise { height: 168px; gap: 8px; border-radius: 17px; }
+.scp-page-noise b { font-size: 21px; }
+.scp-page-noise i { height: 7px; }
+.scp-filter, .scp-agent { gap: 7px; height: 88px; border-radius: 18px; }
+.scp-filter i, .scp-agent i { font-size: 28px; }
+.scp-filter span, .scp-agent b { font-size: 13px; }
+.scp-clean-row { gap: 5px; }
+.scp-agent-skill { padding-left: 16px; }
+
+.scp-terminal { border-radius: 18px; }
+.scp-terminal code { padding: 18px 16px; font-size: 14px; }
+.scp-safety { gap: 6px; }
+.scp-safety span { min-height: 38px; gap: 9px; padding: 0 14px; border-radius: 14px; font-size: 13px; }
+.scp-safety i { font-size: 16px; }
+
+.scp-final { min-height: 214px; }
+.scp-final-orbit { width: 210px; height: 210px; }
+.scp-final-orbit::before, .scp-final-orbit::after { width: 16px; height: 16px; }
+.scp-final-orbit::before { top: 24px; right: 20px; }
+.scp-final-orbit::after { bottom: 27px; left: 12px; }
+.scp-final img { width: 146px; height: 146px; padding: 10px; border-radius: 50%; background: #efffd4; }
+.scp-final b { font-size: 38px; }
+.scp-final span { font-size: 17px; }
+.scp-final-chips { gap: 7px; }
+.scp-final-chips span { min-width: 88px; }
+.scp-benchmark { padding: 13px 16px; }
+.scp-benchmark i { font-size: 22px; }
+.scp-benchmark b { font-size: 15px; }
+.scp-benchmark span { font-size: 12px; }
+.scp-source-static { margin-top: 0; }
+
+.slide-element.visible .scp-metric b { animation: scpMetricPop .72s cubic-bezier(.2,.8,.2,1) both; }
+.slide-element.visible .scp-fetch-card { animation: scpFetchGlow 2.2s ease-in-out infinite alternate; }
+.slide-element.visible .scp-fetch-card:nth-child(2) { animation-delay: .22s; }
+.slide-element.visible .scp-fetch-card:nth-child(3) { animation-delay: .44s; }
+.slide-element.visible .scp-agent { animation: scpAgentPulse 1.8s ease-in-out infinite alternate; }
+@keyframes scpMetricPop { from { opacity: .15; transform: translateY(10px) scale(.8); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes scpFetchGlow { from { box-shadow: 0 0 0 rgba(99,231,218,0); } to { box-shadow: 0 0 22px rgba(99,231,218,.14); } }
+@keyframes scpAgentPulse { from { box-shadow: 0 0 0 rgba(99,231,218,0); } to { box-shadow: 0 0 25px rgba(99,231,218,.22); } }

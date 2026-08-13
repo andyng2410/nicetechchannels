@@ -1,0 +1,21 @@
+{
+  "youtube": {
+    "title": "Hãy bảo agent dùng yt-dlp để tải video, audio và phụ đề",
+    "description": "🤖 Hãy bảo agent dùng yt-dlp khi cần tải video, audio, playlist và phụ đề.\n\n🧰 Tool open source này hỗ trợ nhiều website, có thể xuất JSON cho automation và xử lý file với ffmpeg.\n\n⚠️ Chỉ tải nội dung bạn được phép lấy và kiểm tra điều khoản của từng nền tảng.\n\nNguồn: https://github.com/yt-dlp/yt-dlp\n\n#NiceTechChannels #ytdlp #OpenSource #CLI #Automation #MediaTools",
+    "privacyStatus": "private",
+    "tags": [
+      "NiceTechChannels",
+      "yt-dlp",
+      "Open Source",
+      "CLI",
+      "Automation",
+      "Media Tools",
+      "ffmpeg"
+    ]
+  },
+  "facebookReels": {
+    "caption": "🤖 Hãy bảo agent dùng yt-dlp khi cần tải video, audio, playlist và phụ đề. Tool open source này còn xuất JSON cho automation và xử lý file với ffmpeg.\n\n⚠️ Chỉ tải nội dung bạn được phép lấy và kiểm tra điều khoản của từng nền tảng.\n\n#NiceTechChannels #ytdlp #OpenSource #CLI #Automation #MediaTools",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://github.com/yt-dlp/yt-dlp"
+  }
+}

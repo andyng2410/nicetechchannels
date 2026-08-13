@@ -1,0 +1,157 @@
+{
+  "theme": {
+    "preset": "custom",
+    "variables": {
+      "--primary": "#34a853",
+      "--primary-light": "#9ee8b1",
+      "--primary-dark": "#176b35",
+      "--accent": "#4285f4",
+      "--accent-light": "#a9c7ff",
+      "--info": "#fbbc05",
+      "--success": "#34a853",
+      "--bg-dark": "#07130f"
+    },
+    "customVariables": {
+      "--primary": "#34a853",
+      "--primary-light": "#9ee8b1",
+      "--primary-dark": "#176b35",
+      "--accent": "#4285f4",
+      "--accent-light": "#a9c7ff",
+      "--info": "#fbbc05",
+      "--success": "#34a853",
+      "--bg-dark": "#07130f"
+    }
+  },
+  "bgm": {
+    "mode": "custom",
+    "preset": "ambient",
+    "volume": 0.3,
+    "custom": {
+      "name": "meta.mp3",
+      "path": "preview-assets/bgm/meta.mp3",
+      "url": "preview-assets/bgm/meta.mp3"
+    }
+  },
+  "subtitles": {
+    "enabled": true,
+    "color": "#ffffff",
+    "activeColor": "#34a853",
+    "fontSize": 18,
+    "bottom": 152,
+    "maxLines": 1
+  },
+  "visuals": {
+    "colorMode": "dark",
+    "backgroundColor": "#07130f",
+    "gridEnabled": false,
+    "gridLight": "#4285f4",
+    "iconGlow": "#34a853",
+    "iconBacklight": "#4285f4",
+    "iconLight": "#fbbc05",
+    "mainLight": "#34a853",
+    "mainLightPosition": "top-center",
+    "mainLightIntensity": "medium",
+    "softLight": "#4285f4",
+    "softLightPosition": "bottom-right",
+    "softLightIntensity": "medium",
+    "backgroundFx": "particles",
+    "slideLights": {
+      "0": {
+        "mainLight": "#34a853",
+        "mainLightPosition": "top-center",
+        "mainLightIntensity": "medium",
+        "softLight": "#4285f4",
+        "softLightPosition": "bottom-right",
+        "softLightIntensity": "medium"
+      },
+      "3": {
+        "mainLight": "#fbbc05",
+        "mainLightPosition": "top-center",
+        "mainLightIntensity": "medium",
+        "softLight": "#4285f4",
+        "softLightPosition": "bottom-left",
+        "softLightIntensity": "medium"
+      },
+      "5": {
+        "mainLight": "#4285f4",
+        "mainLightPosition": "top-right",
+        "mainLightIntensity": "medium",
+        "softLight": "#34a853",
+        "softLightPosition": "bottom-left",
+        "softLightIntensity": "medium"
+      }
+    },
+    "customValues": {
+      "backgroundColor": "#07130f",
+      "gridLight": "#4285f4",
+      "iconGlow": "#34a853",
+      "iconBacklight": "#4285f4",
+      "iconLight": "#fbbc05",
+      "mainLight": "#34a853",
+      "mainLightPosition": "top-center",
+      "mainLightIntensity": "medium",
+      "softLight": "#4285f4",
+      "softLightPosition": "bottom-right",
+      "softLightIntensity": "medium",
+      "slideLights": {
+        "0": {
+          "mainLight": "#34a853",
+          "mainLightPosition": "top-center",
+          "mainLightIntensity": "medium",
+          "softLight": "#4285f4",
+          "softLightPosition": "bottom-right",
+          "softLightIntensity": "medium"
+        },
+        "3": {
+          "mainLight": "#fbbc05",
+          "mainLightPosition": "top-center",
+          "mainLightIntensity": "medium",
+          "softLight": "#4285f4",
+          "softLightPosition": "bottom-left",
+          "softLightIntensity": "medium"
+        },
+        "5": {
+          "mainLight": "#4285f4",
+          "mainLightPosition": "top-right",
+          "mainLightIntensity": "medium",
+          "softLight": "#34a853",
+          "softLightPosition": "bottom-left",
+          "softLightIntensity": "medium"
+        }
+      }
+    }
+  },
+  "slides": {
+    "deletedIds": [],
+    "scriptLines": [
+      "Google vừa ra Agentic RAG, thay vì tìm một lần rồi trả lời, hệ thống tự biết mình còn thiếu gì và quay lại tìm tiếp.",
+      "Vấn đề nằm ở RAG cũ. Một câu hỏi doanh nghiệp thường cần ghép dữ liệu từ nhiều tài liệu hoặc nhiều hệ thống. Nếu lượt tìm đầu chỉ thấy mã máy chủ mà chưa thấy cấu hình, RAG thông thường rất dễ trả lời thiếu hoặc báo không tìm thấy.",
+      "Google giải bài toán này bằng một nhóm agent. Root Agent chia việc, Planner chọn đường tìm, Query Rewriter viết lại câu hỏi và RAG Agent truy xuất từ nhiều nguồn. Cuối cùng Synthesis Agent mới tổng hợp câu trả lời.",
+      "Điểm mới nằm ở bước kiểm tra. Sufficient Context Agent đọc dữ liệu tìm được, xem bản nháp và chỉ ra chính xác phần nào còn thiếu. Nếu chưa đủ bằng chứng, nó gửi phản hồi để hệ thống viết truy vấn mới rồi tìm tiếp.",
+      "Ví dụ rất dễ hiểu. Khi bác sĩ hỏi cùng lúc về thuốc xuất viện, chế độ ăn và phản ứng dị ứng, lượt tìm đầu có thể mới thấy hai phần. Agent sẽ nhận ra còn thiếu thông tin dị ứng, tìm sâu hơn trong hồ sơ rồi mới cho phép trả lời.",
+      "Benchmark khá đáng chú ý. Google nói độ chính xác về dữ kiện tăng tối đa 34% so với RAG thông thường. Trong bài test FramesQA với bốn kho dữ liệu, hệ thống trả lời đúng 90,1% câu hỏi, còn độ trễ giữa bản một kho và nhiều kho chỉ chênh trung bình khoảng 3%.",
+      "Nhưng cần hiểu đúng. Đây đang là bản xem trước công khai trong Gemini Enterprise Agent Platform, chưa phải một repo open source để tải về dùng ngay. Với doanh nghiệp, hiệu quả thực tế vẫn phụ thuộc quyền truy cập dữ liệu, chất lượng tài liệu và chi phí của nhiều lượt tìm kiếm.",
+      "Tóm lại, Agentic RAG đáng chú ý vì nó thêm một bước tự kiểm tra trước khi trả lời. Với câu hỏi phức tạp, biết mình chưa đủ dữ liệu rồi tìm tiếp quan trọng hơn việc cố trả lời thật nhanh. Đây là hướng đáng thử nếu dữ liệu của bạn đang nằm rải rác ở nhiều hệ thống."
+    ],
+    "transitionSounds": [
+      "dramatic",
+      "sweep",
+      "bass",
+      "rise",
+      "chord",
+      "ascending",
+      "minimal",
+      "minimal"
+    ],
+    "revealSounds": [
+      "sparkle",
+      "pop",
+      "blip",
+      "bubble",
+      "tick",
+      "snap",
+      "click",
+      "bell"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "youtube": {
+    "title": "Kimi K2.7 Code HighSpeed: coding agent nhanh 6x có đáng test?",
+    "description": "🎬 Kimi vừa ra mắt K2.7 Code HighSpeed nhanh gấp 6 lần so với bản K2.7 tiêu chuẩn.\n\n⚡ Nhìn demo trước: Kimi đặt bản thường cạnh HighSpeed trên cùng một bài code. Khác biệt không nằm ở giao diện, mà ở nhịp token chạy ra nhanh hơn hẳn. Với agent, vài giây chậm ở mỗi vòng sẽ cộng dồn thành rất nhiều thời gian chờ.\n\n🔢 Con số chính là 6x. Kimi nói HighSpeed đạt khoảng 180 token mỗi giây ở coding task input trung bình, và tới 260 token mỗi giây khi context ngắn hơn. Nghe như chi tiết kỹ thuật, nhưng với coding agent, token mỗi giây chính là nhịp sửa lỗi.\n\n🚦 Nhưng chưa public hoàn toàn. HighSpeed đang mở cho Beta Program, API developers và Kimi Business, Kimi nói access còn giới hạn vì capacity. Cách join là vào kimi.com/code/beta, không cần invite, nhưng vẫn có thể phải chờ được mở quyền.\n\n🔁 Điểm ăn tiền là vòng lặp. Coding model không thắng chỉ bằng câu trả lời đầu tiên. Nó thắng bằng đọc log, sửa file, chạy test, rồi sửa tiếp. Khi latency hạ xuống, bạn dám chia task nhỏ hơn và chạy nhiều vòng hơn.\n\n📌 Nhưng vẫn cần lưu ý. Nhanh hơn không tự động nghĩa là tốt hơn, nên câu hỏi thật sự là quality, repo dài và rate limit có giữ được lợi thế không. Tóm lại: nếu bạn benchmark coding agent, Kimi K2.7 Code HighSpeed đáng thử vì nó đánh thẳng vào thời gian chờ giữa các lần sửa.\n\nNguồn: https://x.com/Kimi_Moonshot/status/2066467110960959833\n\n#NiceTechChannels #Kimi #KimiK27Code #CodingAgent #AI",
+    "privacyStatus": "private",
+    "tags": [
+      "NiceTechChannels",
+      "Kimi",
+      "Kimi K2.7 Code",
+      "Kimi HighSpeed",
+      "Coding Agent",
+      "Moonshot AI"
+    ]
+  },
+  "facebook": {
+    "caption": "🎬 Kimi vừa ra mắt K2.7 Code HighSpeed nhanh gấp 6 lần so với bản K2.7 tiêu chuẩn.\n\n⚡ Nhìn demo trước: Kimi đặt bản thường cạnh HighSpeed trên cùng một bài code. Khác biệt không nằm ở giao diện, mà ở nhịp token chạy ra nhanh hơn hẳn. Với agent, vài giây chậm ở mỗi vòng sẽ cộng dồn thành rất nhiều thời gian chờ.\n\n🔢 Con số chính là 6x. Kimi nói HighSpeed đạt khoảng 180 token mỗi giây ở coding task input trung bình, và tới 260 token mỗi giây khi context ngắn hơn. Nghe như chi tiết kỹ thuật, nhưng với coding agent, token mỗi giây chính là nhịp sửa lỗi.\n\n🚦 Nhưng chưa public hoàn toàn. HighSpeed đang mở cho Beta Program, API developers và Kimi Business, Kimi nói access còn giới hạn vì capacity. Cách join là vào kimi.com/code/beta, không cần invite, nhưng vẫn có thể phải chờ được mở quyền.\n\n🔁 Điểm ăn tiền là vòng lặp. Coding model không thắng chỉ bằng câu trả lời đầu tiên. Nó thắng bằng đọc log, sửa file, chạy test, rồi sửa tiếp. Khi latency hạ xuống, bạn dám chia task nhỏ hơn và chạy nhiều vòng hơn.\n\n📌 Nhưng vẫn cần lưu ý. Nhanh hơn không tự động nghĩa là tốt hơn, nên câu hỏi thật sự là quality, repo dài và rate limit có giữ được lợi thế không. Tóm lại: nếu bạn benchmark coding agent, Kimi K2.7 Code HighSpeed đáng thử vì nó đánh thẳng vào thời gian chờ giữa các lần sửa.\n\n#NiceTechChannels #Kimi #KimiK27Code #CodingAgent #AI",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://x.com/Kimi_Moonshot/status/2066467110960959833"
+  }
+}

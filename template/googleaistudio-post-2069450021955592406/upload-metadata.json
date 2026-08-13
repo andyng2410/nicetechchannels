@@ -1,0 +1,20 @@
+{
+  "youtube": {
+    "title": "Google ra mắt Interactions API cho Gemini agent",
+    "description": "🧩 Google vừa ra mắt Interactions API, một chuẩn API mới để tương tác với các Model Gemini.\n\n⚙️ Một endpoint có thể bao phủ text generation, streaming, multi-turn chat, multimodal input, image generation, structured output, tool use, function calling, managed agents và background execution.\n\n🚀 Điểm đáng chú ý là hướng agentic web: app AI không chỉ trả lời, mà có thể gọi tool, đọc file, trả JSON cho UI, chạy nền và theo dõi từng step.\n\nNguồn: https://x.com/GoogleAIStudio/status/2069450021955592406\n\n#NiceTechChannels #GoogleAIStudio #Gemini #InteractionsAPI #AgenticWeb #AI",
+    "privacyStatus": "private",
+    "tags": [
+      "NiceTechChannels",
+      "Google AI Studio",
+      "Gemini",
+      "Interactions API",
+      "Agentic Web",
+      "AI Agents"
+    ]
+  },
+  "facebook": {
+    "caption": "🧩 Google vừa ra mắt Interactions API cho Gemini.\n\n⚙️ Một endpoint mới cho text, streaming, chat nhiều lượt, multimodal input, structured output, tool use, function calling, managed agents và background execution.\n\n🚀 Điểm đáng chú ý: đây là nền tốt hơn cho agentic web và app AI nhiều bước.\n\n#NiceTechChannels #GoogleAIStudio #Gemini #InteractionsAPI #AgenticWeb #AI",
+    "videoState": "DRAFT",
+    "sourceComment": "Nguồn: https://x.com/GoogleAIStudio/status/2069450021955592406"
+  }
+}

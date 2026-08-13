@@ -1,0 +1,8 @@
+Một prompt chỉ cho bạn một câu trả lời, còn một loop cho bạn một hệ thống biết tự làm, tự kiểm tra, và biết lúc nào phải dừng.
+Addy Osmani, Director Cloud AI tại Google, gọi đây là Loop Engineering. Điểm mới không phải là viết prompt hay hơn, mà là thiết kế một vòng làm việc thay bạn prompt từng bước.
+Boris Cherny, người tạo ra Claude Code ở Anthropic, cũng nói gần như vậy. Ông không ngồi prompt Claude từng câu nữa; ông viết các loop để Claude tự tìm việc, tự xử lý, rồi tự quyết định bước tiếp theo.
+Một loop không phải phép màu. Nó là một hệ thống nhỏ gồm automation, worktree, skill, connector, sub-agent, và một bộ nhớ nằm ngoài đoạn chat.
+Memory là xương sống. Agent có thể quên giữa các lần chạy, nhưng file trạng thái thì không. Nó nhớ đã thử gì, lỗi nào còn mở, và vòng tiếp theo nên bắt đầu từ đâu.
+Điểm ăn tiền nằm ở kiểm chứng. Một agent viết code thì không nên tự chấm code của mình. Loop nghiêm túc phải có test, build, lint, hoặc một agent khác làm người kiểm.
+Nhưng Addy cũng cảnh báo rất thẳng: loop càng mượt, lỗi cũng chạy càng nhanh. Token cũng bay nhanh hơn. Không có điểm dừng rõ ràng thì automation chỉ biến một sai lầm nhỏ thành sai lầm chạy qua đêm.
+Verdict: prompt vẫn cần, nhưng không còn là trò chơi chính. Addy đặt tên cho xu hướng này, Boris đang sống trong nó mỗi ngày. Người làm AI agent nghiêm túc sẽ phải thiết kế loop có trí nhớ, có kiểm chứng, và có phanh.
