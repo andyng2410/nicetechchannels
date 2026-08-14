@@ -46,8 +46,8 @@ config/tts.json
 models/faster-whisper-base/
 *.log
 
-# Tài liệu hướng dẫn dạng binary, còn brand cũ nên không đưa lên repo
-HUONG_DAN_SU_DUNG.pdf
+# Video hướng dẫn 43 MB, để ngoài git cho nhẹ history; chia sẻ qua link.
+# Bản PDF và bản Markdown trong docs/ thì vẫn track bình thường.
 VIDEO-HUONG-DAN-SU-DUNG.mp4
 
 # Slide project dynamic data
