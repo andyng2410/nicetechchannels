@@ -1,0 +1,27 @@
+.git
+.gitignore
+.venv/
+.venv.broken-*/
+**/__pycache__/
+*.py[cod]
+*.log
+
+# Tài liệu binary nặng, không cần trong image
+HUONG_DAN_SU_DUNG.pdf
+VIDEO-HUONG-DAN-SU-DUNG.mp4
+
+# Secrets: đưa vào lúc runtime, không bake vào image
+config/tts.json
+config/social-upload.json
+.env
+
+# Dữ liệu render cũ trên host
+slide/*/output/
+slide/*/input_audio/
+template/*/output/
+template/*/input_audio/
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore

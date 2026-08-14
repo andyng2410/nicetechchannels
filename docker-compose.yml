@@ -1,0 +1,24 @@
+services:
+  nicetechchannels:
+    build: .
+    image: nicetechchannels:local
+    container_name: nicetechchannels
+    # Chỉ mở trên loopback: web_server.py bind 0.0.0.0 và không có auth.
+    ports:
+      - "127.0.0.1:8765:8765"
+    # Không bind mount host. Dữ liệu slide nằm trong volume do Docker quản lý.
+    volumes:
+      - ntc-slides:/app/slide
+      - ntc-config:/app/config
+    environment:
+      ELEVENLABS_API_KEY: "${ELEVENLABS_API_KEY:-}"
+      AUTH_TOKEN: "${AUTH_TOKEN:-}"
+      CT0: "${CT0:-}"
+    security_opt:
+      - no-new-privileges:true
+    shm_size: "1gb"
+    restart: unless-stopped
+
+volumes:
+  ntc-slides:
+  ntc-config:
