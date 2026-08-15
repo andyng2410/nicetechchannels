@@ -1326,14 +1326,14 @@ def render_elevenlabs_guide_html() -> bytes:
       gap: 20px;
       align-items: center;
       border: 1px solid var(--line);
-      border-radius: 28px;
+      border-radius: var(--r-lg);
       padding: 22px;
       background: var(--panel);
       box-shadow: var(--shadow);
       margin: 18px 0;
     }
-    .guide-copy h2 { margin: 0 0 12px; font-size: clamp(26px, 3vw, 42px); letter-spacing: -0.05em; }
-    .guide-copy ol { margin: 0; padding-left: 20px; color: var(--text-soft); line-height: 1.65; font-weight: 700; }
+    .guide-copy h2 { margin: 0 0 12px; font-size: clamp(26px, 3vw, 42px); letter-spacing: -0.02em; }
+    .guide-copy ol { margin: 0; padding-left: 20px; color: var(--text-soft); line-height: 1.65; font-weight: 500; }
     .guide-action-step { margin-bottom: 8px; }
     .guide-action-step a {
       display: inline-flex;
@@ -1342,24 +1342,24 @@ def render_elevenlabs_guide_html() -> bytes:
       margin-left: 8px;
       padding: 4px 10px;
       border: 1px solid var(--accent);
-      border-radius: 999px;
+      border-radius: var(--r-sm);
       color: var(--accent-contrast);
       background: var(--accent);
       font-size: 12px;
-      font-weight: 950;
+      font-weight: 600;
       line-height: 1.2;
       white-space: nowrap;
     }
-    .kicker { margin: 0 0 8px; color: var(--accent); font-size: 12px; font-weight: 950; letter-spacing: 0.14em; text-transform: uppercase; }
+    .kicker { margin: 0 0 8px; color: var(--accent); font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
     .guide-shot {
       position: relative;
       min-height: 360px;
-      border: 1px solid rgba(0,0,0,.12);
-      border-radius: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
       overflow: hidden;
       background: #f7f7f7;
       color: #171717;
-      box-shadow: 0 22px 60px rgba(0,0,0,.22);
+      box-shadow: var(--shadow);
       font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     .shot-sidebar {
@@ -1788,7 +1788,7 @@ def render_social_upload_guide_html(platform: str) -> bytes:
       max-width: none;
       margin-bottom: 24px;
       border: 1px solid var(--line);
-      border-radius: 30px;
+      border-radius: var(--r-lg);
       background: var(--panel);
       box-shadow: var(--shadow);
       padding: clamp(22px, 3vw, 34px);
@@ -1798,14 +1798,14 @@ def render_social_upload_guide_html(platform: str) -> bytes:
       font-size: clamp(28px, 3vw, 46px);
       line-height: 1;
       white-space: nowrap;
-      letter-spacing: -0.055em;
+      letter-spacing: -0.03em;
     }
     .guide-lead {
       max-width: 980px;
       color: var(--text-soft);
       font-size: 16px;
       line-height: 1.7;
-      font-weight: 720;
+      font-weight: 400;
     }
     .guide-lead p { margin: 10px 0 0; }
     .back-link { margin-bottom: 18px; }
@@ -1822,7 +1822,7 @@ def render_social_upload_guide_html(platform: str) -> bytes:
     }
     .md-guide-section {
       border: 1px solid var(--line);
-      border-radius: 28px;
+      border-radius: var(--r-lg);
       padding: clamp(18px, 2.4vw, 28px);
       background: var(--panel);
       box-shadow: var(--shadow);
@@ -1846,7 +1846,7 @@ def render_social_upload_guide_html(platform: str) -> bytes:
       color: var(--text);
       font-size: clamp(24px, 2.35vw, 38px);
       line-height: 1.05;
-      letter-spacing: -0.045em;
+      letter-spacing: -0.02em;
       text-align: right;
     }
     .md-section-body {
@@ -1855,7 +1855,7 @@ def render_social_upload_guide_html(platform: str) -> bytes:
       color: var(--text-soft);
       font-size: 16px;
       line-height: 1.7;
-      font-weight: 720;
+      font-weight: 400;
     }
     .md-section-body p,
     .md-section-body ol,
@@ -1870,32 +1870,31 @@ def render_social_upload_guide_html(platform: str) -> bytes:
       margin: 14px 0 0;
       color: var(--text);
       font-size: clamp(19px, 1.7vw, 26px);
-      letter-spacing: -0.035em;
+      letter-spacing: -0.02em;
     }
-    .md-section-body strong { color: var(--text); font-weight: 950; }
+    .md-section-body strong { color: var(--text); font-weight: 600; }
     .md-guide code {
-      border-radius: 8px;
-      background: rgba(164, 98, 42, 0.12);
-      color: #7a3f0c;
+      border-radius: var(--r-sm);
+      background: var(--surface-strong);
+      color: var(--text);
       padding: 0.05em 0.35em;
-      font-weight: 850;
+      font-weight: 500;
     }
     .md-guide pre {
       margin: 0;
       overflow-x: auto;
       border: 1px solid var(--control-line-soft);
-      border-radius: 18px;
+      border-radius: var(--r-md);
       padding: 16px;
-      background: rgba(255, 251, 244, 0.92);
+      background: var(--surface);
       color: var(--text);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
     }
     .md-guide pre code {
       display: block;
       padding: 0;
       background: transparent;
       color: inherit;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: 13px;
       line-height: 1.55;
       white-space: pre;
@@ -1904,12 +1903,12 @@ def render_social_upload_guide_html(platform: str) -> bytes:
       display: inline;
       padding: 0;
       border-radius: 0;
-      color: #9b521b;
+      color: var(--text);
       background: transparent;
       text-decoration: underline;
       text-decoration-thickness: 2px;
       text-underline-offset: 3px;
-      font-weight: 850;
+      font-weight: 600;
     }
     .guide-image-grid {
       display: grid;
@@ -1920,25 +1919,19 @@ def render_social_upload_guide_html(platform: str) -> bytes:
     .guide-image-grid.single { grid-template-columns: minmax(0, 1fr); }
     .guide-image-grid figure {
       margin: 0;
-      border: 1px solid rgba(79, 57, 31, 0.15);
-      border-radius: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
       padding: 10px;
       background: #fff;
-      box-shadow: 0 18px 42px rgba(78, 54, 28, 0.13);
+      box-shadow: var(--shadow);
     }
     .guide-image-grid img {
       display: block;
       width: 100%;
       max-height: 640px;
       object-fit: contain;
-      border-radius: 12px;
+      border-radius: var(--r-sm);
       background: #fff;
-    }
-    body:not(.theme-light) .md-guide code { color: #ffd59a; background: rgba(0,0,0,.38); }
-    body:not(.theme-light) .md-guide pre { background: rgba(0,0,0,.38); }
-    body:not(.theme-light) .guide-image-grid figure {
-      border-color: rgba(255,255,255,.14);
-      box-shadow: 0 18px 42px rgba(0,0,0,.28);
     }
     @media (max-width: 1040px) {
       .guide-hero h1 { white-space: normal; }
@@ -3421,18 +3414,6 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       --upload-page-max: 1800px;
       padding: 24px clamp(24px, 3vw, 56px);
     }
-    body:not(.theme-light) {
-      --body-bg: #000;
-      --surface: rgba(255, 255, 255, 0.075);
-      --surface-strong: rgba(255, 255, 255, 0.12);
-      --surface-panel: rgba(8, 10, 14, 0.94);
-      --field-bg: rgba(0, 0, 0, 0.58);
-      --control-line: rgba(255, 255, 255, 0.20);
-      --control-line-soft: rgba(255, 255, 255, 0.16);
-      --text-faint: rgba(246, 255, 249, 0.72);
-      --status-text: rgba(246, 255, 249, 0.84);
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.72);
-    }
     .upload-header {
       display: grid;
       grid-template-columns: minmax(320px, 0.86fr) minmax(420px, 1fr);
@@ -3453,18 +3434,18 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       width: 58px;
       height: 58px;
       flex: 0 0 58px;
-      border-radius: 16px;
+      border-radius: var(--r-md);
       object-fit: cover;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+      border: 1px solid var(--line);
     }
     .upload-header h1 {
       margin: 0;
       font-size: clamp(36px, 4.4vw, 54px);
       line-height: 0.95;
-      letter-spacing: -0.065em;
+      letter-spacing: -0.03em;
       white-space: nowrap;
     }
-    .kicker { margin: 0 0 6px; color: var(--muted); font-size: 11px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; }
+    .kicker { margin: 0 0 6px; color: var(--muted); font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
     .header-tools {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3491,22 +3472,11 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
       gap: 14px;
-      border: 1px solid rgba(242, 178, 101, 0.16);
-      border-radius: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
       padding: 10px 12px;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.11), transparent 30%),
-        var(--surface-panel);
+      background: var(--surface-panel);
       box-shadow: var(--shadow);
-    }
-    body:not(.theme-light) .top-upload-bar {
-      border-color: rgba(34, 197, 94, 0.36);
-      background:
-        radial-gradient(circle at 4% 0%, rgba(34, 197, 94, 0.16), transparent 34%),
-        linear-gradient(150deg, rgba(10, 28, 22, 0.97), rgba(2, 8, 7, 0.98));
-      box-shadow:
-        0 0 0 1px rgba(34, 197, 94, 0.10),
-        0 22px 68px rgba(0, 0, 0, 0.72);
     }
     .top-project-row {
       display: flex;
@@ -3518,7 +3488,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       width: 44px;
       height: 44px;
       flex: 0 0 44px;
-      border-radius: 14px;
+      border-radius: var(--r-md);
     }
     .top-project-field {
       display: grid;
@@ -3560,20 +3530,11 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     .project-picker {
       display: grid;
       gap: 10px;
-      border: 1px solid rgba(242, 178, 101, 0.16);
-      border-radius: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
       padding: 14px;
       background: var(--surface-panel);
       box-shadow: var(--shadow);
-    }
-    body:not(.theme-light) .project-picker {
-      border-color: rgba(34, 197, 94, 0.42);
-      background:
-        radial-gradient(circle at 4% 0%, rgba(34, 197, 94, 0.18), transparent 34%),
-        linear-gradient(150deg, rgba(10, 28, 22, 0.97), rgba(2, 8, 7, 0.98));
-      box-shadow:
-        0 0 0 1px rgba(34, 197, 94, 0.10),
-        0 24px 80px rgba(0, 0, 0, 0.76);
     }
     .project-picker-head {
       display: flex;
@@ -3581,69 +3542,42 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       justify-content: space-between;
       gap: 14px;
     }
-    h2 { margin: 0; font-size: 22px; letter-spacing: -0.05em; }
+    h2 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
     .ready-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid rgba(242, 178, 101, 0.26);
-      border-radius: 999px;
+      border: 1px solid var(--accent);
+      border-radius: var(--r-sm);
       padding: 7px 11px;
       color: var(--accent-contrast);
       background: var(--accent);
       font-size: 12px;
-      font-weight: 950;
+      font-weight: 600;
       white-space: nowrap;
-      box-shadow: 0 12px 32px var(--accent-glow);
     }
     .ready-pill strong { font-size: 16px; line-height: 1; }
     .ready-pill span { text-transform: uppercase; letter-spacing: 0.08em; }
     .field-project,
-    .project-summary {
-      --field-accent: #22c55e;
-      --field-accent-2: #86efac;
-      --field-tint: rgba(34, 197, 94, 0.13);
-      --field-border: rgba(34, 197, 94, 0.36);
-      --field-icon-text: #052e16;
-    }
-    .field-title {
-      --field-accent: #f59e0b;
-      --field-accent-2: #fde68a;
-      --field-tint: rgba(245, 158, 11, 0.14);
-      --field-border: rgba(245, 158, 11, 0.38);
-      --field-icon-text: #2b1602;
-    }
-    .field-description {
-      --field-accent: #06b6d4;
-      --field-accent-2: #67e8f9;
-      --field-tint: rgba(6, 182, 212, 0.13);
-      --field-border: rgba(6, 182, 212, 0.36);
-      --field-icon-text: #031f26;
-    }
-    .field-youtube {
-      --field-accent: #ef4444;
-      --field-accent-2: #fca5a5;
-      --field-tint: rgba(239, 68, 68, 0.13);
-      --field-border: rgba(239, 68, 68, 0.40);
-      --field-icon-text: #300808;
-    }
-    .field-facebook {
-      --field-accent: #7c3aed;
-      --field-accent-2: #c4b5fd;
-      --field-tint: rgba(124, 58, 237, 0.13);
-      --field-border: rgba(124, 58, 237, 0.40);
-      --field-icon-text: #f5f3ff;
+    .project-summary,
+    .field-title,
+    .field-description,
+    .field-youtube,
+    .field-facebook,
+    .field-source-comment,
+    .platform-youtube,
+    .platform-facebook {
+      --field-accent: var(--accent);
+      --field-accent-2: var(--muted);
+      --field-tint: var(--accent-soft);
+      --field-border: var(--control-line);
+      --field-icon-text: var(--accent-contrast);
     }
     .field-source-comment {
-      --field-accent: #7c3aed;
-      --field-accent-2: #c4b5fd;
-      --field-tint: rgba(124, 58, 237, 0.10);
-      --field-border: rgba(124, 58, 237, 0.32);
-      --field-icon-text: #f5f3ff;
       max-width: 520px;
     }
     .field { display: grid; gap: 7px; margin: 0; }
-    .field > span { color: var(--muted); font-size: 12px; font-weight: 900; }
+    .field > span { color: var(--muted); font-size: 12px; font-weight: 600; }
     .field-label,
     .summary-label {
       display: inline-flex;
@@ -3674,25 +3608,23 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: 999px;
+      border-radius: var(--r-sm);
       padding: 7px 11px;
       font-size: 11px;
-      font-weight: 950;
+      font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       white-space: nowrap;
     }
     .project-video-badge.ready {
-      color: #052e16;
-      border: 1px solid rgba(34, 197, 94, 0.36);
-      background: linear-gradient(135deg, #86efac, #22c55e);
-      box-shadow: 0 12px 28px rgba(34, 197, 94, 0.24);
+      color: var(--ok);
+      border: 1px solid rgba(22, 163, 74, 0.35);
+      background: rgba(22, 163, 74, 0.10);
     }
     .project-video-badge.missing {
-      color: #32160a;
-      border: 1px solid rgba(251, 146, 60, 0.36);
-      background: linear-gradient(135deg, #fed7aa, #fb923c);
-      box-shadow: 0 12px 28px rgba(251, 146, 60, 0.20);
+      color: var(--warn);
+      border: 1px solid rgba(217, 119, 6, 0.35);
+      background: rgba(217, 119, 6, 0.10);
     }
     .field-icon {
       display: inline-flex;
@@ -3700,14 +3632,13 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       justify-content: center;
       width: 24px;
       height: 24px;
-      border-radius: 9px;
-      color: var(--field-icon-text, #170d05);
-      background: linear-gradient(135deg, var(--field-accent-2, #fde68a), var(--field-accent, #f2b261));
+      border-radius: var(--r-sm);
+      color: var(--text);
+      background: var(--accent-soft);
       font-size: 10px;
-      font-weight: 950;
+      font-weight: 600;
       letter-spacing: -0.03em;
       line-height: 1;
-      box-shadow: 0 10px 24px color-mix(in srgb, var(--field-accent, #f2b261) 26%, transparent);
     }
     .field input,
     .field select,
@@ -3715,39 +3646,19 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       width: 100%;
       min-height: 46px;
       border: 1px solid var(--control-line);
-      border-radius: 15px;
+      border-radius: var(--r-sm);
       padding: 11px 13px;
       color: var(--text);
       background: var(--field-bg);
       font-family: inherit;
       line-height: 1.45;
     }
-    body:not(.theme-light) .field input,
-    body:not(.theme-light) .field select,
-    body:not(.theme-light) .field textarea {
-      border-color: rgba(255, 255, 255, 0.22);
-      background: rgba(0, 0, 0, 0.66);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    }
-    body:not(.theme-light) .field-project select,
-    body:not(.theme-light) .field-title input,
-    body:not(.theme-light) .field-description textarea,
-    body:not(.theme-light) .field-source-comment input,
-    body:not(.theme-light) .field-youtube select,
-    body:not(.theme-light) .field-facebook select {
-      border-color: var(--field-border);
-      background:
-        linear-gradient(135deg, var(--field-tint), rgba(255, 255, 255, 0.025)),
-        rgba(0, 0, 0, 0.68);
-    }
-    body:not(.theme-light) .field input:focus,
-    body:not(.theme-light) .field select:focus,
-    body:not(.theme-light) .field textarea:focus {
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
       outline: none;
-      border-color: rgba(242, 178, 101, 0.58);
-      box-shadow:
-        0 0 0 3px rgba(242, 178, 101, 0.14),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
     }
     .platform-card .upload-field.compact.field-youtube,
     .platform-card .upload-field.compact.field-facebook {
@@ -3756,27 +3667,11 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     }
     .project-select-field select {
       min-height: 48px;
-      border-color: rgba(242, 178, 101, 0.22);
-      border-radius: 16px;
-      background:
-        linear-gradient(135deg, rgba(242, 178, 101, 0.08), var(--surface)),
-        var(--field-bg);
+      border-color: var(--control-line);
+      border-radius: var(--r-sm);
+      background: var(--field-bg);
       font-size: 15px;
-      font-weight: 850;
-    }
-    body:not(.theme-light) .project-select-field select {
-      border-color: rgba(34, 197, 94, 0.38);
-      background:
-        linear-gradient(135deg, rgba(34, 197, 94, 0.14), rgba(255, 255, 255, 0.035)),
-        rgba(0, 0, 0, 0.70);
-    }
-    body:not(.theme-light) .project-select-field {
-      border: 1px solid var(--field-border);
-      border-radius: 18px;
-      padding: 10px;
-      background:
-        linear-gradient(135deg, var(--field-tint), rgba(255, 255, 255, 0.025)),
-        rgba(0, 0, 0, 0.24);
+      font-weight: 600;
     }
     .field textarea { resize: vertical; min-height: 150px; }
     .field-source-comment input {
@@ -3792,15 +3687,13 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       width: 32px;
       height: 32px;
       border: 1px solid var(--field-border);
-      border-radius: 11px;
+      border-radius: var(--r-sm);
       padding: 0;
-      color: var(--field-accent-2);
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.62)),
-        var(--surface);
+      color: var(--text-soft);
+      background: var(--surface);
       font: inherit;
       font-size: 11px;
-      font-weight: 950;
+      font-weight: 600;
       letter-spacing: 0.02em;
       cursor: pointer;
       transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
@@ -3821,16 +3714,6 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       font-size: 14px;
       line-height: 1;
     }
-    body:not(.theme-light) .copy-field-btn {
-      border-color: var(--field-border);
-      background:
-        linear-gradient(135deg, color-mix(in srgb, var(--field-tint) 76%, rgba(255, 255, 255, 0.03)), rgba(0, 0, 0, 0.28)),
-        rgba(0, 0, 0, 0.42);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-    body:not(.theme-light) .copy-field-btn:hover {
-      border-color: color-mix(in srgb, var(--field-accent-2) 66%, transparent);
-    }
     .project-summary {
       display: flex;
       align-items: center;
@@ -3838,21 +3721,13 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       gap: 14px;
       padding: 0;
     }
-    body:not(.theme-light) .project-summary {
-      border: 1px solid rgba(34, 197, 94, 0.24);
-      border-radius: 16px;
-      padding: 12px 14px;
-      background:
-        linear-gradient(135deg, rgba(34, 197, 94, 0.10), rgba(255, 255, 255, 0.035)),
-        rgba(0, 0, 0, 0.34);
-    }
     .project-summary > div { min-width: 0; }
     .summary-label {
       display: inline-flex;
       margin-bottom: 7px;
       color: var(--field-accent-2);
       font-size: 11px;
-      font-weight: 900;
+      font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
@@ -3863,7 +3738,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       white-space: nowrap;
       margin-bottom: 3px;
       font-size: 20px;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.02em;
     }
     .quick-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
     .status,
@@ -3871,7 +3746,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     .upload-status,
     .upload-result {
       border: 1px solid var(--control-line-soft);
-      border-radius: 14px;
+      border-radius: var(--r-md);
       padding: 10px 11px;
       color: var(--status-text);
       background: var(--surface);
@@ -3880,46 +3755,26 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     }
     .status.good,
     .upload-status.good,
-    .upload-result.good { border-color: rgba(242, 178, 101, 0.34); color: var(--good-text); }
+    .upload-result.good { border-color: var(--ok); color: var(--good-text); }
     .status.bad,
     .upload-status.bad,
-    .upload-result.bad { border-color: rgba(255, 82, 82, 0.40); color: var(--danger-text); }
+    .upload-result.bad { border-color: var(--danger); color: var(--danger-text); }
     .status.warn,
     .upload-status.warn,
-    .upload-result.warn { border-color: rgba(255, 171, 64, 0.34); color: var(--warn-text); }
+    .upload-result.warn { border-color: var(--warn); color: var(--warn-text); }
     .upload-empty { display: grid; gap: 8px; }
     .upload-empty strong { color: var(--warn-text); }
     .upload-panel {
-      border: 1px solid rgba(242, 178, 101, 0.16);
-      border-radius: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
       padding: 14px;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(242, 178, 101, 0.10), transparent 40%),
-        var(--surface-panel);
+      background: var(--surface-panel);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-    }
-    body:not(.theme-light) .upload-panel {
-      border-color: rgba(168, 85, 247, 0.42);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.18), transparent 34%),
-        linear-gradient(150deg, rgba(26, 17, 39, 0.97), rgba(6, 5, 12, 0.98));
-      box-shadow:
-        0 0 0 1px rgba(168, 85, 247, 0.10),
-        0 24px 80px rgba(0, 0, 0, 0.78);
     }
     .upload-head { text-align: center; margin-bottom: 8px; }
     .upload-head h3 { margin: 0 0 5px; font-size: 20px; letter-spacing: -0.035em; }
     .upload-head span { display: block; color: var(--text-faint); font-size: 12px; line-height: 1.45; }
     .upload-field { margin-top: 8px; }
-    body:not(.theme-light) .upload-panel .upload-field {
-      border: 1px solid var(--field-border);
-      border-radius: 17px;
-      padding: 10px;
-      background:
-        radial-gradient(circle at 0% 0%, var(--field-tint), transparent 34%),
-        rgba(0, 0, 0, 0.24);
-    }
     .upload-field.compact { max-width: none; }
     .platform-grid {
       display: grid;
@@ -3930,14 +3785,12 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     }
     .platform-card {
       border: 1px solid var(--field-border);
-      border-radius: 18px;
+      border-radius: var(--r-md);
       padding: 12px;
-      background:
-        radial-gradient(circle at 0% 0%, var(--field-tint), transparent 36%),
-        var(--surface);
+      background: var(--surface);
     }
-    .platform-youtube { order: 2; --field-accent: #ef4444; --field-accent-2: #fca5a5; --field-tint: rgba(239, 68, 68, 0.12); --field-border: rgba(239, 68, 68, 0.32); --field-icon-text: #300808; }
-    .platform-facebook { order: 1; --field-accent: #7c3aed; --field-accent-2: #c4b5fd; --field-tint: rgba(124, 58, 237, 0.12); --field-border: rgba(124, 58, 237, 0.32); --field-icon-text: #f5f3ff; }
+    .platform-youtube { order: 2; }
+    .platform-facebook { order: 1; }
     .platform-card-head {
       display: flex;
       align-items: center;
@@ -3951,7 +3804,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       gap: 8px;
       color: var(--field-accent-2);
       font-size: 13px;
-      font-weight: 950;
+      font-weight: 600;
       letter-spacing: -0.02em;
     }
     .platform-guide-link {
@@ -3960,11 +3813,6 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       flex: 0 0 auto;
       border-color: var(--field-border);
       font-size: 11px;
-    }
-    .platform-guide-link .btn-icon {
-      color: #fff8ed;
-      background: linear-gradient(135deg, var(--field-accent-2), var(--field-accent));
-      box-shadow: 0 7px 18px color-mix(in srgb, var(--field-accent, #f2b261) 24%, transparent);
     }
     .platform-account-list {
       display: grid;
@@ -3983,7 +3831,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       gap: 10px;
       width: 100%;
       border: 1px solid var(--field-border);
-      border-radius: 16px;
+      border-radius: var(--r-md);
       padding: 9px;
       background: var(--surface);
       color: inherit;
@@ -3996,19 +3844,16 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     }
     button.platform-account:hover:not(:disabled) {
       transform: translateY(-1px);
-      border-color: var(--field-accent-2);
-      box-shadow: 0 14px 30px color-mix(in srgb, var(--field-accent, #f2b261) 16%, transparent);
+      border-color: var(--muted);
     }
     button.platform-account:disabled {
       cursor: default;
       opacity: 0.78;
     }
     .platform-account.active {
-      border-color: var(--field-accent-2);
-      background:
-        linear-gradient(135deg, var(--field-tint), rgba(255, 255, 255, 0.04)),
-        var(--surface);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--field-accent, #f2b261) 18%, transparent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: inset 0 0 0 1px var(--accent);
     }
     .platform-account-trigger {
       grid-template-columns: 42px minmax(0, 1fr) auto;
@@ -4021,7 +3866,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       overflow: visible !important;
       color: var(--text-faint);
       font-size: 18px;
-      font-weight: 950;
+      font-weight: 600;
       line-height: 1;
       transition: transform 0.16s ease;
     }
@@ -4036,31 +3881,23 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       display: none;
       gap: 7px;
       z-index: 20;
-      border: 1px solid var(--field-border);
-      border-radius: 18px;
+      border: 1px solid var(--control-line);
+      border-radius: var(--r-md);
       padding: 8px;
-      background: #fff7ea;
-      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.24);
+      background: var(--panel);
+      box-shadow: var(--shadow);
     }
     .platform-account-list.open .platform-account-options {
       display: grid;
     }
     .platform-account-option {
-      border-color: rgba(79, 57, 31, 0.12);
-      background: #fffbf4;
-    }
-    body:not(.theme-light) .platform-account-options {
-      background: #111318;
-      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.46);
-    }
-    body:not(.theme-light) .platform-account-option {
-      border-color: rgba(255, 255, 255, 0.10);
-      background: #171a21;
+      border-color: var(--control-line-soft);
+      background: var(--surface);
     }
     .platform-account img {
       width: 42px;
       height: 42px;
-      border-radius: 999px;
+      border-radius: 50%;
       object-fit: cover;
       background: var(--surface-strong);
     }
@@ -4075,13 +3912,13 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     .platform-account strong {
       color: var(--text);
       font-size: 13px;
-      font-weight: 950;
+      font-weight: 600;
     }
     .platform-account span {
       margin-top: 3px;
       color: var(--text-faint);
       font-size: 11px;
-      font-weight: 800;
+      font-weight: 500;
     }
     .platform-card .upload-field {
       margin-top: 10px;
@@ -4119,53 +3956,24 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       display: grid;
       place-items: center;
       padding: 24px;
-      background: rgba(11, 7, 3, 0.44);
-      backdrop-filter: blur(18px);
+      background: rgba(9, 9, 11, 0.5);
     }
     .modal-card {
       position: relative;
       width: min(100%, 560px);
-      border: 1px solid var(--field-border);
-      border-radius: 24px;
+      border: 1px solid var(--control-line);
+      border-radius: var(--r-lg);
       padding: 22px;
-      background:
-        radial-gradient(circle at 0% 0%, var(--field-tint), transparent 36%),
-        var(--panel);
-      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      background: var(--panel);
+      box-shadow: var(--shadow);
     }
     .facebook-config-modal {
       width: min(100%, 720px);
-      border-color: rgba(124, 58, 237, 0.34);
-      color: #21170f;
-      background:
-        radial-gradient(circle at 10% 16%, rgba(124, 58, 237, 0.17), transparent 34%),
-        radial-gradient(circle at 92% 0%, rgba(251, 146, 60, 0.18), transparent 34%),
-        linear-gradient(145deg, #fffaf1 0%, #f4ebff 56%, #fff7e6 100%);
-      box-shadow:
-        0 34px 95px rgba(44, 31, 18, 0.34),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.62);
-    }
-    body:not(.theme-light) .modal-card {
-      background:
-        radial-gradient(circle at 12% 0%, rgba(168, 85, 247, 0.20), transparent 38%),
-        linear-gradient(150deg, rgba(26, 17, 39, 0.98), rgba(6, 5, 12, 0.99));
-      box-shadow: 0 32px 100px rgba(0, 0, 0, 0.72);
-    }
-    body:not(.theme-light) .facebook-config-modal {
-      border-color: rgba(168, 85, 247, 0.48);
-      color: #fff7ed;
-      background:
-        radial-gradient(circle at 10% 12%, rgba(168, 85, 247, 0.28), transparent 34%),
-        radial-gradient(circle at 92% 0%, rgba(249, 115, 22, 0.16), transparent 36%),
-        linear-gradient(145deg, #18111f 0%, #27172e 58%, #100f15 100%);
-      box-shadow:
-        0 34px 110px rgba(0, 0, 0, 0.78),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
     }
     .modal-card h3 {
       margin: 0 0 8px;
       font-size: 30px;
-      letter-spacing: -0.045em;
+      letter-spacing: -0.02em;
     }
     .facebook-config-modal .kicker,
     .facebook-config-modal h3,
@@ -4178,60 +3986,42 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       color: var(--text-faint);
       font-size: 13px;
       line-height: 1.45;
-      font-weight: 750;
+      font-weight: 500;
     }
     .facebook-config-modal .modal-copy {
       max-width: 610px;
-      color: rgba(33, 23, 15, 0.74);
+      color: var(--text-faint);
       font-size: 14px;
-      font-weight: 850;
-    }
-    body:not(.theme-light) .facebook-config-modal .modal-copy {
-      color: rgba(255, 247, 237, 0.78);
+      font-weight: 500;
     }
     .modal-copy code {
       color: var(--text);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: 12px;
     }
     .facebook-config-modal .modal-copy code {
-      color: #4c1d95;
-      background: rgba(255, 255, 255, 0.58);
-      border-radius: 8px;
+      color: var(--text);
+      background: var(--surface-strong);
+      border-radius: var(--r-sm);
       padding: 2px 5px;
-      font-weight: 950;
-    }
-    body:not(.theme-light) .facebook-config-modal .modal-copy code {
-      color: #fde68a;
-      background: rgba(0, 0, 0, 0.28);
+      font-weight: 600;
     }
     .facebook-config-modal .facebook-config-field {
-      border: 1px solid rgba(124, 58, 237, 0.20);
-      border-radius: 18px;
+      border: 1px solid var(--control-line-soft);
+      border-radius: var(--r-md);
       padding: 10px 12px;
-      background: rgba(255, 255, 255, 0.52);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.40);
+      background: var(--surface);
     }
     .facebook-config-modal .facebook-config-field + .facebook-config-field {
       margin-top: 10px !important;
     }
     .facebook-config-modal .facebook-config-field input {
-      color: #21170f;
-      border-color: rgba(94, 71, 45, 0.24);
-      background: rgba(255, 252, 247, 0.95);
+      color: var(--text);
+      border-color: var(--control-line);
+      background: var(--field-bg);
     }
     .facebook-config-modal .facebook-config-field input::placeholder {
-      color: rgba(33, 23, 15, 0.52);
-    }
-    body:not(.theme-light) .facebook-config-modal .facebook-config-field {
-      border-color: rgba(255, 255, 255, 0.13);
-      background: rgba(0, 0, 0, 0.22);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-    }
-    body:not(.theme-light) .facebook-config-modal .facebook-config-field input {
-      color: #fff7ed;
-      border-color: rgba(255, 255, 255, 0.18);
-      background: rgba(0, 0, 0, 0.38);
+      color: var(--text-faint);
     }
     .modal-close {
       position: absolute;
@@ -4240,12 +4030,12 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       width: 34px;
       height: 34px;
       border: 1px solid var(--control-line);
-      border-radius: 999px;
+      border-radius: var(--r-sm);
       color: var(--text);
       background: var(--surface);
       font: inherit;
       font-size: 20px;
-      font-weight: 900;
+      font-weight: 600;
       cursor: pointer;
     }
     .modal-actions {
@@ -4282,7 +4072,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     .icon-btn {
       min-height: 40px;
       border: 1px solid var(--control-line);
-      border-radius: 13px;
+      border-radius: var(--r-sm);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -4290,7 +4080,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       color: var(--text-button);
       background: var(--surface);
       font-size: 12px;
-      font-weight: 950;
+      font-weight: 600;
       cursor: pointer;
       text-decoration: none;
     }
@@ -4302,38 +4092,17 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       justify-content: center;
     }
     .refresh-btn {
-      color: var(--accent-contrast);
-      background: linear-gradient(135deg, var(--accent), #d88435);
-      border-color: transparent;
-      box-shadow: 0 12px 32px var(--accent-glow);
+      color: var(--text);
+      background: var(--surface);
+      border-color: var(--control-line);
     }
-    .refresh-btn .btn-icon {
-      color: #170d05;
-      background: rgba(255, 245, 230, 0.58);
-      box-shadow: none;
-    }
-    .theme-toggle .btn-icon {
-      color: #fff8ed;
-      background: linear-gradient(135deg, #a78bfa, #7c3aed);
-      box-shadow: 0 7px 18px rgba(124, 58, 237, 0.24);
-    }
-    #refreshProjects .btn-icon {
-      color: #f5f9ff;
-      background: linear-gradient(135deg, #c084fc, #7c3aed);
-      box-shadow: 0 7px 18px rgba(124, 58, 237, 0.24);
-    }
-    .upload-btn.youtube { border-color: rgba(255, 82, 82, 0.34); background: rgba(255, 82, 82, 0.12); }
-    .upload-btn.facebook { border-color: rgba(74, 144, 226, 0.34); }
     .upload-btn.both {
       min-width: min(100%, 360px);
       min-height: 44px;
       padding: 10px 18px;
-      border-color: rgba(34, 197, 94, 0.42);
-      background: rgba(34, 197, 94, 0.14);
-    }
-    body:not(.theme-light) .small-link {
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.10);
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--accent-contrast);
     }
     .upload-btn:disabled { cursor: not-allowed; opacity: 0.46; }
     .btn-icon {
@@ -4342,32 +4111,17 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
       justify-content: center;
       width: 20px;
       height: 20px;
-      border-radius: 999px;
-      color: #fff8ed;
-      background: linear-gradient(135deg, #f2b261, #d88435);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      background: var(--accent-soft);
       font-size: 11px;
-      font-weight: 950;
+      font-weight: 600;
       line-height: 1;
-      box-shadow: 0 7px 18px rgba(242, 178, 101, 0.22);
-      text-shadow: none;
-    }
-    .upload-btn.youtube .btn-icon {
-      color: #fff5f5;
-      background: linear-gradient(135deg, #ff5252, #b71c1c);
-      box-shadow: 0 7px 18px rgba(255, 82, 82, 0.22);
-      text-shadow: none;
-    }
-    .upload-btn.facebook .btn-icon {
-      color: #fff8ed;
-      background: linear-gradient(135deg, #c084fc, #7c3aed);
-      box-shadow: 0 7px 18px rgba(124, 58, 237, 0.24);
       text-shadow: none;
     }
     .upload-btn.both .btn-icon {
-      color: #052e16;
-      background: linear-gradient(135deg, #86efac, #22c55e);
-      box-shadow: 0 7px 18px rgba(34, 197, 94, 0.24);
-      text-shadow: none;
+      color: inherit;
+      background: transparent;
     }
     .upload-status {
       width: fit-content;
@@ -4376,7 +4130,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     }
     .upload-result { margin-top: 10px; }
     .small-link { color: var(--text); background: var(--surface-strong); }
-    .upload-result a { color: var(--accent); font-weight: 900; background: transparent; padding: 0; }
+    .upload-result a { color: var(--accent); font-weight: 600; background: transparent; padding: 0; }
     [hidden] { display: none !important; }
     @media (max-width: 980px) {
       .upload-header { display: grid; }
