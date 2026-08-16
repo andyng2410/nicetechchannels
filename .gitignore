@@ -84,3 +84,5 @@ template/*/*.webm
 
 # Exception: keep the slide directory structure
 !slide/**/.gitkeep
+
+slide/
