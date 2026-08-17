@@ -1,5 +1,14 @@
 # Changelog
 
+## NiceTechChannels Template 3 — 83.v5.87
+
+### Added
+
+- Thêm mục **Tạo slide mới từ link** trên dashboard: dán link nguồn + chọn style script (Auto/5 style/3 blend), hệ thống tự chạy `codex exec` (Codex CLI, đăng nhập subscription) theo Link Autopilot — thu source, viết script, dựng slide, validate, chụp QA vào `slide/<project>/qa/` rồi dừng; render vẫn thao tác tay. Cấu hình qua `config/agent.json` (mẫu: `config/agent.example.json`).
+- Thêm **wizard duyệt 2 bước** cho deck builder tại trang riêng **`/create`** (nút "＋ Tạo slide" trên header dashboard): bước 1 codex thu source + viết 5 bản script theo 5 style, user chọn/sửa từng dòng trên UI rồi chốt; bước 2 build deck với script nguyên văn, duyệt ảnh QA với nút "Yêu cầu sửa" (codex chạy vòng sửa) và "Duyệt deck". Giai đoạn nháp chỉ ghi `slide/<project>/source/` nên project chưa hiện trong danh sách render; wizard dở dang resume được sau khi tải lại trang. Xong wizard thì bấm "Mở màn hình render" để quay về bộ máy render.
+- Thêm `deck_host_runner.py`: cầu nối để web UI trong Docker gọi được Codex trên host qua file queue `slide/.deck-runner/`; codex build deck trên host, validate/capture chạy bằng `docker exec` vào container.
+- `docker-compose.yml` chuyển `slide/` từ volume Docker sang **bind mount `./slide`** để host và container nhìn chung dữ liệu deck (volume `ntc-slides` cũ giữ làm backup); image không còn bake `slide/` vào trong.
+
 ## NiceTechChannels Template 3 — 83.v5.86
 
 Release này tập trung vào workflow tự động hơn, visual đẹp và giàu chuyển động hơn, QA chặt hơn, cùng trải nghiệm cài đặt/upload gọn hơn.

@@ -16,6 +16,12 @@
     outputUrl: null,
     busy: false,
     canceling: false,
+    deckJobId: null,
+    deckPollTimer: null,
+    deckCanceling: false,
+    deckSlug: null,
+    deckDrafts: [],
+    deckDraftIndex: 0,
     uploadProject: null,
     socialReady: { youtube: false, facebook: false },
     facebookCommentTargetId: '',
@@ -1734,6 +1740,444 @@
 
   const startButton = $('#startRender');
   if (startButton) startButton.addEventListener('click', startRender);
+
+  // --- Deck builder (Tạo slide mới từ link, chỉ có trên trang chủ) ---
+
+  const deckInfo = window.__DECK__ || null;
+  const DECK_PHASES = [
+    ['nguon', 'Đang thu source...'],
+    ['drafts', 'Đang viết 5 bản script...'],
+    ['script', 'Đang viết script...'],
+    ['visual', 'Đang dựng slide...'],
+    ['validate', 'Đang validate...'],
+    ['capture', 'Đang capture QA...'],
+  ];
+
+  function deckMode() {
+    return document.querySelector('input[name="deckMode"]:checked')?.value || 'wizard';
+  }
+
+  function syncDeckMode() {
+    const styleField = $('#deckStyleField');
+    if (styleField) styleField.hidden = deckMode() === 'wizard';
+    const start = $('#startDeck');
+    if (start) setButtonLabel(start, deckMode() === 'wizard' ? 'Bắt đầu: viết 5 bản script' : 'Tạo deck 1 mạch');
+  }
+
+  function deckAvailable() {
+    return Boolean(deckInfo && deckInfo.available && deckInfo.client_allowed);
+  }
+
+  function deckProgressForJob(job) {
+    const logs = String(job.logs || '');
+    const rawLine = latestRawLogLine(logs);
+    if (job.status === 'done') return { title: 'Deck hoàn tất', log: rawLine };
+    if (job.status === 'failed') return { title: 'Deck thất bại', log: job.error || rawLine };
+    if (job.status === 'cancelled') return { title: 'Đã dừng deck job', log: rawLine || 'Job đã được dừng.' };
+    if (job.status === 'cancelling') return { title: 'Đang dừng deck job...', log: rawLine };
+    let title = 'Codex đang khởi động...';
+    const markers = logs.match(/\[PHASE\]\s*(nguon|drafts|script|visual|validate|capture)/g);
+    if (markers && markers.length) {
+      const lastPhase = markers[markers.length - 1].replace(/\[PHASE\]\s*/, '');
+      const entry = DECK_PHASES.find(([key]) => key === lastPhase);
+      if (entry) title = entry[1];
+    }
+    return { title, log: rawLine };
+  }
+
+  function setDeckState(title, step, tone = 'running') {
+    const box = $('#deckState');
+    const titleEl = $('#deckStateTitle');
+    const list = $('#deckStateList');
+    if (!box || !titleEl || !list) return;
+    box.hidden = false;
+    box.className = `render-state ${tone}`;
+    titleEl.textContent = title;
+    list.textContent = '';
+    if (step) {
+      const item = document.createElement('li');
+      item.textContent = step;
+      list.appendChild(item);
+    }
+  }
+
+  function setDeckSummaryState(text) {
+    const el = $('#deckSummaryState');
+    if (el) el.textContent = text || '';
+  }
+
+  function setDeckBusy(busy) {
+    const start = $('#startDeck');
+    const stop = $('#stopDeck');
+    if (start) start.disabled = busy || !deckAvailable();
+    if (stop) {
+      stop.hidden = !busy;
+      stop.disabled = !busy || state.deckCanceling;
+    }
+  }
+
+  function updateDeckLogTail(job) {
+    const pre = $('#deckLogTail');
+    if (!pre) return;
+    const logs = String(job.logs || '');
+    pre.textContent = logs.length > 4000 ? logs.slice(-4000) : logs;
+    pre.scrollTop = pre.scrollHeight;
+  }
+
+  function renderDeckDone(job) {
+    state.deckSlug = job.project;
+    const grid = $('#deckQaGrid');
+    if (grid) {
+      grid.textContent = '';
+      (job.qa_urls || []).forEach((url) => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+        const img = document.createElement('img');
+        img.src = url;
+        img.loading = 'lazy';
+        img.alt = 'QA slide';
+        link.appendChild(img);
+        grid.appendChild(link);
+      });
+    }
+    const openLink = $('#deckOpenLink');
+    if (openLink) openLink.href = job.deck_url || `/slide/${encodeURIComponent(job.project)}/`;
+    const renderLink = $('#deckRenderLink');
+    if (renderLink) renderLink.href = `/?project=${encodeURIComponent(job.project)}`;
+    const warningsEl = $('#deckWarnings');
+    if (warningsEl) {
+      const warnings = Array.isArray(job.warnings) ? job.warnings : [];
+      warningsEl.hidden = !warnings.length;
+      warningsEl.textContent = warnings.join(' ');
+    }
+    const review = $('#deckReview');
+    if (review) review.hidden = false;
+    const notes = $('#deckReviseNotes');
+    if (notes) notes.value = '';
+    const result = $('#deckResult');
+    if (result) result.hidden = false;
+  }
+
+  function selectDraft(index) {
+    state.deckDraftIndex = index;
+    $all('.deck-draft-card').forEach((card, cardIndex) => {
+      card.classList.toggle('selected', cardIndex === index);
+    });
+    const textarea = $('#deckDraftLines');
+    const draft = state.deckDrafts[index];
+    if (textarea && draft) textarea.value = (draft.lines || []).join('\n');
+  }
+
+  function showDraftsReview(slug, drafts) {
+    state.deckSlug = slug;
+    state.deckDrafts = Array.isArray(drafts) ? drafts : [];
+    const box = $('#deckDrafts');
+    const list = $('#deckDraftsList');
+    if (!box || !list) return;
+    list.textContent = '';
+    state.deckDrafts.forEach((draft, index) => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'deck-draft-card';
+      const styleEl = document.createElement('span');
+      styleEl.className = 'draft-style';
+      styleEl.textContent = draft.label || draft.style || `Bản ${index + 1}`;
+      const hookEl = document.createElement('span');
+      hookEl.className = 'draft-hook';
+      hookEl.textContent = draft.hook || (draft.lines || [])[0] || '';
+      card.appendChild(styleEl);
+      card.appendChild(hookEl);
+      card.addEventListener('click', () => selectDraft(index));
+      list.appendChild(card);
+    });
+    box.hidden = false;
+    const result = $('#deckResult');
+    if (result) result.hidden = true;
+    if (state.deckDrafts.length) selectDraft(0);
+    const details = $('#deckBuilderDetails');
+    if (details) details.open = true;
+  }
+
+  async function confirmDraftBuild() {
+    if (state.deckJobId || !state.deckSlug) return;
+    const textarea = $('#deckDraftLines');
+    const lines = String(textarea?.value || '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    if (!lines.length) {
+      setDeckState('Script trống', 'Chọn một bản nháp hoặc nhập script (1 dòng = 1 slide).', 'failed');
+      return;
+    }
+    const box = $('#deckDrafts');
+    if (box) box.hidden = true;
+    await startDeckStage({ stage: 'build', slug: state.deckSlug, lines }, 'Đang build deck với script đã chốt...');
+  }
+
+  async function requestRevise() {
+    if (state.deckJobId || !state.deckSlug) return;
+    const notes = String($('#deckReviseNotes')?.value || '').trim();
+    if (!notes) {
+      setDeckState('Thiếu yêu cầu sửa', 'Ghi rõ slide nào cần sửa gì rồi bấm lại.', 'failed');
+      return;
+    }
+    const result = $('#deckResult');
+    if (result) result.hidden = true;
+    await startDeckStage({ stage: 'revise', slug: state.deckSlug, notes }, 'Đang sửa deck theo yêu cầu...');
+  }
+
+  function approveDeck() {
+    const review = $('#deckReview');
+    if (review) review.hidden = true;
+    setDeckSummaryState(`Đã duyệt: ${state.deckSlug || ''}`);
+    setDeckState('Deck đã duyệt', 'Bấm "Mở màn hình render" để render video.', 'done');
+  }
+
+  function renderPendingDrafts() {
+    const box = $('#deckPending');
+    if (!box || !deckInfo) return;
+    const pending = Array.isArray(deckInfo.pending_drafts) ? deckInfo.pending_drafts : [];
+    box.textContent = '';
+    if (!pending.length || !deckAvailable()) {
+      box.hidden = true;
+      return;
+    }
+    const label = document.createElement('span');
+    label.textContent = 'Wizard đang dở:';
+    box.appendChild(label);
+    pending.forEach((item) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'icon-btn';
+      button.innerHTML = '<span class="btn-icon">▸</span>';
+      const nameEl = document.createElement('span');
+      nameEl.textContent = `Tiếp tục ${item.slug}`;
+      button.appendChild(nameEl);
+      button.addEventListener('click', async () => {
+        try {
+          const response = await fetch(`/api/decks/drafts?slug=${encodeURIComponent(item.slug)}`, { cache: 'no-store' });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
+          showDraftsReview(data.slug, data.drafts);
+          setDeckSummaryState(`Chờ chọn script: ${data.slug}`);
+        } catch (error) {
+          setDeckState('Không đọc được bản nháp', error.message || String(error), 'failed');
+        }
+      });
+      box.appendChild(button);
+    });
+    box.hidden = false;
+  }
+
+  async function startDeckStage(payload, startMessage) {
+    const details = $('#deckBuilderDetails');
+    if (details) details.open = true;
+    setDeckBusy(true);
+    setDeckState(startMessage, 'Đang gửi yêu cầu cho codex...');
+    try {
+      const response = await fetch('/api/decks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
+      state.deckJobId = data.id;
+      state.deckCanceling = false;
+      setDeckSummaryState(`Đang chạy: ${data.project}`);
+      await pollDeckJob();
+      if (state.deckJobId) {
+        stopDeckPolling();
+        state.deckPollTimer = window.setInterval(pollDeckJob, 2000);
+      }
+    } catch (error) {
+      setDeckBusy(false);
+      setDeckState('Không thể chạy bước này', error.message || String(error), 'failed');
+    }
+  }
+
+  function stopDeckPolling() {
+    if (state.deckPollTimer) window.clearInterval(state.deckPollTimer);
+    state.deckPollTimer = null;
+  }
+
+  async function pollDeckJob() {
+    if (!state.deckJobId) return;
+    try {
+      const response = await fetch(`/api/jobs/${state.deckJobId}`, { cache: 'no-store' });
+      const job = await response.json();
+      if (!response.ok) throw new Error(job.error || `HTTP ${response.status}`);
+      const progress = deckProgressForJob(job);
+      updateDeckLogTail(job);
+      if (job.status === 'done') {
+        stopDeckPolling();
+        state.deckJobId = null;
+        state.deckCanceling = false;
+        setDeckBusy(false);
+        if (job.stage === 'drafts') {
+          setDeckSummaryState(`Chờ chọn script: ${job.project}`);
+          setDeckState(renderTitle('Đã có bản nháp script', job), 'Chọn 1 bản bên dưới, sửa nếu muốn, rồi bấm Chốt script & build.', 'done');
+          showDraftsReview(job.project, job.drafts || []);
+        } else {
+          setDeckSummaryState(`Xong: ${job.project}`);
+          setDeckState(renderTitle(progress.title, job), progress.log, 'done');
+          renderDeckDone(job);
+        }
+      } else if (job.status === 'failed') {
+        stopDeckPolling();
+        state.deckJobId = null;
+        state.deckCanceling = false;
+        setDeckBusy(false);
+        setDeckSummaryState('Thất bại');
+        setDeckState(renderTitle(progress.title, job), progress.log, 'failed');
+      } else if (job.status === 'cancelled') {
+        stopDeckPolling();
+        state.deckJobId = null;
+        state.deckCanceling = false;
+        setDeckBusy(false);
+        setDeckSummaryState('Đã dừng');
+        setDeckState(renderTitle(progress.title, job), progress.log, 'cancelled');
+      } else {
+        setDeckBusy(true);
+        setDeckSummaryState(`Đang chạy: ${job.project}`);
+        setDeckState(renderTitle(progress.title, job), progress.log, 'running');
+      }
+    } catch (error) {
+      stopDeckPolling();
+      state.deckJobId = null;
+      state.deckCanceling = false;
+      setDeckBusy(false);
+      setDeckState('Lỗi khi đọc trạng thái deck job', error.message || String(error), 'failed');
+    }
+  }
+
+  async function submitDeck(force = false) {
+    if (state.deckJobId) return;
+    const urlInput = $('#deckUrl');
+    const url = urlInput ? urlInput.value.trim() : '';
+    const details = $('#deckBuilderDetails');
+    if (details) details.open = true;
+    if (!url) {
+      setDeckState('Thiếu link nguồn', 'Dán link nguồn (GitHub repo, X post, blog...) rồi bấm Tạo deck.', 'failed');
+      return;
+    }
+    const wizard = deckMode() === 'wizard';
+    const payload = {
+      stage: wizard ? 'drafts' : 'auto',
+      url,
+      style: $('#deckStyle')?.value || 'auto',
+      slug: $('#deckSlug')?.value.trim() || '',
+      notes: $('#deckNotes')?.value.trim() || '',
+    };
+    if (force) payload.force = true;
+    const result = $('#deckResult');
+    if (result) result.hidden = true;
+    const draftsBox = $('#deckDrafts');
+    if (draftsBox) draftsBox.hidden = true;
+    setDeckBusy(true);
+    setDeckState(
+      wizard ? 'Đang thu source + viết 5 bản script...' : 'Đang gửi yêu cầu tạo deck...',
+      'Server sẽ chạy codex exec theo WORKFLOW.md.'
+    );
+    try {
+      const response = await fetch('/api/decks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        if (response.status === 409 && !force && /mồ côi/.test(String(data.error || ''))) {
+          const retry = window.confirm(`${data.error}\n\nGửi lại với force=true (bỏ qua job mồ côi)?`);
+          if (retry) {
+            setDeckBusy(false);
+            await submitDeck(true);
+            return;
+          }
+        }
+        throw new Error(data.error || `HTTP ${response.status}`);
+      }
+      state.deckJobId = data.id;
+      state.deckCanceling = false;
+      setDeckSummaryState(`Đang chạy: ${data.project}`);
+      setDeckState('Codex đang khởi động...', `Job ${data.id} — project slide/${data.project}/`);
+      await pollDeckJob();
+      if (state.deckJobId) {
+        stopDeckPolling();
+        state.deckPollTimer = window.setInterval(pollDeckJob, 2000);
+      }
+    } catch (error) {
+      setDeckBusy(false);
+      setDeckState('Không thể tạo deck', error.message || String(error), 'failed');
+    }
+  }
+
+  async function cancelDeck() {
+    if (!state.deckJobId || state.deckCanceling) return;
+    const confirmed = window.confirm('Dừng deck job đang chạy? Project dở dang vẫn còn trong slide/, có thể xoá tay sau.');
+    if (!confirmed) return;
+    state.deckCanceling = true;
+    const stop = $('#stopDeck');
+    if (stop) stop.disabled = true;
+    setDeckState('Đang dừng deck job...', 'Đang gửi tín hiệu dừng codex.');
+    try {
+      const response = await fetch(`/api/jobs/${state.deckJobId}/cancel`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+      const job = await response.json();
+      if (!response.ok) throw new Error(job.error || `HTTP ${response.status}`);
+      await pollDeckJob();
+    } catch (error) {
+      state.deckCanceling = false;
+      if (stop) stop.disabled = false;
+      setDeckState('Không thể dừng deck job', error.message || String(error), 'failed');
+    }
+  }
+
+  function initDeckBuilder() {
+    const start = $('#startDeck');
+    if (!start) return;
+    start.addEventListener('click', () => submitDeck(false));
+    const stop = $('#stopDeck');
+    if (stop) stop.addEventListener('click', cancelDeck);
+    const urlInput = $('#deckUrl');
+    if (urlInput) {
+      urlInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') submitDeck(false);
+      });
+    }
+    $all('input[name="deckMode"]').forEach((input) => {
+      input.addEventListener('change', syncDeckMode);
+    });
+    syncDeckMode();
+    const confirmButton = $('#confirmDraftBuild');
+    if (confirmButton) confirmButton.addEventListener('click', confirmDraftBuild);
+    const reviseButton = $('#requestRevise');
+    if (reviseButton) reviseButton.addEventListener('click', requestRevise);
+    const approveButton = $('#approveDeck');
+    if (approveButton) approveButton.addEventListener('click', approveDeck);
+    if (!deckInfo) return;
+    renderPendingDrafts();
+    if (deckInfo.stale_lock && deckAvailable()) {
+      setDeckSummaryState(`Có job mồ côi (pid ${deckInfo.stale_lock.pid})`);
+    }
+    const active = deckInfo.active_job;
+    if (active && active.id) {
+      state.deckJobId = active.id;
+      const details = $('#deckBuilderDetails');
+      if (details) details.open = true;
+      setDeckBusy(true);
+      pollDeckJob();
+      stopDeckPolling();
+      state.deckPollTimer = window.setInterval(pollDeckJob, 2000);
+    }
+  }
+
+  initDeckBuilder();
 
   const initialFromUrl = new URLSearchParams(window.location.search).get('project');
   const initialProject = window.__INITIAL_PROJECT__ || initialFromUrl || projects[0]?.name;

@@ -6,9 +6,11 @@ services:
     # Chỉ mở trên loopback: web_server.py bind 0.0.0.0 và không có auth.
     ports:
       - "127.0.0.1:8765:8765"
-    # Không bind mount host. Dữ liệu slide nằm trong volume do Docker quản lý.
+    # slide/ bind mount từ host để deck builder hoạt động: codex chạy trên host
+    # (deck_host_runner.py) ghi vào slide/, container thấy ngay và ngược lại.
+    # config/ vẫn là volume Docker (giữ OAuth token đã lưu trong container).
     volumes:
-      - ntc-slides:/app/slide
+      - ./slide:/app/slide
       - ntc-config:/app/config
     environment:
       ELEVENLABS_API_KEY: "${ELEVENLABS_API_KEY:-}"
@@ -20,5 +22,7 @@ services:
     restart: unless-stopped
 
 volumes:
+  # ntc-slides: dữ liệu cũ trước khi chuyển sang bind mount ./slide (đã sync về host
+  # 17/08/2026). Giữ làm backup, xoá bằng `docker volume rm nicetechchannels_ntc-slides`.
   ntc-slides:
   ntc-config:

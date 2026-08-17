@@ -1,0 +1,12 @@
+{
+  "_comment": "Copy thành config/agent.json rồi chỉnh. binary: tên/đường dẫn Codex CLI (mặc định 'codex'). model/reasoning_effort: để rỗng thì kế thừa ~/.codex/config.toml; effort mặc định 'high' vì deck build cần suy luận sâu. sandbox: 'workspace-write' (khuyên dùng) hoặc 'danger-full-access' (chỉ khi Playwright/Chromium bị seatbelt chặn ở bước capture — bỏ hàng rào filesystem, rủi ro cao hơn). network_access chỉ áp dụng cho workspace-write. extra_args: mảng arg thêm cho codex exec. timeout_minutes: quá giờ thì job bị dừng.",
+  "codex": {
+    "binary": "codex",
+    "model": "",
+    "reasoning_effort": "high",
+    "sandbox": "workspace-write",
+    "network_access": true,
+    "extra_args": [],
+    "timeout_minutes": 90
+  }
+}

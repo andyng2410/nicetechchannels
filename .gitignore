@@ -43,6 +43,7 @@ Thumbs.db
 .devin/config.local.json
 config/social-upload.json
 config/tts.json
+config/agent.json
 models/faster-whisper-base/
 *.log
 

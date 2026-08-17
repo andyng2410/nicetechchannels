@@ -33,6 +33,8 @@ Trước khi làm, agent phải đọc kỹ toàn bộ `WORKFLOW.md` và các sk
 
 Link Autopilot không kích hoạt nếu user nói rõ mục đích khác như chỉ tóm tắt, phân tích hoặc lưu source. Chỉ dừng hỏi khi source không truy cập được, thiếu dữ kiện làm thay đổi bản chất câu chuyện, hoặc có quyết định rủi ro cao về claim, quyền dùng asset, chi phí hay hành động không thể hoàn tác. Không tự tạo audio trả phí hoặc dùng ElevenLabs `--force`.
 
+Chế độ này cũng được dashboard kích hoạt headless qua `codex exec` (mục "Tạo slide mới từ link"): khi chạy từ dashboard, QA capture ghi vào `slide/<project>/qa/` và tuyệt đối không render video — user duyệt ảnh QA rồi tự bấm render.
+
 ## 1. Source trước
 
 Trước khi viết script hoặc sửa DOM cho source bên ngoài:

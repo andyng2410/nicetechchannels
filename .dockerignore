@@ -13,11 +13,11 @@ VIDEO-HUONG-DAN-SU-DUNG.mp4
 # Secrets: đưa vào lúc runtime, không bake vào image
 config/tts.json
 config/social-upload.json
+config/agent.json
 .env
 
-# Dữ liệu render cũ trên host
-slide/*/output/
-slide/*/input_audio/
+# slide/ giờ bind mount từ host (docker-compose.yml), không bake vào image
+slide/
 template/*/output/
 template/*/input_audio/
 

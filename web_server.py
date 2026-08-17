@@ -71,11 +71,141 @@ MAX_LOGO_UPLOAD_BYTES = 20 * 1024 * 1024
 JOBS: dict[str, dict] = {}
 JOBS_LOCK = threading.Lock()
 ACTIVE_JOB_STATUSES = {"queued", "running", "cancelling"}
-PRIVATE_JOB_FIELDS = {"process"}
+PRIVATE_JOB_FIELDS = {"process", "timer"}
 SLIDE_AUDIO_SETTING_KEYS = {
     "transitionSounds": "slideTransitions",
     "revealSounds": "slideReveals",
 }
+
+RUNNING_IN_CONTAINER = Path("/.dockerenv").exists()
+DECK_CONTAINER_NAME = "nicetechchannels"
+DECK_RUNNER_HEARTBEAT_MAX_AGE = 15.0
+DECK_AGENT_CONFIG_PATH = REPO_ROOT / "config" / "agent.json"
+DECK_DEFAULT_AGENT_CONFIG = {
+    "binary": "codex",
+    "model": "",
+    "reasoning_effort": "high",
+    "sandbox": "workspace-write",
+    "network_access": True,
+    "extra_args": [],
+    "timeout_minutes": 90,
+}
+DECK_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,62}$")
+DECK_STYLES = [
+    {
+        "value": "auto",
+        "label": "Auto — agent tự chọn style hợp nguồn nhất",
+        "prompt": "Style: đọc script-writing/STYLE_INDEX.md rồi tự chọn 1 style (hoặc 1 blend được phép: 4+1, 2+3, 5+3) hợp nguồn nhất; ghi rõ style đã chọn trong visual-plan.md.",
+    },
+    {
+        "value": "style1",
+        "label": "Style 1 — Sắc, đời, vào thẳng vấn đề",
+        "prompt": "Style bắt buộc: style1.md — đọc script-writing/style1.md và viết script đúng màu giọng đó, không pha style khác.",
+    },
+    {
+        "value": "style2",
+        "label": "Style 2 — Mềm, thân thiện, dẫn người mới",
+        "prompt": "Style bắt buộc: style2.md — đọc script-writing/style2.md và viết script đúng màu giọng đó, không pha style khác.",
+    },
+    {
+        "value": "style3",
+        "label": "Style 3 — Community/page, chia mục rõ",
+        "prompt": "Style bắt buộc: style3.md — đọc script-writing/style3.md và viết script đúng màu giọng đó, không pha style khác.",
+    },
+    {
+        "value": "style4",
+        "label": "Style 4 — Phân tích sâu, điềm tĩnh",
+        "prompt": "Style bắt buộc: style4.md — đọc script-writing/style4.md và viết script đúng màu giọng đó, không pha style khác.",
+    },
+    {
+        "value": "style5",
+        "label": "Style 5 — Năng lượng cao, kéo hành động",
+        "prompt": "Style bắt buộc: style5.md — đọc script-writing/style5.md và viết script đúng màu giọng đó, không pha style khác.",
+    },
+    {
+        "value": "blend-4-1",
+        "label": "Blend 4+1 — Phân tích sâu, chốt sắc",
+        "prompt": "Style bắt buộc: blend style4.md (chính) + style1.md (phụ) — blend được phép theo STYLE_INDEX.md, style4 giữ vai trò chủ đạo.",
+    },
+    {
+        "value": "blend-2-3",
+        "label": "Blend 2+3 — Mềm nhưng cấu trúc rõ",
+        "prompt": "Style bắt buộc: blend style2.md (chính) + style3.md (phụ) — blend được phép theo STYLE_INDEX.md, style2 giữ vai trò chủ đạo.",
+    },
+    {
+        "value": "blend-5-3",
+        "label": "Blend 5+3 — Sôi động nhưng không loạn",
+        "prompt": "Style bắt buộc: blend style5.md (chính) + style3.md (phụ) — blend được phép theo STYLE_INDEX.md, style5 giữ vai trò chủ đạo.",
+    },
+]
+DECK_PROMPT_TEMPLATE = """Bạn đang chạy headless (codex exec) trong repo NiceTechChannels. Nhiệm vụ: dựng một deck slide HOÀN CHỈNH theo chế độ "Link Autopilot" trong WORKFLOW.md, dừng ở bước QA capture (KHÔNG render video).
+
+Nguồn: {url}
+Project slug bắt buộc: {slug} — toàn bộ output nằm trong slide/{slug}/
+{style_instruction}
+{notes_block}{tools_note}
+Quy trình bắt buộc (theo đúng WORKFLOW.md, mục Link Autopilot):
+1. Đọc kỹ AGENTS.md, WORKFLOW.md và các skill/rule được workflow gọi tới (skills/source-assets, skills/x-sources nếu là X/Twitter, skills/slide-visuals, script-writing/*) trước khi làm.
+2. Thu source: tạo slide/{slug}/source/, lưu source gốc, facts, visual assets local và inventory source/source.md theo checklist source-assets.
+3. Viết slide/{slug}/script-90s.txt theo đúng style chỉ định ở trên. Tạo visual-plan.md với "Status: AUTO-APPROVED", ghi rõ style đã dùng.
+4. Copy starter template/nicetechchannels-slide-starter, dựng đủ DOM/CSS/animation theo visual-first gate. Nếu starter có preview-assets/bgm/meta.mp3 thì copy kèm; nếu không có, ghi chú "BGM MISSING" rồi tiếp tục ngay, ĐỪNG mất thời gian đi tìm file này ở nơi khác.
+5. Validate: {validate_cmd} — tự sửa đến khi PASS.
+6. Capture QA: {capture_cmd} — bắt buộc dùng đúng --out này. Mở xem từng ảnh, tự sửa lỗi visual rồi capture lại đến khi đạt chuẩn bàn giao.
+
+Cấm tuyệt đối:
+- KHÔNG render video: không chạy render_elevenlabs.py, render_elevenlabs_tts.py, render_edgetts.py, auto_render.py.
+- KHÔNG chạy web_server.py.
+- KHÔNG gọi ElevenLabs hay bất kỳ TTS trả phí nào; không dùng --force.
+- KHÔNG sửa file ngoài slide/{slug}/ (trừ file tạm hệ thống).
+
+Progress marker: NGAY TRƯỚC khi bắt đầu mỗi giai đoạn, in ra một dòng riêng, đúng nguyên văn:
+[PHASE] nguon
+[PHASE] script
+[PHASE] visual
+[PHASE] validate
+[PHASE] capture
+
+Kết thúc: dòng CUỐI CÙNG của message cuối cùng phải là đúng MỘT trong hai dòng sau (không thêm gì phía sau):
+DECK_BUILD: SUCCESS {slug}
+DECK_BUILD: FAILED <lý do ngắn gọn một dòng>
+Nếu nguồn không truy cập được hoặc thiếu dữ kiện cốt lõi, dừng sớm và báo DECK_BUILD: FAILED kèm lý do.
+"""
+DECK_DRAFTS_PROMPT_TEMPLATE = """Bạn đang chạy headless (codex exec) trong repo NiceTechChannels. Nhiệm vụ: BƯỚC 1 của wizard tạo deck — thu source và viết 5 bản nháp script để user chọn. KHÔNG dựng slide, KHÔNG copy starter, KHÔNG render.
+
+Nguồn: {url}
+Project slug bắt buộc: {slug} — chỉ được ghi vào slide/{slug}/source/
+{notes_block}
+Quy trình bắt buộc:
+1. Đọc kỹ AGENTS.md, WORKFLOW.md, script-writing/START_HERE.md, SCRIPT_RULES.md, SCRIPT_PATTERNS.md, STYLE_INDEX.md và toàn bộ script-writing/style1.md..style5.md, cùng skills/source-assets/SKILL.md (và skills/x-sources/SKILL.md nếu nguồn là X/Twitter).
+2. In dòng marker (nguyên văn, một dòng riêng): [PHASE] nguon — rồi thu source: tạo slide/{slug}/source/, lưu facts, visual assets local, links.txt và inventory source/source.md đúng checklist source-assets. Visual assets thu ở bước này sẽ được dùng khi build deck ở bước sau.
+3. In dòng marker: [PHASE] drafts — rồi viết 5 bản script-90s HOÀN CHỈNH, mỗi bản đúng một style (style1..style5), theo đúng SCRIPT_RULES: 1 dòng = 1 slide (thường 6 dòng), slide 1 là hook một câu, không dùng dấu gạch dài, số câu mỗi dòng = số reveal.
+4. Ghi file slide/{slug}/source/script-drafts.json đúng định dạng JSON sau (không markdown, không chú thích):
+{{"drafts": [{{"style": "style1", "label": "tên ngắn của style", "hook": "dòng 1 của bản đó", "lines": ["dòng 1", "dòng 2", "..."]}}, ...đúng 5 phần tử, style1 đến style5...]}}
+
+Cấm tuyệt đối: dựng DOM/CSS, copy starter, render video, chạy web_server.py, ghi file ngoài slide/{slug}/source/.
+
+Kết thúc: dòng CUỐI CÙNG của message cuối cùng phải là đúng MỘT trong hai dòng sau:
+DECK_DRAFTS: SUCCESS {slug}
+DECK_DRAFTS: FAILED <lý do ngắn gọn một dòng>
+Nếu nguồn không truy cập được hoặc thiếu dữ kiện cốt lõi, dừng sớm và báo DECK_DRAFTS: FAILED kèm lý do.
+"""
+DECK_REVISE_PROMPT_TEMPLATE = """Bạn đang chạy headless (codex exec) trong repo NiceTechChannels. Nhiệm vụ: vòng SỬA deck slide/{slug}/ theo yêu cầu user — deck đã build xong và có ảnh QA trong slide/{slug}/qa/.
+
+Yêu cầu sửa từ user (làm đúng và đủ, không sửa lan man phần không được yêu cầu):
+{notes}
+{tools_note}
+Quy trình bắt buộc:
+1. Đọc AGENTS.md, WORKFLOW.md, skills/slide-visuals/SKILL.md. Xem ảnh QA hiện có trong slide/{slug}/qa/ để hiểu hiện trạng.
+2. In dòng marker (nguyên văn, một dòng riêng): [PHASE] visual — rồi sửa deck theo yêu cầu. KHÔNG đổi script-90s.txt trừ khi yêu cầu nói rõ; nếu đổi thì phải đồng bộ slideScripts trong app.js và scriptLines trong preview-settings.json đúng WORKFLOW.
+3. In dòng marker: [PHASE] validate — rồi chạy: {validate_cmd} — tự sửa đến khi PASS.
+4. In dòng marker: [PHASE] capture — rồi chạy: {capture_cmd} — capture lại toàn bộ, mở xem từng ảnh, tự sửa đến chuẩn bàn giao.
+
+Cấm tuyệt đối: render video (render_elevenlabs*.py, render_edgetts.py, auto_render.py), web_server.py, ElevenLabs hay TTS trả phí, --force, ghi file ngoài slide/{slug}/.
+
+Kết thúc: dòng CUỐI CÙNG của message cuối cùng phải là đúng MỘT trong hai dòng sau:
+DECK_BUILD: SUCCESS {slug}
+DECK_BUILD: FAILED <lý do ngắn gọn một dòng>
+"""
 
 
 ANSI_ENABLED = os.environ.get("NO_COLOR") is None and (sys.stdout.isatty() or sys.stderr.isatty())
@@ -793,6 +923,12 @@ def job_cancel_requested(job_id: str) -> bool:
         return bool(job and job.get("cancel_requested"))
 
 
+def job_field(job_id: str, key: str) -> object:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        return job.get(key) if job else None
+
+
 def failure_summary(logs: str, returncode: int) -> str:
     lines = [line.strip() for line in str(logs or "").splitlines() if line.strip()]
     skip_patterns = (
@@ -823,18 +959,22 @@ def final_video_url(project: str) -> str:
     return f"/slide/{quote(project)}/output/final_video.mp4"
 
 
-def run_job(job_id: str, cmd: list[str], project: str) -> None:
+def run_job(job_id: str, cmd: list[str], project: str, stdin_data: str | None = None) -> None:
     env = os.environ.copy()
     env["PYTHONUNBUFFERED"] = "1"
     env["PYTHONUTF8"] = "1"
     env["PYTHONIOENCODING"] = "utf-8"
     pretty_cmd = " ".join(shlex.quote(part) for part in cmd)
+    job_type = job_field(job_id, "job_type") or "render"
 
     set_job_state(job_id, status="running", command=pretty_cmd, started_at=time.time())
     append_log(job_id, f"$ {pretty_cmd}\n\n")
+    if stdin_data is not None:
+        append_log(job_id, f"(prompt {len(stdin_data)} ký tự gửi qua stdin)\n\n")
     if job_cancel_requested(job_id):
         append_log(job_id, "Render stopped before process start.\n")
         set_job_state(job_id, status="cancelled", returncode=None, finished_at=time.time())
+        finish_deck_job_cleanup(job_id)
         return
 
     try:
@@ -849,6 +989,7 @@ def run_job(job_id: str, cmd: list[str], project: str) -> None:
             cmd,
             cwd=str(REPO_ROOT),
             env=env,
+            stdin=subprocess.PIPE if stdin_data is not None else None,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -861,7 +1002,17 @@ def run_job(job_id: str, cmd: list[str], project: str) -> None:
     except Exception as exc:
         append_log(job_id, f"Failed to start render: {exc}\n")
         set_job_state(job_id, status="failed", returncode=-1, finished_at=time.time())
+        finish_deck_job_cleanup(job_id)
         return
+
+    if job_type == "deck":
+        write_deck_lock(job_id, proc.pid, project)
+    if stdin_data is not None and proc.stdin is not None:
+        try:
+            proc.stdin.write(stdin_data)
+            proc.stdin.close()
+        except Exception as exc:
+            append_log(job_id, f"Không gửi được prompt qua stdin: {exc}\n")
 
     assert proc.stdout is not None
     for line in proc.stdout:
@@ -870,8 +1021,16 @@ def run_job(job_id: str, cmd: list[str], project: str) -> None:
     returncode = proc.wait()
     set_job_state(job_id, process=None, pid=None)
     if job_cancel_requested(job_id):
+        finish_deck_job_cleanup(job_id)
+        if job_field(job_id, "timeout_hit"):
+            set_job_state(job_id, returncode=returncode)
+            return
         append_log(job_id, "\nRender stopped by user.\n")
         set_job_state(job_id, status="cancelled", returncode=returncode, finished_at=time.time())
+        return
+    if job_type == "deck":
+        finish_deck_job_cleanup(job_id)
+        finalize_deck_stage(job_id, project, returncode)
         return
     try:
         project_dir = require_slide_project(project)
@@ -1010,6 +1169,7 @@ def create_job(payload: dict) -> dict:
     job = {
         "id": job_id,
         "project": project,
+        "job_type": "render",
         "engine": engine,
         "status": "queued",
         "logs": "",
@@ -1078,9 +1238,787 @@ def cancel_job(job_id: str) -> dict | None:
     if isinstance(proc, subprocess.Popen):
         if terminate_process(proc):
             set_job_state(job_id, status="cancelled", returncode=proc.returncode, process=None, pid=None, finished_at=time.time())
-    else:
-        set_job_state(job_id, status="cancelled", returncode=None, finished_at=time.time())
+        finish_deck_job_cleanup(job_id)
+        return get_job(job_id)
+    with JOBS_LOCK:
+        job_entry = JOBS.get(job_id)
+        is_runner_job = bool(job_entry and job_entry.get("runner"))
+    if is_runner_job:
+        # monitor thread sẽ gửi file cancel cho host runner và tự chốt trạng thái
+        return get_job(job_id)
+    set_job_state(job_id, status="cancelled", returncode=None, finished_at=time.time())
+    finish_deck_job_cleanup(job_id)
     return get_job(job_id)
+
+
+# ---------------------------------------------------------------------------
+# Deck builder (Codex CLI headless): dán URL -> job "deck" chạy Link Autopilot
+# ---------------------------------------------------------------------------
+
+
+def load_agent_config() -> dict:
+    config = dict(DECK_DEFAULT_AGENT_CONFIG)
+    try:
+        raw = json.loads(DECK_AGENT_CONFIG_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return config
+    section = raw.get("codex") if isinstance(raw, dict) else None
+    if isinstance(section, dict):
+        for key in config:
+            if key in section and section[key] is not None:
+                config[key] = section[key]
+    return config
+
+
+def is_loopback_client(handler) -> bool:
+    # Trong container, client_address là IP proxy của Docker chứ không phải IP thật;
+    # cổng đã bind 127.0.0.1 ở compose nên quyền truy cập do host quyết định.
+    if RUNNING_IN_CONTAINER:
+        return True
+    host = str(handler.client_address[0] if handler.client_address else "")
+    return host in {"127.0.0.1", "::1", "::ffff:127.0.0.1"} or host.startswith("127.")
+
+
+def codex_binary_path(config: dict | None = None) -> str | None:
+    config = config or load_agent_config()
+    return shutil.which(str(config.get("binary") or "codex"))
+
+
+def deck_runner_root() -> Path:
+    return project_lookup_root() / ".deck-runner"
+
+
+def deck_runner_jobs_root() -> Path:
+    return deck_runner_root() / "jobs"
+
+
+def deck_runner_heartbeat_fresh() -> bool:
+    path = deck_runner_root() / "heartbeat.json"
+    try:
+        return (time.time() - path.stat().st_mtime) < DECK_RUNNER_HEARTBEAT_MAX_AGE
+    except OSError:
+        return False
+
+
+def deck_runner_job_paths(job_id: str) -> dict[str, Path]:
+    root = deck_runner_jobs_root()
+    return {
+        "request": root / f"{job_id}.request.json",
+        "status": root / f"{job_id}.status.json",
+        "log": root / f"{job_id}.log",
+        "cancel": root / f"{job_id}.cancel",
+    }
+
+
+def deck_runner_read_status(job_id: str) -> dict | None:
+    try:
+        data = json.loads(deck_runner_job_paths(job_id)["status"].read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def deck_runner_running_job_ids() -> list[str]:
+    jobs_root = deck_runner_jobs_root()
+    if not jobs_root.is_dir():
+        return []
+    running = []
+    for status_path in jobs_root.glob("*.status.json"):
+        try:
+            data = json.loads(status_path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if isinstance(data, dict) and data.get("status") == "running":
+            if (time.time() - status_path.stat().st_mtime) < 2 * 3600:
+                running.append(status_path.name.rsplit(".status.json", 1)[0])
+    return running
+
+
+def deck_feature_state(config: dict | None = None) -> tuple[bool, str | None, str | None]:
+    """Trả (available, reason, mode). mode: 'local' (spawn codex tại chỗ) hoặc 'runner' (host runner qua file queue)."""
+    config = config or load_agent_config()
+    if SOURCE_ROOT_IS_PROJECT or (not RUNNING_IN_CONTAINER and SLIDE_ROOT.resolve() != DEFAULT_SLIDE_ROOT.resolve()):
+        return False, "custom-source-root", None
+    if codex_binary_path(config):
+        return True, None, "local"
+    if deck_runner_heartbeat_fresh():
+        return True, None, "runner"
+    if RUNNING_IN_CONTAINER:
+        return False, "runner-missing", None
+    return False, "codex-missing", None
+
+
+def deck_unavailable_message(reason: str | None) -> str:
+    if reason == "codex-missing":
+        return (
+            "Không tìm thấy Codex CLI. Cài trên máy host: npm i -g @openai/codex rồi codex login, "
+            "hoặc chạy python3 deck_host_runner.py trên host nếu server đang ở container."
+        )
+    if reason == "runner-missing":
+        return (
+            "Chưa thấy host runner. Trên máy host, mở terminal trong thư mục repo và chạy: "
+            "python3 deck_host_runner.py — rồi tải lại trang này."
+        )
+    if reason == "custom-source-root":
+        return "Tạo deck tự động chỉ hỗ trợ source root slide/ mặc định của repo. Đổi Source root về mặc định rồi thử lại."
+    return "Deck builder hiện không khả dụng."
+
+
+def derive_deck_slug(url: str) -> str:
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower()
+    segments = [segment for segment in parsed.path.split("/") if segment]
+
+    def sanitize(text: str) -> str:
+        return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+    if host.endswith("github.com") and len(segments) >= 2:
+        repo_name = re.sub(r"\.git$", "", segments[1])
+        slug = sanitize(f"{segments[0]}-{repo_name}")
+    elif host in {"x.com", "twitter.com", "www.x.com", "www.twitter.com"} and len(segments) >= 3 and segments[1] == "status":
+        slug = sanitize(f"{segments[0]}-post-{segments[2]}")
+    else:
+        first_label = host.split(".")[0] if host else ""
+        slug = sanitize("-".join(part for part in [first_label, *segments[:2]] if part))
+    return slug[:60].strip("-") or "deck"
+
+
+def ensure_unique_slug(base: str) -> str:
+    root = project_lookup_root()
+    slug = base
+    counter = 2
+    while (root / slug).exists():
+        slug = f"{base}-{counter}"
+        counter += 1
+    return slug
+
+
+def validate_deck_source_url(url: object) -> str:
+    text = str(url or "").strip()
+    if not text:
+        raise ValueError("Thiếu link nguồn.")
+    if len(text) > 2000:
+        raise ValueError("Link nguồn quá dài (tối đa 2000 ký tự).")
+    if any(ch.isspace() or ord(ch) < 32 for ch in text):
+        raise ValueError("Link nguồn chứa ký tự không hợp lệ.")
+    parsed = urlparse(text)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError("Link nguồn phải là địa chỉ http(s):// đầy đủ.")
+    return text
+
+
+def deck_tool_commands(slug: str, container_tools: bool) -> tuple[str, str, str]:
+    """Trả (tools_note, validate_cmd, capture_cmd) theo môi trường chạy codex."""
+    if container_tools:
+        tools_note = (
+            f"Môi trường tool: slide/ trên host được bind mount vào container Docker \"{DECK_CONTAINER_NAME}\" "
+            "tại /app/slide — file ghi ở host thấy ngay trong container và ngược lại. Host KHÔNG có Playwright, "
+            "nên validate/capture phải chạy qua docker exec đúng như lệnh đã cho. "
+            f"Ảnh QA xem trực tiếp tại slide/{slug}/qa/ trên host.\n"
+        )
+        validate_cmd = f"docker exec {DECK_CONTAINER_NAME} python validate_slide.py /app/slide/{slug} --semantic-report"
+        capture_cmd = f"docker exec {DECK_CONTAINER_NAME} python capture_slides.py /app/slide/{slug} --out /app/slide/{slug}/qa"
+    else:
+        tools_note = ""
+        validate_cmd = f".venv/bin/python validate_slide.py slide/{slug} --semantic-report"
+        capture_cmd = f".venv/bin/python capture_slides.py slide/{slug} --out slide/{slug}/qa"
+    return tools_note, validate_cmd, capture_cmd
+
+
+def build_deck_prompt(
+    url: str,
+    style: str,
+    slug: str,
+    notes: str,
+    container_tools: bool = False,
+    fixed_lines: list[str] | None = None,
+) -> str:
+    if fixed_lines:
+        numbered = "\n".join(f"{index + 1}. {line}" for index, line in enumerate(fixed_lines))
+        style_instruction = (
+            "Script đã được user chốt ở wizard. Ghi slide/"
+            f"{slug}/script-90s.txt NGUYÊN VĂN các dòng sau (1 dòng = 1 slide, không viết lại, không đổi số dòng):\n"
+            f"{numbered}\n"
+            f"Source đã được thu sẵn ở slide/{slug}/source/ từ bước drafts — kiểm tra và dùng lại, chỉ thu bổ sung nếu thiếu."
+        )
+    else:
+        style_entry = next((item for item in DECK_STYLES if item["value"] == style), DECK_STYLES[0])
+        style_instruction = style_entry["prompt"]
+    notes_block = ""
+    if notes:
+        notes_block = f"Ghi chú thêm từ user (ưu tiên làm theo nếu không mâu thuẫn workflow):\n{notes}\n"
+    tools_note, validate_cmd, capture_cmd = deck_tool_commands(slug, container_tools)
+    return DECK_PROMPT_TEMPLATE.format(
+        url=url,
+        slug=slug,
+        style_instruction=style_instruction,
+        notes_block=notes_block,
+        tools_note=tools_note,
+        validate_cmd=validate_cmd,
+        capture_cmd=capture_cmd,
+    )
+
+
+def build_deck_stage_prompt(
+    stage: str,
+    url: str,
+    style: str,
+    slug: str,
+    notes: str,
+    lines: list[str] | None,
+    container_tools: bool,
+) -> str:
+    if stage == "drafts":
+        notes_block = ""
+        if notes:
+            notes_block = f"Ghi chú thêm từ user (ưu tiên làm theo nếu không mâu thuẫn workflow):\n{notes}\n"
+        return DECK_DRAFTS_PROMPT_TEMPLATE.format(url=url, slug=slug, notes_block=notes_block)
+    if stage == "revise":
+        tools_note, validate_cmd, capture_cmd = deck_tool_commands(slug, container_tools)
+        return DECK_REVISE_PROMPT_TEMPLATE.format(
+            slug=slug,
+            notes=notes,
+            tools_note=tools_note,
+            validate_cmd=validate_cmd,
+            capture_cmd=capture_cmd,
+        )
+    # auto / build dùng chung template Link Autopilot; build kèm script đã chốt
+    return build_deck_prompt(url, style, slug, notes, container_tools=container_tools, fixed_lines=lines)
+
+
+def deck_drafts_path(slug: str) -> Path:
+    return project_lookup_root() / slug / "source" / "script-drafts.json"
+
+
+def read_deck_drafts(slug: str) -> list[dict]:
+    try:
+        data = json.loads(deck_drafts_path(slug).read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    drafts = data.get("drafts") if isinstance(data, dict) else None
+    if not isinstance(drafts, list):
+        return []
+    cleaned = []
+    for item in drafts:
+        if not isinstance(item, dict):
+            continue
+        lines = [str(line).strip() for line in item.get("lines") or [] if str(line).strip()]
+        if not lines:
+            continue
+        cleaned.append(
+            {
+                "style": str(item.get("style") or ""),
+                "label": str(item.get("label") or item.get("style") or ""),
+                "hook": str(item.get("hook") or lines[0]),
+                "lines": lines,
+            }
+        )
+    return cleaned
+
+
+def deck_pending_drafts() -> list[dict]:
+    """Các slug đã có script-drafts.json nhưng chưa build xong deck — để UI resume wizard."""
+    root = project_lookup_root()
+    if not root.is_dir():
+        return []
+    pending = []
+    for drafts_file in sorted(root.glob("*/source/script-drafts.json")):
+        project_dir = drafts_file.parent.parent
+        if (project_dir / "index.html").exists():
+            continue
+        pending.append({"slug": project_dir.name, "updated_at": drafts_file.stat().st_mtime})
+    return pending
+
+
+def build_deck_command(config: dict) -> list[str]:
+    binary = codex_binary_path(config)
+    if not binary:
+        raise RuntimeError(deck_unavailable_message("codex-missing"))
+    sandbox = str(config.get("sandbox") or "workspace-write")
+    cmd = [binary, "exec", "--cd", str(REPO_ROOT), "--sandbox", sandbox]
+    if sandbox == "workspace-write" and config.get("network_access", True):
+        cmd += ["-c", "sandbox_workspace_write.network_access=true"]
+    cmd += ["--color", "never", "--skip-git-repo-check"]
+    model = str(config.get("model") or "").strip()
+    if model:
+        cmd += ["-m", model]
+    effort = str(config.get("reasoning_effort") or "").strip()
+    if effort:
+        cmd += ["-c", f"model_reasoning_effort={effort}"]
+    extra_args = config.get("extra_args")
+    if isinstance(extra_args, list):
+        cmd += [str(arg) for arg in extra_args]
+    cmd.append("-")
+    return cmd
+
+
+def deck_lock_path() -> Path:
+    return project_lookup_root() / ".deck-job.json"
+
+
+def read_deck_lock() -> dict | None:
+    try:
+        data = json.loads(deck_lock_path().read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def write_deck_lock(job_id: str, pid: int, slug: str) -> None:
+    payload = {"job_id": job_id, "pid": pid, "slug": slug, "started_at": time.time()}
+    try:
+        deck_lock_path().write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    except Exception:
+        pass
+
+
+def clear_deck_lock() -> None:
+    try:
+        deck_lock_path().unlink(missing_ok=True)
+    except Exception:
+        pass
+
+
+def pid_alive(pid: object) -> bool:
+    try:
+        os.kill(int(pid), 0)
+    except (OSError, TypeError, ValueError):
+        return False
+    return True
+
+
+def finish_deck_job_cleanup(job_id: str) -> None:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        timer = job.get("timer") if job else None
+        job_type = job.get("job_type") if job else None
+        if job is not None:
+            job["timer"] = None
+    if timer is not None:
+        try:
+            timer.cancel()
+        except Exception:
+            pass
+    if job_type == "deck":
+        clear_deck_lock()
+
+
+def active_deck_job() -> dict | None:
+    with JOBS_LOCK:
+        for job in JOBS.values():
+            if job.get("job_type") == "deck" and job.get("status") in ACTIVE_JOB_STATUSES:
+                return public_job(job)
+    return None
+
+
+def deck_status_payload() -> dict:
+    config = load_agent_config()
+    available, reason, mode = deck_feature_state(config)
+    active = active_deck_job()
+    stale = None
+    if not active:
+        lock = read_deck_lock()
+        if lock and pid_alive(lock.get("pid")):
+            stale = {"pid": lock.get("pid"), "slug": lock.get("slug"), "job_id": lock.get("job_id")}
+    return {
+        "available": available,
+        "reason": reason,
+        "mode": mode,
+        "codex_path": codex_binary_path(config),
+        "runner_connected": deck_runner_heartbeat_fresh(),
+        "styles": [{"value": item["value"], "label": item["label"]} for item in DECK_STYLES],
+        "active_job": active,
+        "stale_lock": stale,
+        "pending_drafts": deck_pending_drafts(),
+    }
+
+
+def deck_job_timeout(job_id: str, timeout_minutes: int) -> None:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if not job or job.get("status") not in ACTIVE_JOB_STATUSES:
+            return
+        job["cancel_requested"] = True
+        job["timeout_hit"] = True
+        job["updated_at"] = time.time()
+        proc = job.get("process")
+    append_log(job_id, f"\nDeck build vượt quá {timeout_minutes} phút, tự dừng.\n")
+    if isinstance(proc, subprocess.Popen):
+        terminate_process(proc)
+    set_job_state(
+        job_id,
+        status="failed",
+        error=f"Deck build vượt quá {timeout_minutes} phút, đã dừng.",
+        finished_at=time.time(),
+    )
+    clear_deck_lock()
+
+
+def deck_failure_summary(logs: str, slug: str, returncode: int | None) -> str:
+    text = str(logs or "")
+    failed_lines = re.findall(r"DECK_BUILD: FAILED.*", text)
+    if failed_lines:
+        summary = failed_lines[-1].replace("DECK_BUILD: FAILED", "").strip() or "Agent báo thất bại."
+    else:
+        deck_dir = project_lookup_root() / slug
+        if not (deck_dir / "index.html").exists():
+            summary = f"Codex chạy xong nhưng thiếu slide/{slug}/index.html."
+        elif not (deck_dir / "script-90s.txt").exists():
+            summary = f"Codex chạy xong nhưng thiếu slide/{slug}/script-90s.txt."
+        elif not list((deck_dir / "qa").glob("*.png")):
+            summary = f"Codex chạy xong nhưng không có ảnh QA trong slide/{slug}/qa/."
+        else:
+            lines = [line.strip() for line in text.splitlines() if line.strip()]
+            summary = lines[-1] if lines else f"Deck build thất bại (exit code {returncode})."
+    if re.search(r"Operation not permitted|sandbox|seatbelt", text, re.IGNORECASE) and re.search(
+        r"playwright|chromium", text, re.IGNORECASE
+    ):
+        summary += ' Có thể sandbox chặn Chromium — thử "sandbox": "danger-full-access" trong config/agent.json.'
+    return summary
+
+
+def deck_qa_pngs(deck_dir: Path) -> list[Path]:
+    def natural_key(path: Path) -> list[object]:
+        return [int(part) if part.isdigit() else part for part in re.split(r"(\d+)", path.name)]
+
+    return sorted((deck_dir / "qa").glob("*.png"), key=natural_key)
+
+
+def finalize_deck_job(job_id: str, slug: str, returncode: int | None) -> None:
+    with JOBS_LOCK:
+        logs = str((JOBS.get(job_id) or {}).get("logs") or "")
+    deck_dir = project_lookup_root() / slug
+    qa_pngs = deck_qa_pngs(deck_dir)
+    success = (
+        returncode == 0
+        and (deck_dir / "index.html").exists()
+        and (deck_dir / "script-90s.txt").exists()
+        and bool(qa_pngs)
+        and "DECK_BUILD: FAILED" not in logs
+    )
+    if not success:
+        summary = deck_failure_summary(logs, slug, returncode)
+        append_log(job_id, f"\nDeck build thất bại: {summary}\n")
+        set_job_state(job_id, status="failed", returncode=returncode, finished_at=time.time(), error=summary)
+        return
+
+    warnings = []
+    if not (deck_dir / "preview-assets" / "bgm" / "meta.mp3").exists():
+        warnings.append(
+            "Deck chưa có nhạc nền (preview-assets/bgm/meta.mp3) — video sẽ render KHÔNG có BGM. "
+            "Đặt file meta.mp3 vào template/nicetechchannels-slide-starter/preview-assets/bgm/ một lần "
+            "để các deck sau tự có, hoặc upload BGM trong panel cài đặt của trang preview deck."
+        )
+    if "DECK_BUILD: SUCCESS" not in logs:
+        warnings.append("Agent không in marker DECK_BUILD: SUCCESS — kiểm tra deck kỹ hơn trước khi render.")
+    qa_urls = [f"/slide/{quote(slug)}/qa/{quote(path.name)}" for path in qa_pngs]
+    append_log(job_id, f"\nDeck sẵn sàng: slide/{slug}/ ({len(qa_urls)} ảnh QA)\n")
+    set_job_state(
+        job_id,
+        status="done",
+        returncode=returncode,
+        finished_at=time.time(),
+        qa_urls=qa_urls,
+        deck_url=project_url(slug),
+        warnings=warnings,
+    )
+
+
+def finalize_drafts_job(job_id: str, slug: str, returncode: int | None) -> None:
+    with JOBS_LOCK:
+        logs = str((JOBS.get(job_id) or {}).get("logs") or "")
+    drafts = read_deck_drafts(slug)
+    success = returncode == 0 and bool(drafts) and "DECK_DRAFTS: FAILED" not in logs
+    if not success:
+        failed_lines = re.findall(r"DECK_DRAFTS: FAILED.*", logs)
+        if failed_lines:
+            summary = failed_lines[-1].replace("DECK_DRAFTS: FAILED", "").strip() or "Agent báo thất bại."
+        elif not drafts:
+            summary = f"Codex chạy xong nhưng thiếu hoặc hỏng slide/{slug}/source/script-drafts.json."
+        else:
+            log_lines = [line.strip() for line in logs.splitlines() if line.strip()]
+            summary = log_lines[-1] if log_lines else f"Viết nháp script thất bại (exit code {returncode})."
+        append_log(job_id, f"\nViết nháp script thất bại: {summary}\n")
+        set_job_state(job_id, status="failed", returncode=returncode, finished_at=time.time(), error=summary)
+        return
+
+    warnings = []
+    if len(drafts) < 5:
+        warnings.append(f"Chỉ có {len(drafts)}/5 bản nháp hợp lệ trong script-drafts.json.")
+    append_log(job_id, f"\nĐã có {len(drafts)} bản nháp script cho slide/{slug}/ — chờ user chọn.\n")
+    set_job_state(
+        job_id,
+        status="done",
+        returncode=returncode,
+        finished_at=time.time(),
+        drafts=drafts,
+        warnings=warnings,
+    )
+
+
+def finalize_deck_stage(job_id: str, slug: str, returncode: int | None) -> None:
+    if job_field(job_id, "stage") == "drafts":
+        finalize_drafts_job(job_id, slug, returncode)
+    else:
+        finalize_deck_job(job_id, slug, returncode)
+
+
+def create_deck_job(payload: dict) -> dict:
+    config = load_agent_config()
+    available, reason, mode = deck_feature_state(config)
+    if not available:
+        raise RuntimeError(deck_unavailable_message(reason))
+
+    stage = str(payload.get("stage") or "auto").strip() or "auto"
+    if stage not in {"auto", "drafts", "build", "revise"}:
+        raise ValueError(f"Stage không hợp lệ: {stage}")
+
+    style = str(payload.get("style") or "auto").strip() or "auto"
+    if style not in {item["value"] for item in DECK_STYLES}:
+        raise ValueError(f"Style không hợp lệ: {style}")
+
+    notes = str(payload.get("notes") or "").strip()[:2000]
+    if stage in {"auto", "drafts"}:
+        url = validate_deck_source_url(payload.get("url"))
+    else:
+        url = str(payload.get("url") or "").strip()[:2000]
+
+    root = project_lookup_root()
+    requested_slug = str(payload.get("slug") or "").strip().lower()
+    if requested_slug and not DECK_SLUG_RE.match(requested_slug):
+        raise ValueError("Slug chỉ gồm a-z, 0-9 và dấu gạch ngang, dài 2-63 ký tự, bắt đầu bằng chữ/số.")
+
+    if stage in {"build", "revise"}:
+        if not requested_slug:
+            raise ValueError("Thiếu slug project cho bước này.")
+        slug = requested_slug
+        if stage == "build" and not (root / slug / "source").is_dir():
+            raise RuntimeError(f"Chưa có slide/{slug}/source/ — chạy bước viết nháp script trước.")
+        if stage == "revise" and not (root / slug / "index.html").exists():
+            raise RuntimeError(f"slide/{slug}/ chưa phải deck hoàn chỉnh để sửa.")
+    elif requested_slug:
+        existing = root / requested_slug
+        if (existing / "index.html").exists():
+            raise RuntimeError(f"Slug '{requested_slug}' đã là deck hoàn chỉnh trong slide/.")
+        if stage == "auto" and existing.exists():
+            raise RuntimeError(f"Slug '{requested_slug}' đã tồn tại trong slide/.")
+        slug = requested_slug
+    else:
+        slug = ensure_unique_slug(derive_deck_slug(url))
+
+    lines = None
+    if stage == "build":
+        raw_lines = payload.get("lines")
+        if not isinstance(raw_lines, list) or not raw_lines:
+            raise ValueError("Thiếu script đã chốt (lines).")
+        lines = [str(line).strip() for line in raw_lines]
+        if any(not line for line in lines):
+            raise ValueError("Script có dòng trống.")
+        if len(lines) > 20 or any(len(line) > 600 for line in lines):
+            raise ValueError("Script quá dài (tối đa 20 dòng, 600 ký tự mỗi dòng).")
+    if stage == "revise" and not notes:
+        raise ValueError("Nhập yêu cầu sửa trước khi gửi.")
+
+    if active_deck_job():
+        raise RuntimeError("Đang có deck job chạy. Chờ xong hoặc bấm Dừng job cũ trước.")
+
+    prompt = build_deck_stage_prompt(stage, url, style, slug, notes, lines, container_tools=(mode == "runner"))
+
+    if mode == "runner":
+        return create_deck_job_via_runner(config, url, style, slug, stage, prompt, bool(payload.get("force")))
+
+    lock = read_deck_lock()
+    if lock:
+        alive = pid_alive(lock.get("pid"))
+        if alive and not payload.get("force"):
+            raise RuntimeError(
+                f"Có deck job mồ côi từ lần chạy server trước (pid {lock.get('pid')}, slug {lock.get('slug')}). "
+                f"Dừng nó bằng: kill -TERM -{lock.get('pid')}, hoặc gửi lại với force=true."
+            )
+        clear_deck_lock()
+
+    try:
+        timeout_minutes = max(5, int(config.get("timeout_minutes")))
+    except (TypeError, ValueError):
+        timeout_minutes = int(DECK_DEFAULT_AGENT_CONFIG["timeout_minutes"])
+
+    cmd = build_deck_command(config)
+    job_id = uuid.uuid4().hex[:12]
+    now = time.time()
+    job = {
+        "id": job_id,
+        "project": slug,
+        "job_type": "deck",
+        "stage": stage,
+        "engine": "codex",
+        "status": "queued",
+        "logs": "",
+        "created_at": now,
+        "updated_at": now,
+        "video_url": None,
+        "source_url": url,
+        "style": style,
+        "qa_urls": [],
+        "deck_url": None,
+        "warnings": [],
+    }
+    with JOBS_LOCK:
+        JOBS[job_id] = job
+
+    timer = threading.Timer(timeout_minutes * 60, deck_job_timeout, args=(job_id, timeout_minutes))
+    timer.daemon = True
+    set_job_state(job_id, timer=timer)
+    timer.start()
+
+    thread = threading.Thread(target=run_job, args=(job_id, cmd, slug), kwargs={"stdin_data": prompt}, daemon=True)
+    thread.start()
+    return public_job(job)
+
+
+def create_deck_job_via_runner(config: dict, url: str, style: str, slug: str, stage: str, prompt: str, force: bool) -> dict:
+    running_ids = deck_runner_running_job_ids()
+    if running_ids and not force:
+        raise RuntimeError(
+            f"Host runner đang chạy deck job khác ({', '.join(running_ids)}). "
+            "Chờ xong hoặc gửi lại với force=true để yêu cầu dừng job cũ."
+        )
+    for old_id in running_ids:
+        try:
+            deck_runner_job_paths(old_id)["cancel"].write_text("cancel", encoding="utf-8")
+        except OSError:
+            pass
+
+    try:
+        timeout_minutes = max(5, int(config.get("timeout_minutes")))
+    except (TypeError, ValueError):
+        timeout_minutes = int(DECK_DEFAULT_AGENT_CONFIG["timeout_minutes"])
+
+    job_id = uuid.uuid4().hex[:12]
+    now = time.time()
+    job = {
+        "id": job_id,
+        "project": slug,
+        "job_type": "deck",
+        "stage": stage,
+        "engine": "codex",
+        "runner": True,
+        "status": "queued",
+        "logs": "",
+        "created_at": now,
+        "updated_at": now,
+        "video_url": None,
+        "source_url": url,
+        "style": style,
+        "qa_urls": [],
+        "deck_url": None,
+        "warnings": [],
+    }
+    with JOBS_LOCK:
+        JOBS[job_id] = job
+
+    jobs_root = deck_runner_jobs_root()
+    jobs_root.mkdir(parents=True, exist_ok=True)
+    paths = deck_runner_job_paths(job_id)
+    request = {
+        "job_id": job_id,
+        "slug": slug,
+        "prompt": prompt,
+        "timeout_minutes": timeout_minutes,
+        "created_at": now,
+    }
+    tmp_path = paths["request"].with_suffix(".tmp")
+    tmp_path.write_text(json.dumps(request, ensure_ascii=False), encoding="utf-8")
+    tmp_path.rename(paths["request"])
+    append_log(job_id, f"Đã gửi yêu cầu cho host runner ({len(prompt)} ký tự prompt, timeout {timeout_minutes} phút).\n")
+
+    thread = threading.Thread(target=run_deck_via_runner, args=(job_id, slug, timeout_minutes), daemon=True)
+    thread.start()
+    return public_job(job)
+
+
+def run_deck_via_runner(job_id: str, slug: str, timeout_minutes: int) -> None:
+    paths = deck_runner_job_paths(job_id)
+    deadline = time.time() + timeout_minutes * 60
+    log_offset = 0
+    started = False
+    cancel_sent = False
+    heartbeat_lost_since = None
+    try:
+        while True:
+            time.sleep(1.0)
+
+            try:
+                with paths["log"].open("r", encoding="utf-8", errors="replace") as fh:
+                    fh.seek(log_offset)
+                    chunk = fh.read()
+                    log_offset = fh.tell()
+                if chunk:
+                    append_log(job_id, chunk)
+            except OSError:
+                pass
+
+            status = deck_runner_read_status(job_id)
+            if status and status.get("status") == "running" and not started:
+                started = True
+                set_job_state(
+                    job_id,
+                    status="running",
+                    started_at=time.time(),
+                    command=f"codex exec (host runner, pid {status.get('pid')})",
+                )
+            if status and status.get("status") == "exited":
+                returncode = status.get("returncode")
+                returncode = returncode if isinstance(returncode, int) else -1
+                if job_cancel_requested(job_id):
+                    if job_field(job_id, "timeout_hit"):
+                        set_job_state(
+                            job_id,
+                            status="failed",
+                            returncode=returncode,
+                            finished_at=time.time(),
+                            error=f"Deck build vượt quá {timeout_minutes} phút, đã dừng.",
+                        )
+                    else:
+                        append_log(job_id, "\nĐã dừng theo yêu cầu.\n")
+                        set_job_state(job_id, status="cancelled", returncode=returncode, finished_at=time.time())
+                else:
+                    finalize_deck_stage(job_id, slug, returncode)
+                return
+
+            if time.time() > deadline and not job_field(job_id, "timeout_hit"):
+                set_job_state(job_id, timeout_hit=True, cancel_requested=True)
+                append_log(job_id, f"\nDeck build vượt quá {timeout_minutes} phút, gửi tín hiệu dừng cho runner.\n")
+            if job_cancel_requested(job_id) and not cancel_sent:
+                try:
+                    paths["cancel"].write_text("cancel", encoding="utf-8")
+                    cancel_sent = True
+                except OSError:
+                    pass
+
+            if not deck_runner_heartbeat_fresh():
+                if heartbeat_lost_since is None:
+                    heartbeat_lost_since = time.time()
+                elif time.time() - heartbeat_lost_since > 60:
+                    append_log(job_id, "\nMất kết nối host runner (heartbeat dừng hơn 60 giây).\n")
+                    set_job_state(
+                        job_id,
+                        status="failed",
+                        finished_at=time.time(),
+                        error="Mất kết nối host runner. Kiểm tra deck_host_runner.py trên host rồi thử lại.",
+                    )
+                    return
+            else:
+                heartbeat_lost_since = None
+    finally:
+        with JOBS_LOCK:
+            job = JOBS.get(job_id)
+            terminal = bool(job and job.get("status") in {"done", "failed", "cancelled"})
+        if terminal:
+            for key in ("request", "status", "log", "cancel"):
+                try:
+                    paths[key].unlink(missing_ok=True)
+                except OSError:
+                    pass
 
 
 def delete_project_output(payload: dict) -> dict:
@@ -1946,257 +2884,7 @@ def render_social_upload_guide_html(platform: str) -> bytes:
     )
 
 
-def render_home_html(selected_project: str | None = None) -> bytes:
-    projects = list_projects()
-    project_names = {project["name"] for project in projects}
-    selected_project = selected_project if selected_project in project_names else (projects[0]["name"] if projects else "")
-
-    rows = []
-    for project in projects:
-        name = html.escape(project["name"])
-        href = html.escape(project["url"])
-        has_video = bool(project["video_url"])
-        can_delete_output = bool(project["has_output"])
-        video_link = (
-            f'<a class="small-link icon-btn" href="{html.escape(project["video_url"])}" target="_blank" rel="noreferrer"><span class="btn-icon">▶</span><span>Mở</span></a>'
-            if has_video
-            else '<span class="icon-btn disabled"><span class="btn-icon">▶</span><span>Mở</span></span>'
-        )
-        delete_disabled = "" if can_delete_output else " disabled"
-        delete_disabled_class = "" if can_delete_output else " disabled"
-        status = "Sẵn sàng" if project["has_script"] else "Thiếu script"
-        status_class = "ok" if project["has_script"] else "bad"
-        selected_class = " selected" if project["name"] == selected_project else ""
-        rows.append(
-            f"""
-            <li class="project-row{selected_class}" data-project="{name}">
-              <div class="project-main">
-                <span class="project-name">{name}</span>
-                <span class="project-slide-count">{project["script_count"] or "?"} slide</span>
-              </div>
-              <span class="status-pill {status_class}">{status}</span>
-              <div class="actions">
-                <button class="select-btn icon-btn" type="button" data-project="{name}"><span class="btn-icon">✓</span><span>Chọn</span></button>
-                <a class="small-link icon-btn" href="{href}" target="_blank" rel="noreferrer"><span class="btn-icon">↗</span><span>Xem</span></a>
-                <button class="copy-script-btn icon-btn" type="button" data-project="{name}" title="Copy script-90s.txt"><span class="btn-icon">⧉</span><span>Script</span></button>
-                <span class="row-video-slot">{video_link}</span>
-                <button class="delete-output-btn icon-btn{delete_disabled_class}" type="button" data-project="{name}"{delete_disabled}><span class="btn-icon">×</span><span>Xoá</span></button>
-              </div>
-            </li>
-            """
-        )
-
-    body = "\n".join(rows) or '<li class="empty">Chưa có dự án slide nào.</li>'
-    return render_page_shell(
-        title="NiceTechChannels Template Web UI",
-        body=f"""
-  <header class="dashboard-header">
-    <div class="brand-lockup">
-      <img src="/web/logo-nicetechchannels.png" alt="NiceTechChannels" class="brand-mark" />
-      <div>
-        <h1>NiceTechChannels</h1>
-        <p>Template WebUI</p>
-      </div>
-    </div>
-    <div class="header-tools">
-      <a class="refresh-btn icon-btn guide-header-btn" href="/elevenlabs-guide#manual" target="_blank" rel="noreferrer"><span class="btn-icon">?</span><span>Hướng dẫn lấy file audio</span></a>
-      <a class="refresh-btn icon-btn guide-header-btn" href="/elevenlabs-guide#api-credit" target="_blank" rel="noreferrer"><span class="btn-icon">?</span><span>Hướng dẫn lấy API + Voice ID</span></a>
-      <button class="refresh-btn icon-btn theme-toggle" type="button" data-theme-toggle><span class="btn-icon">☾</span><span>Theme</span></button>
-      <button class="refresh-btn icon-btn" type="button" data-source-root-select><span class="btn-icon">⌕</span><span>Source</span></button>
-      <a class="refresh-btn icon-btn" href="/upload" target="_blank" rel="noreferrer"><span class="btn-icon">↑</span><span>Upload</span></a>
-      <button class="refresh-btn icon-btn" id="refreshProjects" type="button"><span class="btn-icon">↻</span><span>Làm mới</span></button>
-      <div class="header-stat"><strong>{len(projects)}</strong><span>dự án</span></div>
-    </div>
-  </header>
-
-  <main class="dashboard-shell">
-    <section class="render-machine panel">
-      <div class="render-heading">
-        <h2><span class="render-lead-icon">✦</span><span>Bộ máy render</span></h2>
-      </div>
-
-      <div class="selected-box">
-        <div>
-          <strong id="selectedName">Chưa chọn dự án</strong>
-        </div>
-      </div>
-
-      <div class="status warn" id="renderStatus" hidden></div>
-
-      <div class="tabs">
-        <button class="tab active" data-engine="elevenlabs" type="button"><span class="tab-icon">🎙</span><span>ElevenLabs</span></button>
-        <button class="tab" data-engine="edgetts" type="button"><span class="tab-icon">⚡</span><span>Edge TTS</span></button>
-      </div>
-
-      <div data-pane="elevenlabs">
-        <div class="mode-toggle" aria-label="Chọn kiểu ElevenLabs">
-          <label><input type="radio" name="elevenMode" value="upload" checked /> Tải file</label>
-          <label><input type="radio" name="elevenMode" value="tts" /> API</label>
-        </div>
-        <div data-eleven-mode-pane="upload">
-          <label class="field primary-field">
-            <span class="field-label"><span class="field-icon">↑</span><span>File voiceover đầy đủ</span></span>
-            <span class="file-picker">
-              <input id="elevenFile" type="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg" />
-              <span class="file-picker-button">Chọn file</span>
-              <span class="file-picker-name" id="elevenFileName">Chưa chọn file</span>
-            </span>
-          </label>
-        </div>
-        <div data-eleven-mode-pane="tts" hidden>
-          <div class="api-key-panel" id="elevenApiKeyPanel">
-            <label class="field api-key-field">
-              <span class="field-label"><span class="field-icon">🔑</span><span>ElevenLabs API key</span></span>
-              <input id="elevenApiKey" type="password" autocomplete="off" placeholder="Dán API key rồi lưu vào config/tts.json" />
-            </label>
-            <div class="eleven-actions api-key-actions">
-              <span class="config-state" id="elevenApiKeyState">Chưa kiểm tra API key</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-pane="edgetts" hidden>
-      </div>
-
-      <div class="form-actions render-primary-actions">
-        <button class="start" id="startRender" type="button" {"disabled" if not projects else ""}><span class="btn-icon">▶</span><span>Bắt đầu render</span></button>
-        <button class="icon-btn stop-render-btn" id="stopRender" type="button" hidden><span class="btn-icon">■</span><span>Dừng render</span></button>
-        <a class="small-link" id="videoLink" href="#" target="_blank" rel="noreferrer" hidden>Mở video cuối</a>
-        <button class="icon-btn reveal-output-btn" id="revealOutput" type="button" hidden><span class="btn-icon">⌕</span><span>Mở trong Finder</span></button>
-      </div>
-
-      <div class="render-state" id="renderState" hidden>
-        <div class="state-head">
-          <span class="state-dot"></span>
-          <strong id="stateTitle">Trạng thái render</strong>
-        </div>
-        <ol class="state-list" id="stateList"></ol>
-      </div>
-
-      <details class="advanced-settings" id="advancedSettings">
-        <summary>
-          <span class="advanced-summary-main"><span class="btn-icon">⚙</span><span>Cài đặt nâng cao</span></span>
-          <span class="advanced-summary-state" id="advancedStateLabel">Đang ẩn</span>
-        </summary>
-        <div class="advanced-body">
-          <div data-advanced-engine="elevenlabs">
-            <div data-eleven-mode-pane="tts" hidden>
-              <label class="field">
-                <span class="field-label"><span class="field-icon">♪</span><span>Voice ID, mặc định giọng “Nhật”</span></span>
-                <input id="elevenVoice" type="text" placeholder="JBFqnCBsd6RMkjVDRZzb" />
-              </label>
-              <div class="advanced-check-grid">
-                <label class="check">
-                  <input id="elevenForce" type="checkbox" />
-                  Tạo lại audio cache
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div data-advanced-engine="edgetts" hidden>
-            <label class="field">
-              <span class="field-label"><span class="field-icon">◆</span><span>Giọng Edge TTS</span></span>
-              <input id="edgeVoice" type="text" value="vi-VN-HoaiMyNeural" />
-            </label>
-            <div class="advanced-check-grid">
-              <label class="check">
-                <input id="edgeForce" type="checkbox" />
-                Tạo lại audio cache
-              </label>
-            </div>
-            <label class="check">
-              <input id="edgePerSlide" type="checkbox" />
-              Tạo từng slide
-            </label>
-          </div>
-
-          <div class="render-speed-block">
-            <label class="field render-speed-field">
-              <span class="field-label"><span class="field-icon">↯</span><span>Tốc độ audio</span></span>
-              <input id="renderSpeed" type="number" min="0.5" max="2" step="0.05" value="1.1" />
-            </label>
-            <div class="render-options-stack">
-              <div class="render-option-row">
-                <label class="check render-option-check">
-                  <input id="renderOutro" type="checkbox" checked />
-                  Outro
-                </label>
-                <button class="render-option-choose" id="chooseOutro" type="button">Chọn</button>
-                <input id="outroFile" type="file" accept="video/*,.mp4,.mov,.m4v,.webm" hidden />
-              </div>
-              <div class="render-option-row">
-                <label class="check render-option-check">
-                  <input id="renderBranding" type="checkbox" checked />
-                  Logo + brand
-                </label>
-                <button class="render-option-choose" id="openBrandConfig" type="button">Chọn</button>
-              </div>
-            </div>
-            <div class="speed-presets" aria-label="Chọn nhanh tốc độ audio">
-              <button class="speed-preset active" type="button" data-speed="1.1">1.1</button>
-              <button class="speed-preset" type="button" data-speed="1.15">1.15</button>
-              <button class="speed-preset" type="button" data-speed="1.2">1.2</button>
-              <button class="speed-preset" type="button" data-speed="1.25">1.25</button>
-            </div>
-          </div>
-          <label class="field render-size-field">
-            <span class="field-label"><span class="field-icon">▣</span><span>Độ phân giải render</span></span>
-            <select id="renderSize">
-              <option value="720x1280" selected>720 x 1280 (mặc định, nhẹ hơn)</option>
-              <option value="1080x1920">1080 x 1920 (nét hơn)</option>
-            </select>
-          </label>
-        </div>
-      </details>
-
-      <div class="brand-modal-backdrop" id="brandConfigModal" hidden>
-        <div class="brand-modal-card" role="dialog" aria-modal="true" aria-labelledby="brandConfigTitle">
-          <button class="brand-modal-close" id="closeBrandConfig" type="button" aria-label="Đóng">×</button>
-          <p class="kicker">Logo + brand</p>
-          <h3 id="brandConfigTitle">Tuỳ chỉnh logo và tên brand</h3>
-          <p class="brand-modal-copy">Logo và tên brand chỉ áp dụng khi render, không sửa trực tiếp file slide gốc.</p>
-          <label class="field brand-modal-field">
-            <span class="field-label"><span class="field-icon">◎</span><span>File logo</span></span>
-            <span class="file-picker">
-              <input id="brandLogoFile" type="file" accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.ico,.svg" />
-              <span class="file-picker-button">Chọn file</span>
-              <span class="file-picker-name" id="brandLogoFileName">Chưa chọn logo</span>
-            </span>
-          </label>
-          <label class="field brand-modal-field">
-            <span class="field-label"><span class="field-icon">@</span><span>Tên brand</span></span>
-            <input id="brandNameInput" type="text" maxlength="64" value="@nicetechchannels" placeholder="@nicetechchannels" />
-          </label>
-          <div class="brand-modal-actions">
-            <button class="brand-modal-button secondary" id="cancelBrandConfig" type="button">Huỷ</button>
-            <button class="brand-modal-button" id="saveBrandConfig" type="button">Áp dụng</button>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <aside class="slide-list panel">
-      <div class="panel-head">
-        <div>
-          <p class="kicker">Danh sách</p>
-          <h2>Slide trong source folder</h2>
-        </div>
-      </div>
-      <div class="list-head">
-        <span>Dự án</span>
-        <span>Trạng thái</span>
-        <span>Thao tác</span>
-      </div>
-      <ol class="project-list" id="projectList">
-        {body}
-      </ol>
-    </aside>
-  </main>
-""",
-        extra_style="""
+DASHBOARD_PAGE_STYLE = """
     body {
       height: 100vh;
       overflow: hidden;
@@ -3250,14 +3938,486 @@ def render_home_html(selected_project: str | None = None) -> bytes:
         font-size: 11px;
       }
     }
+    .deck-summary-state { color: var(--muted); font-size: 12px; font-weight: 500; }
+    .deck-body { display: flex; flex-direction: column; gap: 12px; }
+    .deck-form-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; }
+    .deck-form-grid .field { margin: 0; }
+    .deck-advanced summary { cursor: pointer; color: var(--muted); font-size: 13px; font-weight: 600; }
+    .deck-advanced .field { margin: 10px 0 0; }
+    .deck-body textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--r-sm);
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      padding: 9px 10px;
+      resize: vertical;
+    }
+    .deck-mode-row { display: flex; gap: 18px; flex-wrap: wrap; }
+    .deck-mode-option { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; cursor: pointer; }
+    .deck-mode-option input { accent-color: var(--accent); }
+    .deck-pending { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
+    .deck-muted { color: var(--muted); font-size: 12px; font-weight: 400; }
+    .deck-drafts { display: flex; flex-direction: column; gap: 10px; }
+    .deck-drafts .field { margin: 0; }
+    .deck-drafts-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+    .deck-draft-card {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      text-align: left;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+    }
+    .deck-draft-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+    .deck-draft-card .draft-style { font-size: 12px; font-weight: 700; color: var(--muted); }
+    .deck-draft-card .draft-hook { font-size: 13px; line-height: 1.4; }
+    .deck-review { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); padding-top: 12px; }
+    .deck-review .field { margin: 0; }
+    .deck-qa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+    .deck-qa-grid img {
+      width: 100%;
+      aspect-ratio: 390 / 693;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: block;
+    }
+    .deck-result { display: flex; flex-direction: column; gap: 12px; }
+    .deck-log summary { cursor: pointer; color: var(--muted); font-size: 12px; font-weight: 600; }
+    .deck-log pre {
+      max-height: 200px;
+      overflow: auto;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      margin: 8px 0 0;
+    }
+    @media (max-width: 720px) {
+      .deck-form-grid { grid-template-columns: 1fr; }
+    }
+"""
+
+
+def render_home_html(selected_project: str | None = None) -> bytes:
+    projects = list_projects()
+    project_names = {project["name"] for project in projects}
+    selected_project = selected_project if selected_project in project_names else (projects[0]["name"] if projects else "")
+
+    rows = []
+    for project in projects:
+        name = html.escape(project["name"])
+        href = html.escape(project["url"])
+        has_video = bool(project["video_url"])
+        can_delete_output = bool(project["has_output"])
+        video_link = (
+            f'<a class="small-link icon-btn" href="{html.escape(project["video_url"])}" target="_blank" rel="noreferrer"><span class="btn-icon">▶</span><span>Mở</span></a>'
+            if has_video
+            else '<span class="icon-btn disabled"><span class="btn-icon">▶</span><span>Mở</span></span>'
+        )
+        delete_disabled = "" if can_delete_output else " disabled"
+        delete_disabled_class = "" if can_delete_output else " disabled"
+        status = "Sẵn sàng" if project["has_script"] else "Thiếu script"
+        status_class = "ok" if project["has_script"] else "bad"
+        selected_class = " selected" if project["name"] == selected_project else ""
+        rows.append(
+            f"""
+            <li class="project-row{selected_class}" data-project="{name}">
+              <div class="project-main">
+                <span class="project-name">{name}</span>
+                <span class="project-slide-count">{project["script_count"] or "?"} slide</span>
+              </div>
+              <span class="status-pill {status_class}">{status}</span>
+              <div class="actions">
+                <button class="select-btn icon-btn" type="button" data-project="{name}"><span class="btn-icon">✓</span><span>Chọn</span></button>
+                <a class="small-link icon-btn" href="{href}" target="_blank" rel="noreferrer"><span class="btn-icon">↗</span><span>Xem</span></a>
+                <button class="copy-script-btn icon-btn" type="button" data-project="{name}" title="Copy script-90s.txt"><span class="btn-icon">⧉</span><span>Script</span></button>
+                <span class="row-video-slot">{video_link}</span>
+                <button class="delete-output-btn icon-btn{delete_disabled_class}" type="button" data-project="{name}"{delete_disabled}><span class="btn-icon">×</span><span>Xoá</span></button>
+              </div>
+            </li>
+            """
+        )
+
+    body = "\n".join(rows) or '<li class="empty">Chưa có dự án slide nào.</li>'
+    return render_page_shell(
+        title="NiceTechChannels Template Web UI",
+        body=f"""
+  <header class="dashboard-header">
+    <div class="brand-lockup">
+      <img src="/web/logo-nicetechchannels.png" alt="NiceTechChannels" class="brand-mark" />
+      <div>
+        <h1>NiceTechChannels</h1>
+        <p>Template WebUI</p>
+      </div>
+    </div>
+    <div class="header-tools">
+      <a class="refresh-btn icon-btn guide-header-btn" href="/elevenlabs-guide#manual" target="_blank" rel="noreferrer"><span class="btn-icon">?</span><span>Hướng dẫn lấy file audio</span></a>
+      <a class="refresh-btn icon-btn guide-header-btn" href="/elevenlabs-guide#api-credit" target="_blank" rel="noreferrer"><span class="btn-icon">?</span><span>Hướng dẫn lấy API + Voice ID</span></a>
+      <button class="refresh-btn icon-btn theme-toggle" type="button" data-theme-toggle><span class="btn-icon">☾</span><span>Theme</span></button>
+      <button class="refresh-btn icon-btn" type="button" data-source-root-select><span class="btn-icon">⌕</span><span>Source</span></button>
+      <a class="refresh-btn icon-btn" href="/create"><span class="btn-icon">＋</span><span>Tạo slide</span></a>
+      <a class="refresh-btn icon-btn" href="/upload" target="_blank" rel="noreferrer"><span class="btn-icon">↑</span><span>Upload</span></a>
+      <button class="refresh-btn icon-btn" id="refreshProjects" type="button"><span class="btn-icon">↻</span><span>Làm mới</span></button>
+      <div class="header-stat"><strong>{len(projects)}</strong><span>dự án</span></div>
+    </div>
+  </header>
+
+  <main class="dashboard-shell">
+    <section class="render-machine panel">
+      <div class="render-heading">
+        <h2><span class="render-lead-icon">✦</span><span>Bộ máy render</span></h2>
+      </div>
+
+      <div class="selected-box">
+        <div>
+          <strong id="selectedName">Chưa chọn dự án</strong>
+        </div>
+      </div>
+
+      <div class="status warn" id="renderStatus" hidden></div>
+
+      <div class="tabs">
+        <button class="tab active" data-engine="elevenlabs" type="button"><span class="tab-icon">🎙</span><span>ElevenLabs</span></button>
+        <button class="tab" data-engine="edgetts" type="button"><span class="tab-icon">⚡</span><span>Edge TTS</span></button>
+      </div>
+
+      <div data-pane="elevenlabs">
+        <div class="mode-toggle" aria-label="Chọn kiểu ElevenLabs">
+          <label><input type="radio" name="elevenMode" value="upload" checked /> Tải file</label>
+          <label><input type="radio" name="elevenMode" value="tts" /> API</label>
+        </div>
+        <div data-eleven-mode-pane="upload">
+          <label class="field primary-field">
+            <span class="field-label"><span class="field-icon">↑</span><span>File voiceover đầy đủ</span></span>
+            <span class="file-picker">
+              <input id="elevenFile" type="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg" />
+              <span class="file-picker-button">Chọn file</span>
+              <span class="file-picker-name" id="elevenFileName">Chưa chọn file</span>
+            </span>
+          </label>
+        </div>
+        <div data-eleven-mode-pane="tts" hidden>
+          <div class="api-key-panel" id="elevenApiKeyPanel">
+            <label class="field api-key-field">
+              <span class="field-label"><span class="field-icon">🔑</span><span>ElevenLabs API key</span></span>
+              <input id="elevenApiKey" type="password" autocomplete="off" placeholder="Dán API key rồi lưu vào config/tts.json" />
+            </label>
+            <div class="eleven-actions api-key-actions">
+              <span class="config-state" id="elevenApiKeyState">Chưa kiểm tra API key</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div data-pane="edgetts" hidden>
+      </div>
+
+      <div class="form-actions render-primary-actions">
+        <button class="start" id="startRender" type="button" {"disabled" if not projects else ""}><span class="btn-icon">▶</span><span>Bắt đầu render</span></button>
+        <button class="icon-btn stop-render-btn" id="stopRender" type="button" hidden><span class="btn-icon">■</span><span>Dừng render</span></button>
+        <a class="small-link" id="videoLink" href="#" target="_blank" rel="noreferrer" hidden>Mở video cuối</a>
+        <button class="icon-btn reveal-output-btn" id="revealOutput" type="button" hidden><span class="btn-icon">⌕</span><span>Mở trong Finder</span></button>
+      </div>
+
+      <div class="render-state" id="renderState" hidden>
+        <div class="state-head">
+          <span class="state-dot"></span>
+          <strong id="stateTitle">Trạng thái render</strong>
+        </div>
+        <ol class="state-list" id="stateList"></ol>
+      </div>
+
+      <details class="advanced-settings" id="advancedSettings">
+        <summary>
+          <span class="advanced-summary-main"><span class="btn-icon">⚙</span><span>Cài đặt nâng cao</span></span>
+          <span class="advanced-summary-state" id="advancedStateLabel">Đang ẩn</span>
+        </summary>
+        <div class="advanced-body">
+          <div data-advanced-engine="elevenlabs">
+            <div data-eleven-mode-pane="tts" hidden>
+              <label class="field">
+                <span class="field-label"><span class="field-icon">♪</span><span>Voice ID, mặc định giọng “Nhật”</span></span>
+                <input id="elevenVoice" type="text" placeholder="JBFqnCBsd6RMkjVDRZzb" />
+              </label>
+              <div class="advanced-check-grid">
+                <label class="check">
+                  <input id="elevenForce" type="checkbox" />
+                  Tạo lại audio cache
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div data-advanced-engine="edgetts" hidden>
+            <label class="field">
+              <span class="field-label"><span class="field-icon">◆</span><span>Giọng Edge TTS</span></span>
+              <input id="edgeVoice" type="text" value="vi-VN-HoaiMyNeural" />
+            </label>
+            <div class="advanced-check-grid">
+              <label class="check">
+                <input id="edgeForce" type="checkbox" />
+                Tạo lại audio cache
+              </label>
+            </div>
+            <label class="check">
+              <input id="edgePerSlide" type="checkbox" />
+              Tạo từng slide
+            </label>
+          </div>
+
+          <div class="render-speed-block">
+            <label class="field render-speed-field">
+              <span class="field-label"><span class="field-icon">↯</span><span>Tốc độ audio</span></span>
+              <input id="renderSpeed" type="number" min="0.5" max="2" step="0.05" value="1.1" />
+            </label>
+            <div class="render-options-stack">
+              <div class="render-option-row">
+                <label class="check render-option-check">
+                  <input id="renderOutro" type="checkbox" checked />
+                  Outro
+                </label>
+                <button class="render-option-choose" id="chooseOutro" type="button">Chọn</button>
+                <input id="outroFile" type="file" accept="video/*,.mp4,.mov,.m4v,.webm" hidden />
+              </div>
+              <div class="render-option-row">
+                <label class="check render-option-check">
+                  <input id="renderBranding" type="checkbox" checked />
+                  Logo + brand
+                </label>
+                <button class="render-option-choose" id="openBrandConfig" type="button">Chọn</button>
+              </div>
+            </div>
+            <div class="speed-presets" aria-label="Chọn nhanh tốc độ audio">
+              <button class="speed-preset active" type="button" data-speed="1.1">1.1</button>
+              <button class="speed-preset" type="button" data-speed="1.15">1.15</button>
+              <button class="speed-preset" type="button" data-speed="1.2">1.2</button>
+              <button class="speed-preset" type="button" data-speed="1.25">1.25</button>
+            </div>
+          </div>
+          <label class="field render-size-field">
+            <span class="field-label"><span class="field-icon">▣</span><span>Độ phân giải render</span></span>
+            <select id="renderSize">
+              <option value="720x1280" selected>720 x 1280 (mặc định, nhẹ hơn)</option>
+              <option value="1080x1920">1080 x 1920 (nét hơn)</option>
+            </select>
+          </label>
+        </div>
+      </details>
+
+      <div class="brand-modal-backdrop" id="brandConfigModal" hidden>
+        <div class="brand-modal-card" role="dialog" aria-modal="true" aria-labelledby="brandConfigTitle">
+          <button class="brand-modal-close" id="closeBrandConfig" type="button" aria-label="Đóng">×</button>
+          <p class="kicker">Logo + brand</p>
+          <h3 id="brandConfigTitle">Tuỳ chỉnh logo và tên brand</h3>
+          <p class="brand-modal-copy">Logo và tên brand chỉ áp dụng khi render, không sửa trực tiếp file slide gốc.</p>
+          <label class="field brand-modal-field">
+            <span class="field-label"><span class="field-icon">◎</span><span>File logo</span></span>
+            <span class="file-picker">
+              <input id="brandLogoFile" type="file" accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.ico,.svg" />
+              <span class="file-picker-button">Chọn file</span>
+              <span class="file-picker-name" id="brandLogoFileName">Chưa chọn logo</span>
+            </span>
+          </label>
+          <label class="field brand-modal-field">
+            <span class="field-label"><span class="field-icon">@</span><span>Tên brand</span></span>
+            <input id="brandNameInput" type="text" maxlength="64" value="@nicetechchannels" placeholder="@nicetechchannels" />
+          </label>
+          <div class="brand-modal-actions">
+            <button class="brand-modal-button secondary" id="cancelBrandConfig" type="button">Huỷ</button>
+            <button class="brand-modal-button" id="saveBrandConfig" type="button">Áp dụng</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <aside class="slide-list panel">
+      <div class="panel-head">
+        <div>
+          <p class="kicker">Danh sách</p>
+          <h2>Slide trong source folder</h2>
+        </div>
+      </div>
+      <div class="list-head">
+        <span>Dự án</span>
+        <span>Trạng thái</span>
+        <span>Thao tác</span>
+      </div>
+      <ol class="project-list" id="projectList">
+        {body}
+      </ol>
+    </aside>
+  </main>
 """,
+        extra_style=DASHBOARD_PAGE_STYLE,
         extra_script=f"""
   <script>
     window.__PROJECTS__ = {json.dumps(projects, ensure_ascii=False)};
     window.__INITIAL_PROJECT__ = {json.dumps(selected_project, ensure_ascii=False)};
     window.__PROJECT_SOURCE_ROOT__ = {json.dumps(str(SLIDE_ROOT), ensure_ascii=False)};
   </script>
-  <script src="/web/render_page.js?v=20260620-render-brand-assets-v4"></script>
+  <script src="/web/render_page.js?v=20260817-deck-wizard-v2"></script>
+""",
+    )
+
+
+CREATE_PAGE_EXTRA_STYLE = """
+    body {
+      height: auto;
+      min-height: 100vh;
+      overflow: auto;
+      display: block;
+    }
+    .create-shell {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 60px;
+    }
+    .deck-step { padding: 18px 20px 20px; }
+    .deck-step h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 17px;
+      margin: 0 0 14px;
+    }
+    .deck-step h2 .deck-muted { font-size: 13px; }
+    .deck-body { display: flex; flex-direction: column; gap: 12px; padding: 0; max-height: none; overflow: visible; }
+    .deck-summary-state { margin-left: auto; }
+"""
+
+
+def render_create_html(deck_allowed: bool = True) -> bytes:
+    deck_status = deck_status_payload()
+    deck_status["client_allowed"] = bool(deck_allowed)
+    deck_enabled = bool(deck_status["available"]) and bool(deck_allowed)
+    if not deck_status["available"]:
+        deck_hint = deck_unavailable_message(deck_status["reason"])
+    elif not deck_allowed:
+        deck_hint = "Chỉ tạo được deck từ trình duyệt trên chính máy chạy server (localhost)."
+    else:
+        deck_hint = ""
+    deck_disabled_attr = "" if deck_enabled else " disabled"
+    deck_hint_attr = "" if deck_hint else " hidden"
+    deck_style_options = "\n".join(
+        f'          <option value="{html.escape(item["value"])}">{html.escape(item["label"])}</option>'
+        for item in DECK_STYLES
+    )
+    return render_page_shell(
+        title="Tạo slide mới — NiceTechChannels",
+        body=f"""
+  <header class="dashboard-header">
+    <div class="brand-lockup">
+      <img src="/web/logo-nicetechchannels.png" alt="NiceTechChannels" class="brand-mark" />
+      <div>
+        <h1>Tạo slide mới</h1>
+        <p>Wizard từ link nguồn</p>
+      </div>
+    </div>
+    <div class="header-tools">
+      <span class="deck-summary-state" id="deckSummaryState"></span>
+      <button class="refresh-btn icon-btn theme-toggle" type="button" data-theme-toggle><span class="btn-icon">☾</span><span>Theme</span></button>
+      <a class="refresh-btn icon-btn" href="/"><span class="btn-icon">←</span><span>Bộ máy render</span></a>
+    </div>
+  </header>
+
+  <main class="create-shell">
+    <section class="panel deck-step">
+      <h2><span class="btn-icon">🔗</span><span>Nguồn & chế độ</span></h2>
+      <div class="deck-body">
+        <div class="status warn" id="deckHint"{deck_hint_attr}>{html.escape(deck_hint)}</div>
+        <div class="deck-pending" id="deckPending" hidden></div>
+        <div class="deck-mode-row">
+          <label class="deck-mode-option"><input type="radio" name="deckMode" value="wizard" checked{deck_disabled_attr} /><span>Wizard duyệt từng bước (chọn script, duyệt ảnh)</span></label>
+          <label class="deck-mode-option"><input type="radio" name="deckMode" value="auto"{deck_disabled_attr} /><span>Chạy 1 mạch (autopilot)</span></label>
+        </div>
+        <div class="deck-form-grid">
+          <label class="field deck-url-field">
+            <span class="field-label"><span class="field-icon">🔗</span><span>Link nguồn (GitHub repo, X post, blog...)</span></span>
+            <input id="deckUrl" type="url" placeholder="https://github.com/owner/repo"{deck_disabled_attr} />
+          </label>
+          <label class="field" id="deckStyleField" hidden>
+            <span class="field-label"><span class="field-icon">✎</span><span>Style script</span></span>
+            <select id="deckStyle"{deck_disabled_attr}>
+{deck_style_options}
+            </select>
+          </label>
+        </div>
+        <details class="deck-advanced">
+          <summary>Tuỳ chọn thêm</summary>
+          <label class="field">
+            <span class="field-label"><span>Slug project (bỏ trống để tự đặt theo link)</span></span>
+            <input id="deckSlug" type="text" placeholder="owner-repo" pattern="[a-z0-9][a-z0-9-]*"{deck_disabled_attr} />
+          </label>
+          <label class="field">
+            <span class="field-label"><span>Ghi chú thêm cho agent</span></span>
+            <textarea id="deckNotes" rows="3" maxlength="2000" placeholder="Ví dụ: tập trung vào benchmark, bỏ qua phần cài đặt..."{deck_disabled_attr}></textarea>
+          </label>
+        </details>
+        <div class="form-actions">
+          <button class="start" id="startDeck" type="button"{deck_disabled_attr}><span class="btn-icon">▶</span><span>Bắt đầu</span></button>
+          <button class="icon-btn" id="stopDeck" type="button" hidden><span class="btn-icon">■</span><span>Dừng</span></button>
+        </div>
+        <div class="render-state" id="deckState" hidden>
+          <div class="state-head"><span class="state-dot"></span><strong id="deckStateTitle">Trạng thái deck</strong></div>
+          <ol class="state-list" id="deckStateList"></ol>
+          <details class="deck-log"><summary>Log chi tiết</summary><pre id="deckLogTail"></pre></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel deck-step deck-drafts" id="deckDrafts" hidden>
+      <h2><span class="btn-icon">✎</span><span>Bước 1/2 — Chọn script</span> <span class="deck-muted">bấm 1 bản để xem, sửa trực tiếp từng dòng ở ô dưới (1 dòng = 1 slide)</span></h2>
+      <div class="deck-drafts-list" id="deckDraftsList"></div>
+      <label class="field">
+        <span class="field-label"><span>Script sẽ dùng</span></span>
+        <textarea id="deckDraftLines" rows="8"></textarea>
+      </label>
+      <div class="form-actions">
+        <button class="start" id="confirmDraftBuild" type="button"><span class="btn-icon">▶</span><span>Chốt script & build deck</span></button>
+      </div>
+    </section>
+
+    <section class="panel deck-step deck-result" id="deckResult" hidden>
+      <h2><span class="btn-icon">🖼</span><span>Bước 2/2 — Duyệt ảnh slide</span> <span class="deck-muted">ưng thì Duyệt, chưa ưng thì ghi yêu cầu sửa</span></h2>
+      <div class="deck-qa-grid" id="deckQaGrid"></div>
+      <div class="deck-review" id="deckReview" hidden>
+        <label class="field">
+          <span class="field-label"><span>Yêu cầu sửa (ghi rõ slide nào, sửa gì)</span></span>
+          <textarea id="deckReviseNotes" rows="3" maxlength="2000" placeholder="Ví dụ: Slide 3 chữ quá nhỏ; slide 5 đổi visual sang dạng timeline..."></textarea>
+        </label>
+        <div class="form-actions">
+          <button class="icon-btn" id="requestRevise" type="button"><span class="btn-icon">✎</span><span>Yêu cầu sửa</span></button>
+          <button class="start" id="approveDeck" type="button"><span class="btn-icon">✓</span><span>Duyệt deck</span></button>
+        </div>
+      </div>
+      <div class="form-actions">
+        <a class="small-link icon-btn" id="deckOpenLink" href="#" target="_blank" rel="noreferrer"><span class="btn-icon">↗</span><span>Xem deck</span></a>
+        <a class="small-link icon-btn" id="deckRenderLink" href="#"><span class="btn-icon">▶</span><span>Mở màn hình render</span></a>
+      </div>
+      <div class="status warn" id="deckWarnings" hidden></div>
+    </section>
+  </main>
+""",
+        extra_style=DASHBOARD_PAGE_STYLE + CREATE_PAGE_EXTRA_STYLE,
+        extra_script=f"""
+  <script>
+    window.__PROJECTS__ = [];
+    window.__DECK__ = {json.dumps(deck_status, ensure_ascii=False)};
+  </script>
+  <script src="/web/render_page.js?v=20260817-deck-wizard-v2"></script>
 """,
     )
 
@@ -4156,7 +5316,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     window.__INITIAL_PROJECT__ = {json.dumps(selected_project, ensure_ascii=False)};
     window.__PROJECT_SOURCE_ROOT__ = {json.dumps(str(SLIDE_ROOT), ensure_ascii=False)};
   </script>
-  <script src="/web/render_page.js?v=20260620-render-brand-assets-v4"></script>
+  <script src="/web/render_page.js?v=20260817-deck-wizard-v2"></script>
 """,
     )
 
@@ -4417,6 +5577,14 @@ class WebHandler(SimpleHTTPRequestHandler):
             self.send_html(200, render_home_html(selected))
             return
 
+        if path in {"/create", "/create/"}:
+            self.send_html(200, render_create_html(deck_allowed=is_loopback_client(self)))
+            return
+
+        if path == "/favicon.ico":
+            self.send_redirect("/web/favicon.ico")
+            return
+
         if path in {"/upload", "/upload/"}:
             selected = (parse_qs(parsed.query).get("project") or [None])[0]
             self.send_html(200, render_upload_html(selected))
@@ -4453,6 +5621,24 @@ class WebHandler(SimpleHTTPRequestHandler):
 
         if path == "/api/projects":
             self.send_json(200, {"projects": list_projects()})
+            return
+
+        if path == "/api/decks/status":
+            payload = deck_status_payload()
+            payload["client_allowed"] = is_loopback_client(self)
+            self.send_json(200, payload)
+            return
+
+        if path == "/api/decks/drafts":
+            slug = (parse_qs(parsed.query).get("slug") or [""])[0].strip().lower()
+            if not slug or not DECK_SLUG_RE.match(slug):
+                self.send_json(400, {"error": "Thiếu slug hợp lệ."})
+                return
+            drafts = read_deck_drafts(slug)
+            if not drafts:
+                self.send_json(404, {"error": f"Chưa có bản nháp script cho slide/{slug}/."})
+                return
+            self.send_json(200, {"slug": slug, "drafts": drafts})
             return
 
         if path == "/api/social/status":
@@ -4635,6 +5821,29 @@ class WebHandler(SimpleHTTPRequestHandler):
                     self.send_json(400, {"error": str(exc)})
                     return
                 self.send_json(200, result)
+                return
+
+            if parsed.path == "/api/decks":
+                if not is_loopback_client(self):
+                    self.send_json(403, {"error": "Chỉ cho phép tạo deck từ chính máy chạy server (localhost)."})
+                    return
+                available, reason, _mode = deck_feature_state()
+                if not available:
+                    self.send_json(503, {"error": deck_unavailable_message(reason), "reason": reason})
+                    return
+                try:
+                    payload = self.read_json_body()
+                    job = create_deck_job(payload)
+                except ValueError as exc:
+                    self.send_json(400, {"error": str(exc)})
+                    return
+                except RuntimeError as exc:
+                    self.send_json(409, {"error": str(exc)})
+                    return
+                except Exception as exc:
+                    self.send_json(400, {"error": str(exc)})
+                    return
+                self.send_json(202, job)
                 return
 
             if parsed.path == "/api/output/delete":
