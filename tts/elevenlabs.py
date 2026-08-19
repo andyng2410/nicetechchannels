@@ -6,7 +6,7 @@ import os
 import re
 from pathlib import Path
 
-from .common import generate_project_tts
+from .common import generate_project_tts, record_tts_cost
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG_PATH = REPO_ROOT / "config" / "tts.json"
@@ -198,7 +198,6 @@ async def generate_elevenlabs_full_audio(
     full_text: str | None = None,
     force: bool = False,
 ) -> Path:
-    del slide_dir
     config = dict(elevenlabs_config(config_path))
     api_config = api_safe_config(config)
     resolved_key = elevenlabs_api_key(api_key, config)
@@ -230,6 +229,20 @@ async def generate_elevenlabs_full_audio(
             cache_matches = False
     if not force and cache_matches and audio_file.exists() and audio_file.stat().st_size > 0:
         print(f"Full ElevenLabs TTS: {audio_file} (cached)")
+        record_tts_cost(slide_dir, output_dir, {
+            "engine": "elevenlabs",
+            "mode": "full",
+            "model_id": resolved_model,
+            "voice": resolved_voice,
+            "chars": 0,
+            "per_line_chars": [len(line) for line in lines],
+            "context_chars": 0,
+            "cached": True,
+            "cached_lines": list(range(1, len(lines) + 1)),
+            "force": force,
+            "usd": 0.0,
+            "slide_count": len(lines),
+        })
         return audio_file
 
     if audio_file.exists():
@@ -251,6 +264,20 @@ async def generate_elevenlabs_full_audio(
     )
     meta_file.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Full ElevenLabs TTS saved: {audio_file}")
+    record_tts_cost(slide_dir, output_dir, {
+        "engine": "elevenlabs",
+        "mode": "full",
+        "model_id": resolved_model,
+        "voice": resolved_voice,
+        "chars": len(text),
+        "per_line_chars": [len(line) for line in lines],
+        "context_chars": 0,
+        "cached": False,
+        "cached_lines": [],
+        "force": force,
+        "usd": None,
+        "slide_count": len(lines),
+    })
     return audio_file
 
 
@@ -315,6 +342,12 @@ async def generate_elevenlabs_tts(
             "ffmpeg_speed": f"{post_process_speed:.6g}",
         }
 
+    generated_lines: list[int] = []
+    cached_lines: list[int] = []
+
+    def on_line_result(index: int, text: str, cached: bool) -> None:
+        (cached_lines if cached else generated_lines).append(index)
+
     await generate_project_tts(
         slide_dir,
         output_dir,
@@ -324,4 +357,27 @@ async def generate_elevenlabs_tts(
         cooldown=float(config.get("cooldown") or COOLDOWN),
         post_process_speed=post_process_speed,
         cache_metadata=cache_metadata,
+        on_line_result=on_line_result,
     )
+
+    billed_chars = sum(len(lines[i]) for i in generated_lines)
+    context_chars = 0
+    for i in generated_lines:
+        previous_text, next_text = context_for(i)
+        context_chars += len(previous_text or "") + len(next_text or "")
+    record_tts_cost(slide_dir, output_dir, {
+        "engine": "elevenlabs",
+        "mode": "per_slide",
+        "model_id": resolved_model,
+        "voice": resolved_voice,
+        # context (previous_text/next_text) được ghi lại nhưng không tính tiền —
+        # giả định ElevenLabs không bill phần conditioning; sửa hồi tố được vì có context_chars.
+        "chars": billed_chars,
+        "per_line_chars": [len(line) for line in lines],
+        "context_chars": context_chars,
+        "cached": not generated_lines,
+        "cached_lines": [i + 1 for i in cached_lines],
+        "force": force,
+        "usd": None,
+        "slide_count": len(lines),
+    })

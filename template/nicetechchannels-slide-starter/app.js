@@ -5,7 +5,7 @@
 
 // State
 let currentSlide = 0;
-let totalSlides = 6;
+let totalSlides = 7;
 let isReady = true;
 let isAnimating = false;
 let audioCtx = null;
@@ -22,7 +22,8 @@ const slideTransitions = [
   "bass",
   "rise",
   "chord",
-  "minimal"
+  "minimal",
+  "gong"
 ];
 const slideReveals = [
   "sparkle",
@@ -30,6 +31,7 @@ const slideReveals = [
   "blip",
   "bubble",
   "tick",
+  "bell",
   "bell"
 ];
 
@@ -40,7 +42,8 @@ const slideScripts = [
   "Slide ba dành cho cơ chế hoặc workflow. Một visual chính mở ý. Hai reveal sau làm rõ nhịp trước sau và hệ quả.",
   "Slide bốn là highlight mode cho hai điểm chính. Card đầu nêu điểm A. Card thứ hai nêu điểm B.",
   "Slide năm là traffic-light mode cho phản ứng hoặc rủi ro. Đỏ là rủi ro hoặc phản ứng mạnh. Vàng là điểm cần kiểm chứng. Xanh là tín hiệu tích cực.",
-  "Slide cuối chốt verdict. Reveal hai đưa thesis chính. Reveal ba để nguồn hoặc CTA thật gọn."
+  "Slide cuối chốt verdict. Reveal hai đưa thesis chính. Reveal ba để nguồn hoặc CTA thật gọn.",
+  "Hãy theo dõi ngay NiceTechChannels. Đăng ký kênh để không bỏ lỡ những tin tức mới nhất về công nghệ và AI."
 ];
 const initialSlideScripts = [...slideScripts];
 const initialSlideTransitions = [...slideTransitions];

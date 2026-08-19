@@ -17,6 +17,16 @@ from pathlib import Path
 from subtitle_timing import build_karaoke_subtitle_timing, build_script_subtitle_timing
 from slide_media import discover_slide_videos
 
+try:
+    import cost_tracking
+except ImportError:
+    cost_tracking = None
+
+try:
+    from branding import BRANDING as BRAND_CONFIG
+except ImportError:
+    BRAND_CONFIG = {"handle": "@nicetechchannels"}
+
 
 VIDEO_WIDTH = 1080
 VIDEO_HEIGHT = 1920
@@ -862,13 +872,14 @@ def prepare_recording_html(
         )
         logo_payload = json.dumps(brand_logo.resolve().as_uri() if brand_logo else "", ensure_ascii=False)
         name_payload = json.dumps(brand_name, ensure_ascii=False)
+        handle_payload = json.dumps(BRAND_CONFIG.get("handle") or "@nicetechchannels", ensure_ascii=False)
         html = html.replace(
             "</body>",
             "<script>"
             "(function(){"
             f"const logo={logo_payload};"
             f"const name={name_payload};"
-            "const brandText=name||'@nicetechchannels';"
+            f"const brandText=name||{handle_payload};"
             "const brandLogo=logo||'logo-nicetechchannels.ico';"
             "const container=document.querySelector('.slide-container');"
             "if(container&&!container.querySelector('.brand-top-left,.brand-bottom-right')){"
@@ -1334,6 +1345,7 @@ async def main() -> None:
     parser.add_argument("--skip-validation", action="store_true")
     parser.add_argument("--no-subtitles", action="store_true", help="Disable script subtitle overlay")
     parser.add_argument("--outro", action="store_true", help="Append repo outro.mp4 to the final video")
+    parser.add_argument("--skip-outro-slide", action="store_true", help="Cut the deck's outro slide (data-outro) from the rendered video")
     parser.add_argument("--outro-video", help="Custom outro video path used when --outro is enabled")
     parser.add_argument("--no-branding", action="store_true", help="Hide the starter NiceTechChannels corner branding")
     parser.add_argument("--brand-logo", help="Custom brand logo path for starter branding")
@@ -1363,68 +1375,121 @@ async def main() -> None:
 
     preview_settings = load_preview_settings(slide_dir)
     timing_data = json.loads(timing_file.read_text(encoding="utf-8"))
-    await annotate_slide_video_durations(slide_dir, timing_data, preview_settings)
-    tts_path = await ensure_voiceover_matches_timing(output_dir, timing_data, tts_path)
-    subtitle_data = None
-    subtitles_enabled = preview_settings.get("subtitles", {}).get("enabled", True) is not False
-    subtitle_max_lines = int(preview_settings.get("subtitles", {}).get("maxLines", 2) or 2)
-    if not args.no_subtitles and subtitles_enabled:
+
+    outro_slide_skipped = False
+    if args.skip_outro_slide:
+        index_html_path = slide_dir / "index.html"
+        has_outro_slide = index_html_path.is_file() and "data-outro" in index_html_path.read_text(encoding="utf-8", errors="replace")
+        if has_outro_slide and len(timing_data) >= 2:
+            cut_at = sum(float(item["duration"]) for item in timing_data[:-1])
+            timing_data = timing_data[:-1]
+            trimmed_path = output_dir / "voiceover_concat_nooutro.mp3"
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", str(tts_path), "-t", f"{cut_at:.3f}", "-acodec", "copy", str(trimmed_path)],
+                check=True,
+                capture_output=True,
+            )
+            tts_path = trimmed_path
+            outro_slide_skipped = True
+            print(f"=== Outro slide skipped ===\nCut voiceover at {cut_at:.2f}s, rendering {len(timing_data)} slides")
+        else:
+            print("⚠ --skip-outro-slide: deck không có outro slide (data-outro), bỏ qua flag.")
+
+    wall_t0 = time.monotonic()
+
+    def record_render_cost(status: str) -> None:
+        if cost_tracking is None:
+            return
+        wall_s = round(time.monotonic() - wall_t0, 1)
         try:
-            subtitle_data = build_karaoke_subtitle_timing(output_dir, timing_data, max_lines=subtitle_max_lines)
-            print("=== Subtitles ===\nUsing word-level karaoke captions")
-        except Exception as exc:
-            subtitle_data = build_script_subtitle_timing(timing_data, max_lines=subtitle_max_lines)
-            print(f"=== Subtitles ===\nKaraoke unavailable ({exc.__class__.__name__}: {exc}). Falling back to static captions")
-    elif not args.no_subtitles:
-        print("=== Subtitles ===\nDisabled by preview-settings.json")
+            usd = cost_tracking.render_usd(wall_s, cost_tracking.load_pricing())
+        except Exception:  # noqa: BLE001
+            usd = 0.0
+        cost_tracking.safe_append_event(slide_dir, {
+            "type": "render",
+            "writer": "auto_render",
+            "status": status,
+            "wall_s": wall_s,
+            "deck_duration_s": round(sum(float(item.get("duration") or 0) for item in timing_data), 1),
+            "per_slide_durations": [float(item.get("duration") or 0) for item in timing_data],
+            "size": f"{render_width}x{render_height}",
+            "usd": usd,
+            "slide_count": len(timing_data),
+        })
 
-    theme_css = theme_css_from_settings(preview_settings)
-    subtitle_css = subtitle_css_from_settings(preview_settings)
-    settings_css = "\n".join(part for part in [theme_css, subtitle_css] if part)
-    if theme_css:
-        print("=== Theme ===\nUsing preview-settings.json")
+    render_status = "failed"
+    try:
+        await annotate_slide_video_durations(slide_dir, timing_data, preview_settings)
+        tts_path = await ensure_voiceover_matches_timing(output_dir, timing_data, tts_path)
+        subtitle_data = None
+        subtitles_enabled = preview_settings.get("subtitles", {}).get("enabled", True) is not False
+        subtitle_max_lines = int(preview_settings.get("subtitles", {}).get("maxLines", 2) or 2)
+        if not args.no_subtitles and subtitles_enabled:
+            try:
+                subtitle_data = build_karaoke_subtitle_timing(output_dir, timing_data, max_lines=subtitle_max_lines)
+                print("=== Subtitles ===\nUsing word-level karaoke captions")
+            except Exception as exc:
+                subtitle_data = build_script_subtitle_timing(timing_data, max_lines=subtitle_max_lines)
+                print(f"=== Subtitles ===\nKaraoke unavailable ({exc.__class__.__name__}: {exc}). Falling back to static captions")
+        elif not args.no_subtitles:
+            print("=== Subtitles ===\nDisabled by preview-settings.json")
 
-    recording_html = prepare_recording_html(
-        slide_dir,
-        output_dir,
-        subtitle_data,
-        settings_css,
-        preview_settings,
-        branding_enabled=not args.no_branding,
-        brand_logo=brand_logo,
-        brand_name=args.brand_name.strip(),
-    )
-    reveal_units = await inspect_reveal_units(recording_html)
+        theme_css = theme_css_from_settings(preview_settings)
+        subtitle_css = subtitle_css_from_settings(preview_settings)
+        settings_css = "\n".join(part for part in [theme_css, subtitle_css] if part)
+        if theme_css:
+            print("=== Theme ===\nUsing preview-settings.json")
 
-    print("=== Mapping check ===")
-    for idx, item in enumerate(timing_data):
-        sentence_count = len(split_sentences(item["text"]))
-        reveal_count = reveal_units[idx] if idx < len(reveal_units) else "?"
-        print(f"Slide {idx + 1}: {sentence_count} script sentences / {reveal_count} reveal units")
+        recording_html = prepare_recording_html(
+            slide_dir,
+            output_dir,
+            subtitle_data,
+            settings_css,
+            preview_settings,
+            branding_enabled=not args.no_branding,
+            brand_logo=brand_logo,
+            brand_name=args.brand_name.strip(),
+        )
+        reveal_units = await inspect_reveal_units(recording_html)
+        if outro_slide_skipped and len(reveal_units) > len(timing_data):
+            # Outro là slide cuối: cắt khỏi mapping/click timeline cho khớp timing đã lược.
+            reveal_units = reveal_units[: len(timing_data)]
 
-    if not args.skip_validation:
-        validate_mapping(timing_data, reveal_units)
+        print("=== Mapping check ===")
+        for idx, item in enumerate(timing_data):
+            sentence_count = len(split_sentences(item["text"]))
+            reveal_count = reveal_units[idx] if idx < len(reveal_units) else "?"
+            print(f"Slide {idx + 1}: {sentence_count} script sentences / {reveal_count} reveal units")
 
-    print("\n=== Click timeline ===")
-    timeline = build_click_timeline(timing_data, reveal_units)
-    for event in timeline:
-        print(f"  [{event['time']:6.2f}s] {event['desc']}")
+        if not args.skip_validation:
+            validate_mapping(timing_data, reveal_units)
 
-    voiceover_duration = sum(float(item["duration"]) for item in timing_data)
-    print(f"\n=== Recording slides (voiceover: {voiceover_duration:.1f}s) ===")
-    raw_video, app_audio_path, trim_start = await record_video(recording_html, timeline, output_dir, voiceover_duration)
-    print(f"Raw video: {raw_video}")
-    print(f"Original slide audio: {app_audio_path}")
+        print("\n=== Click timeline ===")
+        timeline = build_click_timeline(timing_data, reveal_units)
+        for event in timeline:
+            print(f"  [{event['time']:6.2f}s] {event['desc']}")
 
-    print("\n=== Merging voiceover + original slide audio ===")
-    final_video = output_dir / "final_video.mp4"
-    await merge_final_video(raw_video, tts_path, app_audio_path, final_video, trim_start)
-    if args.outro:
-        outro_video = outro_video_arg or (repo_root / "outro.mp4")
-        print(f"\n=== Appending outro ===\nUsing {outro_video}")
-        await append_outro_video(final_video, outro_video)
-    duration = await get_duration(final_video)
-    print(f"Final video: {final_video} ({duration:.1f}s)")
+        voiceover_duration = sum(float(item["duration"]) for item in timing_data)
+        print(f"\n=== Recording slides (voiceover: {voiceover_duration:.1f}s) ===")
+        raw_video, app_audio_path, trim_start = await record_video(recording_html, timeline, output_dir, voiceover_duration)
+        print(f"Raw video: {raw_video}")
+        print(f"Original slide audio: {app_audio_path}")
+
+        print("\n=== Merging voiceover + original slide audio ===")
+        final_video = output_dir / "final_video.mp4"
+        await merge_final_video(raw_video, tts_path, app_audio_path, final_video, trim_start)
+        if args.outro:
+            outro_video = outro_video_arg or (repo_root / "outro.mp4")
+            index_html = slide_dir / "index.html"
+            if not outro_video_arg and index_html.is_file() and "data-outro" in index_html.read_text(encoding="utf-8", errors="replace"):
+                print("⚠ Deck đã có outro slide trong DOM (data-outro); nối outro.mp4 sẽ tạo outro kép.")
+            print(f"\n=== Appending outro ===\nUsing {outro_video}")
+            await append_outro_video(final_video, outro_video)
+        duration = await get_duration(final_video)
+        print(f"Final video: {final_video} ({duration:.1f}s)")
+        render_status = "done"
+    finally:
+        record_render_cost(render_status)
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ def main():
     parser.add_argument("--no-subtitles", action="store_true", help="Disable script subtitle overlay")
     parser.add_argument("--outro", action="store_true", help="Append repo outro.mp4 to the final video")
     parser.add_argument("--outro-video", help="Custom outro video path used when --outro is enabled")
+    parser.add_argument("--skip-outro-slide", action="store_true", help="Cut the deck outro slide (data-outro) from the rendered video")
     parser.add_argument("--no-branding", action="store_true", help="Hide the starter NiceTechChannels corner branding")
     parser.add_argument("--brand-logo", help="Custom brand logo path for starter branding")
     parser.add_argument("--brand-name", default="", help="Custom brand text for starter branding")
@@ -85,6 +86,8 @@ def main():
         cmd_render.append("--outro")
     if args.outro_video:
         cmd_render.extend(["--outro-video", args.outro_video])
+    if args.skip_outro_slide:
+        cmd_render.append("--skip-outro-slide")
     if args.no_branding:
         cmd_render.append("--no-branding")
     if args.brand_logo:

@@ -7,6 +7,8 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
+from branding import brand_hashtag
+
 from .config import read_social_config, write_social_config
 from .http import http_form_request, http_get_request
 from .metadata import (
@@ -281,8 +283,9 @@ def facebook_caption_for_project(project: str, fallback_caption: str) -> tuple[s
     if source_url:
         caption = caption.replace(source_url, "")
     caption = re.sub(r"\n{3,}", "\n\n", caption).strip() or upload_paragraphs(script_lines).strip()
-    if "#NiceTechChannels" not in caption:
-        caption = f"{caption}\n\n#NiceTechChannels".strip()
+    brand_tag = f"#{brand_hashtag()}"
+    if brand_tag not in caption:
+        caption = f"{caption}\n\n{brand_tag}".strip()
     return caption[:5000], source_url
 
 

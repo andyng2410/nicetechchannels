@@ -2,6 +2,7 @@
   const MAX_AUDIO_BYTES = 200 * 1024 * 1024;
   const MAX_RENDER_VIDEO_BYTES = 200 * 1024 * 1024;
   const MAX_BRAND_LOGO_BYTES = 20 * 1024 * 1024;
+  const BRAND_HANDLE = (window.__BRANDING__ && window.__BRANDING__.handle) || '@nicetechchannels';
   const fallbackProject = window.__RENDER_PROJECT__;
   const fallbackOutputUrl = window.__RENDER_OUTPUT_URL__;
   const projects = Array.isArray(window.__PROJECTS__) && window.__PROJECTS__.length
@@ -16,6 +17,12 @@
     outputUrl: null,
     busy: false,
     canceling: false,
+    deckJobId: null,
+    deckPollTimer: null,
+    deckCanceling: false,
+    deckSlug: null,
+    deckDrafts: [],
+    deckDraftIndex: 0,
     uploadProject: null,
     socialReady: { youtube: false, facebook: false },
     facebookCommentTargetId: '',
@@ -23,7 +30,7 @@
     renderOptions: {
       outroFile: null,
       brandLogoFile: null,
-      brandName: '@nicetechchannels',
+      brandName: BRAND_HANDLE,
     },
   };
   let elevenVoiceSaveTimer = null;
@@ -1053,7 +1060,7 @@
     const nameInput = $('#brandNameInput');
     const logoInput = $('#brandLogoFile');
     const logoName = $('#brandLogoFileName');
-    if (nameInput) nameInput.value = state.renderOptions.brandName || '@nicetechchannels';
+    if (nameInput) nameInput.value = state.renderOptions.brandName || BRAND_HANDLE;
     if (logoInput) logoInput.value = '';
     if (logoName) {
       logoName.textContent = state.renderOptions.brandLogoFile
@@ -1081,7 +1088,7 @@
       setStatus(error.message || String(error), 'bad');
       return;
     }
-    state.renderOptions.brandName = name || '@nicetechchannels';
+    state.renderOptions.brandName = name || BRAND_HANDLE;
     if (logoFile) state.renderOptions.brandLogoFile = logoFile;
     closeBrandConfigModal();
     setStatus('Đã áp dụng tuỳ chỉnh Logo + brand cho lần render tới.', 'good');
@@ -1123,7 +1130,7 @@
         };
       }
       if (payload.branding) {
-        payload.brandName = state.renderOptions.brandName || '@nicetechchannels';
+        payload.brandName = state.renderOptions.brandName || BRAND_HANDLE;
         if (state.renderOptions.brandLogoFile) {
           assertFileSize(state.renderOptions.brandLogoFile, MAX_BRAND_LOGO_BYTES, 'File logo');
           setRenderState('Đang chuẩn bị render', [`Đang nạp logo: ${state.renderOptions.brandLogoFile.name}`]);
@@ -1249,6 +1256,7 @@
         }
         setRevealOutputButton(job.project || state.project, true);
         markProjectHasOutput(job.project || state.project, finalUrl);
+        updateRenderCostLine(job.project || state.project);
         await showUploadPanel(job.project || state.project, finalUrl);
       } else if (job.status === 'failed') {
         if (state.pollTimer) window.clearInterval(state.pollTimer);
@@ -1715,6 +1723,94 @@
     refreshProjects.addEventListener('click', () => window.location.reload());
   }
 
+  // --- Lọc + phân trang danh sách project (trang chủ) ---
+
+  const PROJECT_PAGE_SIZE = 8;
+  const projectListView = { page: 1, query: '', filter: 'all', sort: 'created_desc' };
+
+  const PROJECT_SORTERS = {
+    created_desc: (a, b) => Number(b.dataset.created || 0) - Number(a.dataset.created || 0),
+    created_asc: (a, b) => Number(a.dataset.created || 0) - Number(b.dataset.created || 0),
+    updated_desc: (a, b) => Number(b.dataset.updated || 0) - Number(a.dataset.updated || 0),
+    name: (a, b) => String(a.dataset.project || '').localeCompare(String(b.dataset.project || '')),
+  };
+
+  function applyProjectListView() {
+    const rows = $all('.project-row[data-project]');
+    if (!rows.length) return;
+    const list = $('#projectList');
+    const sorter = PROJECT_SORTERS[projectListView.sort];
+    if (list && sorter) {
+      rows.sort(sorter);
+      rows.forEach((row) => list.appendChild(row));
+    }
+    const query = projectListView.query.trim().toLowerCase();
+    const visible = rows.filter((row) => {
+      const name = String(row.dataset.project || '').toLowerCase();
+      const hasVideo = row.dataset.hasVideo === '1';
+      if (query && !name.includes(query)) return false;
+      if (projectListView.filter === 'video' && !hasVideo) return false;
+      if (projectListView.filter === 'novideo' && hasVideo) return false;
+      return true;
+    });
+    const pages = Math.max(1, Math.ceil(visible.length / PROJECT_PAGE_SIZE));
+    if (projectListView.page > pages) projectListView.page = pages;
+    if (projectListView.page < 1) projectListView.page = 1;
+    const start = (projectListView.page - 1) * PROJECT_PAGE_SIZE;
+    const pageSet = new Set(visible.slice(start, start + PROJECT_PAGE_SIZE));
+    rows.forEach((row) => row.classList.toggle('filtered-out', !pageSet.has(row)));
+    const pager = $('#projectPager');
+    if (pager) {
+      pager.hidden = pages <= 1;
+      const info = $('#pagerInfo');
+      if (info) info.textContent = `Trang ${projectListView.page}/${pages} · ${visible.length} dự án`;
+      const prev = $('#pagerPrev');
+      const next = $('#pagerNext');
+      if (prev) prev.disabled = projectListView.page <= 1;
+      if (next) next.disabled = projectListView.page >= pages;
+    }
+  }
+
+  const projectSearch = $('#projectSearch');
+  if (projectSearch) {
+    projectSearch.addEventListener('input', () => {
+      projectListView.query = projectSearch.value;
+      projectListView.page = 1;
+      applyProjectListView();
+    });
+  }
+  const projectFilter = $('#projectFilter');
+  if (projectFilter) {
+    projectFilter.addEventListener('change', () => {
+      projectListView.filter = projectFilter.value;
+      projectListView.page = 1;
+      applyProjectListView();
+    });
+  }
+  const projectSort = $('#projectSort');
+  if (projectSort) {
+    projectSort.addEventListener('change', () => {
+      projectListView.sort = projectSort.value;
+      projectListView.page = 1;
+      applyProjectListView();
+    });
+  }
+  const pagerPrev = $('#pagerPrev');
+  if (pagerPrev) {
+    pagerPrev.addEventListener('click', () => {
+      projectListView.page -= 1;
+      applyProjectListView();
+    });
+  }
+  const pagerNext = $('#pagerNext');
+  if (pagerNext) {
+    pagerNext.addEventListener('click', () => {
+      projectListView.page += 1;
+      applyProjectListView();
+    });
+  }
+  applyProjectListView();
+
   $all('[data-source-root-select]').forEach((button) => {
     button.addEventListener('click', selectSourceRootFromFinder);
   });
@@ -1734,6 +1830,539 @@
 
   const startButton = $('#startRender');
   if (startButton) startButton.addEventListener('click', startRender);
+
+  // --- Deck builder (Tạo slide mới từ link, chỉ có trên trang chủ) ---
+
+  const deckInfo = window.__DECK__ || null;
+  const DECK_PHASES = [
+    ['nguon', 'Đang thu source...'],
+    ['drafts', 'Đang viết 5 bản script...'],
+    ['script', 'Đang viết script...'],
+    ['visual', 'Đang dựng slide...'],
+    ['validate', 'Đang validate...'],
+    ['capture', 'Đang capture QA...'],
+  ];
+
+  function deckMode() {
+    return document.querySelector('input[name="deckMode"]:checked')?.value || 'wizard';
+  }
+
+  function syncDeckMode() {
+    const styleField = $('#deckStyleField');
+    if (styleField) styleField.hidden = deckMode() === 'wizard';
+    const start = $('#startDeck');
+    if (start) setButtonLabel(start, deckMode() === 'wizard' ? 'Bắt đầu: viết 5 bản script' : 'Tạo deck 1 mạch');
+  }
+
+  function deckAvailable() {
+    return Boolean(deckInfo && deckInfo.available && deckInfo.client_allowed);
+  }
+
+  function deckProgressForJob(job) {
+    const logs = String(job.logs || '');
+    const rawLine = latestRawLogLine(logs);
+    if (job.status === 'done') return { title: 'Deck hoàn tất', log: rawLine };
+    if (job.status === 'failed') return { title: 'Deck thất bại', log: job.error || rawLine };
+    if (job.status === 'cancelled') return { title: 'Đã dừng deck job', log: rawLine || 'Job đã được dừng.' };
+    if (job.status === 'cancelling') return { title: 'Đang dừng deck job...', log: rawLine };
+    let title = 'Codex đang khởi động...';
+    const markers = logs.match(/\[PHASE\]\s*(nguon|drafts|script|visual|validate|capture)/g);
+    if (markers && markers.length) {
+      const lastPhase = markers[markers.length - 1].replace(/\[PHASE\]\s*/, '');
+      const entry = DECK_PHASES.find(([key]) => key === lastPhase);
+      if (entry) title = entry[1];
+    }
+    return { title, log: rawLine };
+  }
+
+  function setDeckState(title, step, tone = 'running') {
+    const box = $('#deckState');
+    const titleEl = $('#deckStateTitle');
+    const list = $('#deckStateList');
+    if (!box || !titleEl || !list) return;
+    box.hidden = false;
+    box.className = `render-state ${tone}`;
+    titleEl.textContent = title;
+    list.textContent = '';
+    if (step) {
+      const item = document.createElement('li');
+      item.textContent = step;
+      list.appendChild(item);
+    }
+  }
+
+  function setDeckSummaryState(text) {
+    const el = $('#deckSummaryState');
+    if (el) el.textContent = text || '';
+  }
+
+  function setDeckBusy(busy) {
+    const start = $('#startDeck');
+    const stop = $('#stopDeck');
+    if (start) start.disabled = busy || !deckAvailable();
+    if (stop) {
+      stop.hidden = !busy;
+      stop.disabled = !busy || state.deckCanceling;
+    }
+  }
+
+  function updateDeckLogTail(job) {
+    const pre = $('#deckLogTail');
+    if (!pre) return;
+    const logs = String(job.logs || '');
+    pre.textContent = logs.length > 4000 ? logs.slice(-4000) : logs;
+    pre.scrollTop = pre.scrollHeight;
+  }
+
+  function fmtUsd(value) {
+    const num = Number(value);
+    if (value == null || Number.isNaN(num)) return '—';
+    return num >= 1 ? `$${num.toFixed(2)}` : `$${num.toFixed(4)}`;
+  }
+
+  function fmtTokens(value) {
+    const num = Number(value) || 0;
+    if (num >= 1000000) return `${(num / 1000000).toFixed(2)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
+    return String(num);
+  }
+
+  async function fetchCostReport(project) {
+    if (!project) return null;
+    try {
+      const response = await fetch(`/api/costs?project=${encodeURIComponent(project)}`, { cache: 'no-store' });
+      if (!response.ok) return null;
+      const report = await response.json();
+      if (!report || !report.events_count) return null;
+      return report;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async function renderDeckCost(project) {
+    const box = $('#deckCostSummary');
+    if (!box) return;
+    const report = await fetchCostReport(project);
+    if (!report) {
+      box.hidden = true;
+      return;
+    }
+    const totals = report.totals || {};
+    const byCat = totals.usd_by_category || {};
+    box.textContent = '';
+    const line = document.createElement('div');
+    const strong = document.createElement('strong');
+    strong.textContent = `Chi phí deck: ${fmtTokens((totals.tokens || {}).total)} tokens ≈ ${fmtUsd(totals.usd)}`;
+    line.appendChild(strong);
+    line.appendChild(document.createTextNode(
+      ` (build ${fmtUsd(byCat.build)} · sửa ${fmtUsd(byCat.edit)} · TTS ${fmtUsd(byCat.tts)})`
+      + (report.pricing_known ? '' : ' — thiếu giá một phần, xem config/pricing.json')
+    ));
+    box.appendChild(line);
+
+    const slides = Array.isArray(report.per_slide) ? report.per_slide : [];
+    if (slides.length) {
+      const table = document.createElement('table');
+      const head = document.createElement('tr');
+      ['Slide', 'Tokens', '$ build', '$ sửa', '$ TTS', '$ tổng'].forEach((label) => {
+        const th = document.createElement('th');
+        th.textContent = label;
+        head.appendChild(th);
+      });
+      table.appendChild(head);
+      slides.forEach((row) => {
+        const cats = row.usd_by_category || {};
+        const tr = document.createElement('tr');
+        [
+          `${row.slide}${row.removed ? ' (đã xoá)' : ''}`,
+          fmtTokens(row.tokens_total),
+          fmtUsd(cats.build),
+          fmtUsd(cats.edit),
+          fmtUsd(cats.tts),
+          fmtUsd(row.usd),
+        ].forEach((value) => {
+          const td = document.createElement('td');
+          td.textContent = value;
+          tr.appendChild(td);
+        });
+        table.appendChild(tr);
+      });
+      box.appendChild(table);
+    }
+    box.hidden = false;
+  }
+
+  async function updateRenderCostLine(project) {
+    const box = $('#renderCostLine');
+    if (!box) return;
+    const report = await fetchCostReport(project);
+    if (!report) {
+      box.hidden = true;
+      return;
+    }
+    const totals = report.totals || {};
+    box.textContent = `Chi phí luỹ kế project: ${fmtUsd(totals.usd)} · ${fmtTokens((totals.tokens || {}).total)} tokens`
+      + ` · ${totals.codex_runs || 0} lần Codex · ${totals.renders || 0} render`
+      + (report.pricing_known ? '' : ' (thiếu giá một phần)');
+    box.hidden = false;
+  }
+
+  function renderDeckDone(job) {
+    state.deckSlug = job.project;
+    const grid = $('#deckQaGrid');
+    if (grid) {
+      grid.textContent = '';
+      (job.qa_urls || []).forEach((url) => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+        const img = document.createElement('img');
+        img.src = url;
+        img.loading = 'lazy';
+        img.alt = 'QA slide';
+        link.appendChild(img);
+        grid.appendChild(link);
+      });
+    }
+    const openLink = $('#deckOpenLink');
+    if (openLink) openLink.href = job.deck_url || `/slide/${encodeURIComponent(job.project)}/`;
+    const renderLink = $('#deckRenderLink');
+    if (renderLink) renderLink.href = `/?project=${encodeURIComponent(job.project)}`;
+    const warningsEl = $('#deckWarnings');
+    if (warningsEl) {
+      const warnings = Array.isArray(job.warnings) ? job.warnings : [];
+      warningsEl.hidden = !warnings.length;
+      warningsEl.textContent = warnings.join(' ');
+    }
+    const review = $('#deckReview');
+    if (review) review.hidden = false;
+    const notes = $('#deckReviseNotes');
+    if (notes) notes.value = '';
+    const result = $('#deckResult');
+    if (result) result.hidden = false;
+    renderDeckCost(job.project);
+  }
+
+  function selectDraft(index) {
+    state.deckDraftIndex = index;
+    $all('.deck-draft-card').forEach((card, cardIndex) => {
+      card.classList.toggle('selected', cardIndex === index);
+    });
+    const textarea = $('#deckDraftLines');
+    const draft = state.deckDrafts[index];
+    if (textarea && draft) textarea.value = (draft.lines || []).join('\n');
+  }
+
+  function showDraftsReview(slug, drafts) {
+    state.deckSlug = slug;
+    state.deckDrafts = Array.isArray(drafts) ? drafts : [];
+    const box = $('#deckDrafts');
+    const list = $('#deckDraftsList');
+    if (!box || !list) return;
+    list.textContent = '';
+    state.deckDrafts.forEach((draft, index) => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'deck-draft-card';
+      const styleEl = document.createElement('span');
+      styleEl.className = 'draft-style';
+      styleEl.textContent = draft.label || draft.style || `Bản ${index + 1}`;
+      const hookEl = document.createElement('span');
+      hookEl.className = 'draft-hook';
+      hookEl.textContent = draft.hook || (draft.lines || [])[0] || '';
+      card.appendChild(styleEl);
+      card.appendChild(hookEl);
+      card.addEventListener('click', () => selectDraft(index));
+      list.appendChild(card);
+    });
+    box.hidden = false;
+    const result = $('#deckResult');
+    if (result) result.hidden = true;
+    if (state.deckDrafts.length) selectDraft(0);
+    const details = $('#deckBuilderDetails');
+    if (details) details.open = true;
+  }
+
+  async function confirmDraftBuild() {
+    if (state.deckJobId || !state.deckSlug) return;
+    const textarea = $('#deckDraftLines');
+    const lines = String(textarea?.value || '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    if (!lines.length) {
+      setDeckState('Script trống', 'Chọn một bản nháp hoặc nhập script (1 dòng = 1 slide).', 'failed');
+      return;
+    }
+    const box = $('#deckDrafts');
+    if (box) box.hidden = true;
+    await startDeckStage({ stage: 'build', slug: state.deckSlug, lines }, 'Đang build deck với script đã chốt...');
+  }
+
+  async function requestRevise() {
+    if (state.deckJobId || !state.deckSlug) return;
+    const notes = String($('#deckReviseNotes')?.value || '').trim();
+    if (!notes) {
+      setDeckState('Thiếu yêu cầu sửa', 'Ghi rõ slide nào cần sửa gì rồi bấm lại.', 'failed');
+      return;
+    }
+    const result = $('#deckResult');
+    if (result) result.hidden = true;
+    await startDeckStage({ stage: 'revise', slug: state.deckSlug, notes }, 'Đang sửa deck theo yêu cầu...');
+  }
+
+  function approveDeck() {
+    const review = $('#deckReview');
+    if (review) review.hidden = true;
+    setDeckSummaryState(`Đã duyệt: ${state.deckSlug || ''}`);
+    setDeckState('Deck đã duyệt', 'Bấm "Mở màn hình render" để render video.', 'done');
+  }
+
+  function renderPendingDrafts() {
+    const box = $('#deckPending');
+    if (!box || !deckInfo) return;
+    const pending = Array.isArray(deckInfo.pending_drafts) ? deckInfo.pending_drafts : [];
+    box.textContent = '';
+    if (!pending.length || !deckAvailable()) {
+      box.hidden = true;
+      return;
+    }
+    const label = document.createElement('span');
+    label.textContent = 'Wizard đang dở:';
+    box.appendChild(label);
+    pending.forEach((item) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'icon-btn';
+      button.innerHTML = '<span class="btn-icon">▸</span>';
+      const nameEl = document.createElement('span');
+      nameEl.textContent = `Tiếp tục ${item.slug}`;
+      button.appendChild(nameEl);
+      button.addEventListener('click', async () => {
+        try {
+          const response = await fetch(`/api/decks/drafts?slug=${encodeURIComponent(item.slug)}`, { cache: 'no-store' });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
+          showDraftsReview(data.slug, data.drafts);
+          setDeckSummaryState(`Chờ chọn script: ${data.slug}`);
+        } catch (error) {
+          setDeckState('Không đọc được bản nháp', error.message || String(error), 'failed');
+        }
+      });
+      box.appendChild(button);
+    });
+    box.hidden = false;
+  }
+
+  async function startDeckStage(payload, startMessage) {
+    const details = $('#deckBuilderDetails');
+    if (details) details.open = true;
+    setDeckBusy(true);
+    setDeckState(startMessage, 'Đang gửi yêu cầu cho codex...');
+    try {
+      const response = await fetch('/api/decks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
+      state.deckJobId = data.id;
+      state.deckCanceling = false;
+      setDeckSummaryState(`Đang chạy: ${data.project}`);
+      await pollDeckJob();
+      if (state.deckJobId) {
+        stopDeckPolling();
+        state.deckPollTimer = window.setInterval(pollDeckJob, 2000);
+      }
+    } catch (error) {
+      setDeckBusy(false);
+      setDeckState('Không thể chạy bước này', error.message || String(error), 'failed');
+    }
+  }
+
+  function stopDeckPolling() {
+    if (state.deckPollTimer) window.clearInterval(state.deckPollTimer);
+    state.deckPollTimer = null;
+  }
+
+  async function pollDeckJob() {
+    if (!state.deckJobId) return;
+    try {
+      const response = await fetch(`/api/jobs/${state.deckJobId}`, { cache: 'no-store' });
+      const job = await response.json();
+      if (!response.ok) throw new Error(job.error || `HTTP ${response.status}`);
+      const progress = deckProgressForJob(job);
+      updateDeckLogTail(job);
+      if (job.status === 'done') {
+        stopDeckPolling();
+        state.deckJobId = null;
+        state.deckCanceling = false;
+        setDeckBusy(false);
+        if (job.stage === 'drafts') {
+          setDeckSummaryState(`Chờ chọn script: ${job.project}`);
+          setDeckState(renderTitle('Đã có bản nháp script', job), 'Chọn 1 bản bên dưới, sửa nếu muốn, rồi bấm Chốt script & build.', 'done');
+          showDraftsReview(job.project, job.drafts || []);
+        } else {
+          setDeckSummaryState(`Xong: ${job.project}`);
+          setDeckState(renderTitle(progress.title, job), progress.log, 'done');
+          renderDeckDone(job);
+        }
+      } else if (job.status === 'failed') {
+        stopDeckPolling();
+        state.deckJobId = null;
+        state.deckCanceling = false;
+        setDeckBusy(false);
+        setDeckSummaryState('Thất bại');
+        setDeckState(renderTitle(progress.title, job), progress.log, 'failed');
+      } else if (job.status === 'cancelled') {
+        stopDeckPolling();
+        state.deckJobId = null;
+        state.deckCanceling = false;
+        setDeckBusy(false);
+        setDeckSummaryState('Đã dừng');
+        setDeckState(renderTitle(progress.title, job), progress.log, 'cancelled');
+      } else {
+        setDeckBusy(true);
+        setDeckSummaryState(`Đang chạy: ${job.project}`);
+        setDeckState(renderTitle(progress.title, job), progress.log, 'running');
+      }
+    } catch (error) {
+      stopDeckPolling();
+      state.deckJobId = null;
+      state.deckCanceling = false;
+      setDeckBusy(false);
+      setDeckState('Lỗi khi đọc trạng thái deck job', error.message || String(error), 'failed');
+    }
+  }
+
+  async function submitDeck(force = false) {
+    if (state.deckJobId) return;
+    const urlInput = $('#deckUrl');
+    const url = urlInput ? urlInput.value.trim() : '';
+    const details = $('#deckBuilderDetails');
+    if (details) details.open = true;
+    if (!url) {
+      setDeckState('Thiếu link nguồn', 'Dán link nguồn (GitHub repo, X post, blog...) rồi bấm Tạo deck.', 'failed');
+      return;
+    }
+    const wizard = deckMode() === 'wizard';
+    const payload = {
+      stage: wizard ? 'drafts' : 'auto',
+      url,
+      style: $('#deckStyle')?.value || 'auto',
+      slug: $('#deckSlug')?.value.trim() || '',
+      notes: $('#deckNotes')?.value.trim() || '',
+    };
+    if (force) payload.force = true;
+    const result = $('#deckResult');
+    if (result) result.hidden = true;
+    const draftsBox = $('#deckDrafts');
+    if (draftsBox) draftsBox.hidden = true;
+    setDeckBusy(true);
+    setDeckState(
+      wizard ? 'Đang thu source + viết 5 bản script...' : 'Đang gửi yêu cầu tạo deck...',
+      'Server sẽ chạy codex exec theo WORKFLOW.md.'
+    );
+    try {
+      const response = await fetch('/api/decks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        if (response.status === 409 && !force && /mồ côi/.test(String(data.error || ''))) {
+          const retry = window.confirm(`${data.error}\n\nGửi lại với force=true (bỏ qua job mồ côi)?`);
+          if (retry) {
+            setDeckBusy(false);
+            await submitDeck(true);
+            return;
+          }
+        }
+        throw new Error(data.error || `HTTP ${response.status}`);
+      }
+      state.deckJobId = data.id;
+      state.deckCanceling = false;
+      setDeckSummaryState(`Đang chạy: ${data.project}`);
+      setDeckState('Codex đang khởi động...', `Job ${data.id} — project slide/${data.project}/`);
+      await pollDeckJob();
+      if (state.deckJobId) {
+        stopDeckPolling();
+        state.deckPollTimer = window.setInterval(pollDeckJob, 2000);
+      }
+    } catch (error) {
+      setDeckBusy(false);
+      setDeckState('Không thể tạo deck', error.message || String(error), 'failed');
+    }
+  }
+
+  async function cancelDeck() {
+    if (!state.deckJobId || state.deckCanceling) return;
+    const confirmed = window.confirm('Dừng deck job đang chạy? Project dở dang vẫn còn trong slide/, có thể xoá tay sau.');
+    if (!confirmed) return;
+    state.deckCanceling = true;
+    const stop = $('#stopDeck');
+    if (stop) stop.disabled = true;
+    setDeckState('Đang dừng deck job...', 'Đang gửi tín hiệu dừng codex.');
+    try {
+      const response = await fetch(`/api/jobs/${state.deckJobId}/cancel`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+      const job = await response.json();
+      if (!response.ok) throw new Error(job.error || `HTTP ${response.status}`);
+      await pollDeckJob();
+    } catch (error) {
+      state.deckCanceling = false;
+      if (stop) stop.disabled = false;
+      setDeckState('Không thể dừng deck job', error.message || String(error), 'failed');
+    }
+  }
+
+  function initDeckBuilder() {
+    const start = $('#startDeck');
+    if (!start) return;
+    start.addEventListener('click', () => submitDeck(false));
+    const stop = $('#stopDeck');
+    if (stop) stop.addEventListener('click', cancelDeck);
+    const urlInput = $('#deckUrl');
+    if (urlInput) {
+      urlInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') submitDeck(false);
+      });
+    }
+    $all('input[name="deckMode"]').forEach((input) => {
+      input.addEventListener('change', syncDeckMode);
+    });
+    syncDeckMode();
+    const confirmButton = $('#confirmDraftBuild');
+    if (confirmButton) confirmButton.addEventListener('click', confirmDraftBuild);
+    const reviseButton = $('#requestRevise');
+    if (reviseButton) reviseButton.addEventListener('click', requestRevise);
+    const approveButton = $('#approveDeck');
+    if (approveButton) approveButton.addEventListener('click', approveDeck);
+    if (!deckInfo) return;
+    renderPendingDrafts();
+    if (deckInfo.stale_lock && deckAvailable()) {
+      setDeckSummaryState(`Có job mồ côi (pid ${deckInfo.stale_lock.pid})`);
+    }
+    const active = deckInfo.active_job;
+    if (active && active.id) {
+      state.deckJobId = active.id;
+      const details = $('#deckBuilderDetails');
+      if (details) details.open = true;
+      setDeckBusy(true);
+      pollDeckJob();
+      stopDeckPolling();
+      state.deckPollTimer = window.setInterval(pollDeckJob, 2000);
+    }
+  }
+
+  initDeckBuilder();
 
   const initialFromUrl = new URLSearchParams(window.location.search).get('project');
   const initialProject = window.__INITIAL_PROJECT__ || initialFromUrl || projects[0]?.name;

@@ -16,10 +16,12 @@ These are the current project rules for agents working in this repo.
 - Script pacing: slide 1 is one punchy hook; later explanatory slides usually have 3-4 short/medium sentences, with the first sentence as a short visual beat.
 - Do not use the em dash `—` in `script-90s.txt` or `slideScripts`; use commas, colons, or shorter sentences for cleaner TTS.
 - Do not create or hand-edit `upload-metadata.json` while building a deck; Upload Center/server generates metadata when needed.
+- Do not create, hand-edit, or delete `cost-ledger.jsonl` in a project; the system appends cost events (Codex tokens, TTS characters, render time) automatically. View reports with `python3 cost_report.py slide/<project>`.
 - After final script, create/update `visual-plan.md`; present compact table `Slide | Nội dung voice | Reveals | Visual`. Do not put phone-unreadable source images in the Visual column — use custom scenes instead. See `WORKFLOW.md` §3.
 - If the user asks to chốt script and visual plan together, the first response must paste both approval tables in chat: `Slide | Voiceover | Reveals` and `Slide | Nội dung voice | Reveals | Visual`; do not only write files or start DOM/CSS before approval unless explicitly told to skip review.
 - In `visual-plan.md`, slide 2 onward must pass the visual-first gate: scene primitive, creative angle, motion/animation illustration, color roles/adjacent variation, and anti text-box/card check.
 - Before DOM/CSS visual work, use `skills/slide-visuals/SKILL.md`; slide 1 hero templates are fixed-copy, while later visual/animation patterns are references that can be copied, remixed, or replaced with a stronger content-specific scene.
+- Every new deck keeps the starter's fixed outro slide (`data-outro` marker, last slide) and its fixed outro script line as the final line of `script-90s.txt`. Do not redesign, retheme, or delete it; it is exempt from the visual-first gate, adjacent-slide variation, and color-diversity checks. See `WORKFLOW.md` §0 and the starter `TEMPLATE_RULES.md`.
 
 ## Visual Defaults
 

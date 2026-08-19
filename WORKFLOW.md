@@ -5,6 +5,7 @@
 ## 0. Defaults
 
 - Deck mới copy từ `template/nicetechchannels-slide-starter`.
+- Starter có sẵn **outro slide cố định** (slide cuối, marker `data-outro`): giữ nguyên DOM/CSS/copy/animation của nó, và dòng CUỐI của `script-90s.txt` phải là nguyên văn câu outro (chi tiết trong `TEMPLATE_RULES.md` của starter). Outro được miễn visual-first gate, adjacent-slide variation và color-diversity — nó cố tình giống nhau ở mọi deck. Checkbox Outro ở trang render theo cùng logic với Logo/Brand: bỏ tick = không có outro (deck có outro slide sẽ bị CẮT khỏi video qua `--skip-outro-slide`); tick không upload = dùng outro slide của deck (deck cũ chưa có outro slide thì không nối gì — `outro.mp4` mẫu đã bỏ khỏi luồng mặc định); tick + upload file = video upload THAY THẾ outro slide. Tên kênh/tagline trong outro, handle overlay, logo và câu voiceover outro lấy theo `config/branding.json` nếu có (mặc định NiceTechChannels; câu outro tự sinh theo tên trừ khi đặt `outro_line`; field `logo` trỏ tới file logo thay thế — copy vào deck GHI ĐÈ `logo-nicetechchannels.ico`, giữ nguyên tên file). Source of truth trong code là module `branding.py`, không hardcode tên kênh chỗ khác. Server chạy trong Docker: sau khi sửa config phải `docker compose cp config/branding.json nicetechchannels:/app/config/` rồi restart container (config/ trong container là volume giữ OAuth token, KHÔNG bind mount đè).
 - Không start `web_server.py` trừ khi user yêu cầu.
 - Dùng `.venv/bin/python` cho Python.
 - Giữ starter defaults: grid off, `backgroundFx: "particles"`, subtitle `fontSize: 18`, `bottom: 172`, `maxLines: 1`, BGM custom `preview-assets/bgm/meta.mp3`.
@@ -32,6 +33,8 @@ Trước khi làm, agent phải đọc kỹ toàn bộ `WORKFLOW.md` và các sk
 7. Chỉ báo user khi đã có deck hoàn chỉnh và bằng chứng QA; không biến bước duyệt script/visual thành điểm dừng.
 
 Link Autopilot không kích hoạt nếu user nói rõ mục đích khác như chỉ tóm tắt, phân tích hoặc lưu source. Chỉ dừng hỏi khi source không truy cập được, thiếu dữ kiện làm thay đổi bản chất câu chuyện, hoặc có quyết định rủi ro cao về claim, quyền dùng asset, chi phí hay hành động không thể hoàn tác. Không tự tạo audio trả phí hoặc dùng ElevenLabs `--force`.
+
+Chế độ này cũng được dashboard kích hoạt headless qua `codex exec` (mục "Tạo slide mới từ link"): khi chạy từ dashboard, QA capture ghi vào `slide/<project>/qa/` và tuyệt đối không render video — user duyệt ảnh QA rồi tự bấm render.
 
 ## 1. Source trước
 
@@ -81,6 +84,7 @@ Quy tắc bảng script:
 - **Reveals:** số câu trong dòng = số reveal.
 - Sau khi user chốt, ghi file `script-90s.txt`; bảng trong chat chỉ để duyệt nhanh. Link Autopilot viết file trực tiếp.
 - Không cần tạo hoặc viết tay `upload-metadata.json` khi dựng deck; Upload Center/server sẽ tự sinh metadata khi cần.
+- Không tạo, sửa tay hay xoá `cost-ledger.jsonl` trong project; hệ thống tự ghi chi phí (token Codex, ký tự TTS, thời gian render) vào đó — xem báo cáo bằng `python3 cost_report.py slide/<project>`.
 
 **Khi user yêu cầu chốt script và visual plan một hướng** (`chốt script và visual`, `gửi qua đây mình chốt`, `chốt lại và gửi qua đây`, hoặc tương đương):
 
@@ -148,7 +152,7 @@ Slide 2 trở đi phải thêm:
 
 **Rule phone-first khi lập plan:** asset nào preview/thumbnail ở khung `390×693` mà chữ nhỏ, diagram dày, banner ngang phải thu nhỏ quá mức, hoặc chi tiết không đọc được trên điện thoại → **không đưa vào cột Visual của bảng plan**. Chỉ dùng `Custom …` thay thế. Asset loại vẫn có thể lưu trong `source/` + ghi ở `source/source.md` inventory, nhưng không xuất hiện như lựa chọn visual trong plan.
 
-**Visual-first gate cho slide 2 trở đi:** trước DOM/CSS, mỗi slide phải pass đủ 4 ý: scene primitive cụ thể, motion/animation minh hoạ trong main visual, role màu + khác slide liền trước, và anti text-box/card-stack. Định nghĩa chi tiết và ví dụ nằm trong `skills/slide-visuals/SKILL.md`; nếu plan fail gate nào thì sửa plan trước khi code.
+**Visual-first gate cho slide 2 trở đi (trừ slide outro `data-outro` — giữ nguyên từ starter, không cần gate):** trước DOM/CSS, mỗi slide phải pass đủ 4 ý: scene primitive cụ thể, motion/animation minh hoạ trong main visual, role màu + khác slide liền trước, và anti text-box/card-stack. Định nghĩa chi tiết và ví dụ nằm trong `skills/slide-visuals/SKILL.md`; nếu plan fail gate nào thì sửa plan trước khi code.
 
 Cuối file thêm:
 
@@ -271,6 +275,7 @@ Mở từng ảnh và kiểm tra:
 - deck không bị một-tone màu; các nhóm slide có palette/role color khác nhau nhưng vẫn đọc rõ
 - không giống danh sách card/text box
 - contact-sheet squint/color pass: nhìn nhỏ vẫn thấy mỗi slide là một scene khác nhau, không phải lặp lại card stack hoặc một palette đơn điệu
+- outro slide (`data-outro`): giữ nguyên từ starter là PASS — outro giống hệt giữa các deck và lệch palette với phần nội dung KHÔNG phải lỗi, đừng "sửa" nó
 - motion/animation pass: xem preview động slide 2 trở đi; mỗi slide phải có motion minh hoạ trong main visual, không chỉ fade/reveal/background/shimmer/glow/float
 - xem preview động vài giây cho các slide giải thích
 

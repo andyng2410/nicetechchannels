@@ -79,6 +79,14 @@
         "softLight": "#8fa8ff",
         "softLightPosition": "bottom-right",
         "softLightIntensity": "medium"
+      },
+      "6": {
+        "mainLight": "#ffffff",
+        "mainLightPosition": "top-center",
+        "mainLightIntensity": "low",
+        "softLight": "#ffab40",
+        "softLightPosition": "bottom-right",
+        "softLightIntensity": "low"
       }
     },
     "customValues": {
@@ -117,6 +125,14 @@
           "softLight": "#8fa8ff",
           "softLightPosition": "bottom-right",
           "softLightIntensity": "medium"
+        },
+        "6": {
+          "mainLight": "#ffffff",
+          "mainLightPosition": "top-center",
+          "mainLightIntensity": "low",
+          "softLight": "#ffab40",
+          "softLightPosition": "bottom-right",
+          "softLightIntensity": "low"
         }
       }
     }
@@ -129,7 +145,8 @@
       "Slide ba dành cho cơ chế hoặc workflow. Một visual chính mở ý. Hai reveal sau làm rõ nhịp trước sau và hệ quả.",
       "Slide bốn là highlight mode cho hai điểm chính. Card đầu nêu điểm A. Card thứ hai nêu điểm B.",
       "Slide năm là traffic-light mode cho phản ứng hoặc rủi ro. Đỏ là rủi ro hoặc phản ứng mạnh. Vàng là điểm cần kiểm chứng. Xanh là tín hiệu tích cực.",
-      "Slide cuối chốt verdict. Reveal hai đưa thesis chính. Reveal ba để nguồn hoặc CTA thật gọn."
+      "Slide cuối chốt verdict. Reveal hai đưa thesis chính. Reveal ba để nguồn hoặc CTA thật gọn.",
+      "Hãy theo dõi ngay NiceTechChannels. Đăng ký kênh để không bỏ lỡ những tin tức mới nhất về công nghệ và AI."
     ],
     "transitionSounds": [
       "dramatic",
@@ -137,7 +154,8 @@
       "bass",
       "rise",
       "chord",
-      "minimal"
+      "minimal",
+      "gong"
     ],
     "revealSounds": [
       "sparkle",
@@ -145,6 +163,7 @@
       "blip",
       "bubble",
       "tick",
+      "bell",
       "bell"
     ]
   }

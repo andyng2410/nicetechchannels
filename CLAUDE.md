@@ -20,6 +20,7 @@ These are the current project rules for agents working in this repo.
 - If the user asks to chốt script and visual plan together, the first response must paste both approval tables in chat: `Slide | Voiceover | Reveals` and `Slide | Nội dung voice | Reveals | Visual`; do not only write files or start DOM/CSS before approval unless explicitly told to skip review.
 - In `visual-plan.md`, slide 2 onward must pass the visual-first gate: scene primitive, creative angle, motion/animation illustration, color roles/adjacent variation, and anti text-box/card check.
 - Before DOM/CSS visual work, use `skills/slide-visuals/SKILL.md`; slide 1 hero templates are fixed-copy, while later visual/animation patterns are references that can be copied, remixed, or replaced with a stronger content-specific scene.
+- Every new deck keeps the starter's fixed outro slide (`data-outro` marker, last slide) and its fixed outro script line as the final line of `script-90s.txt`. Do not redesign, retheme, or delete it; it is exempt from the visual-first gate, adjacent-slide variation, and color-diversity checks. See `WORKFLOW.md` §0 and the starter `TEMPLATE_RULES.md`.
 
 ## Visual Defaults
 

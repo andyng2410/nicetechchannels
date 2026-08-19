@@ -229,6 +229,26 @@ Nếu chạy **ElevenLabs trước → Edge TTS sau**, hãy bật **Tạo lại 
 
 ## 5. Prompt mẫu để tạo project slide
 
+### 5.0 Tạo deck tự động từ dashboard (khuyên dùng)
+
+Cần **Codex CLI** đã đăng nhập ChatGPT trên máy host (`npm i -g @openai/codex` rồi `codex login`). Web UI vẫn chạy trong Docker như bình thường; codex chạy trên host qua một runner nhỏ.
+
+1. Khởi động container như bình thường (`docker compose up -d`). `slide/` được bind mount giữa host và container nên hai bên thấy chung dữ liệu.
+2. Trên máy host, mở một terminal trong thư mục repo và chạy:
+   ```bash
+   python3 deck_host_runner.py
+   ```
+   Để terminal đó mở — đây là cầu nối nhận job từ web UI và spawn `codex exec` trên host. Dashboard tự nhận runner trong vài giây (mục "Tạo slide mới từ link" chuyển sang sẵn sàng; nếu chưa, F5).
+3. Bấm nút **"＋ Tạo slide"** trên header dashboard (hoặc mở thẳng `http://localhost:8765/create`), dán link nguồn (GitHub repo, X post, blog...) và chọn chế độ:
+   - **Wizard duyệt từng bước** (mặc định): codex thu source rồi viết **5 bản script theo 5 style** → bạn chọn 1 bản trên UI, sửa trực tiếp từng dòng nếu muốn (1 dòng = 1 slide) → bấm **Chốt script & build** → build xong hiện ảnh QA từng slide → ghi **Yêu cầu sửa** để codex chạy vòng sửa, hoặc bấm **Duyệt deck** khi ưng. Giai đoạn viết nháp chỉ tạo `slide/<project>/source/`, chưa có `index.html` nên project chưa hiện trong danh sách render; đang dở thì nút "Tiếp tục <slug>" hiện lại sau khi tải trang.
+   - **Chạy 1 mạch (autopilot)**: chọn Style script (Auto hoặc 1 trong 5 style / 3 blend) rồi bấm chạy — codex tự làm hết tới ảnh QA như Link Autopilot.
+4. Codex trên host thu source, viết script, dựng slide vào `slide/<project>/`, rồi validate/capture bằng `docker exec` vào container (host không cần Playwright). Ảnh QA nằm ở `slide/<project>/qa/`. Job **không render video** — duyệt xong mới bấm render như bình thường.
+5. Tuỳ chỉnh model/effort/sandbox/timeout trong `config/agent.json` trên host (copy từ `config/agent.example.json`). Nếu codex báo sandbox chặn lệnh, đổi `"sandbox": "danger-full-access"` (bỏ hàng rào filesystem của Codex, chỉ dùng khi cần).
+
+Lưu ý an toàn: cổng 8765 chỉ mở trên loopback (giữ nguyên `127.0.0.1:` trong `docker-compose.yml`); codex có quyền ghi repo và truy cập mạng, nên chỉ dán link nguồn bạn tin tưởng. Nếu chạy `python3 web_server.py` trực tiếp trên host (không Docker) thì không cần runner — server tự spawn codex, nhưng validate/capture khi đó cần container `nicetechchannels` đang chạy hoặc `.venv` có Playwright.
+
+### 5.1 Dán prompt tay vào coding agent (đường dự phòng)
+
 Copy prompt dưới đây và thay phần `[DÁN URL HOẶC NỘI DUNG]` bằng link bài viết, tweet thread, nội dung tin tức hoặc ý tưởng video của bạn.
 
 ```text

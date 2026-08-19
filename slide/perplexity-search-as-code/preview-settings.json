@@ -24,7 +24,7 @@
   },
   "bgm": {
     "mode": "custom",
-    "preset": "ambient",
+    "preset": "piano",
     "volume": 0.3,
     "custom": {
       "name": "meta.mp3",
@@ -35,10 +35,10 @@
   "subtitles": {
     "enabled": true,
     "color": "#ffffff",
+    "activeColor": "#36d5cb",
     "fontSize": 18,
     "bottom": 152,
-    "maxLines": 1,
-    "activeColor": "#36d5cb"
+    "maxLines": 1
   },
   "visuals": {
     "colorMode": "dark",

@@ -4239,3 +4239,361 @@ body {
 .slide-container[data-color-mode="cream"] .progress-bar {
   background: rgba(80, 49, 18, 0.12);
 }
+
+/* ============================================
+   OUTRO SLIDE (data-outro) — slide kết branded cố định
+   Copy/DOM/animation giữ nguyên giữa mọi deck (TEMPLATE_RULES.md).
+   Màu hardcode, KHÔNG dùng var theme: outro phải giống hệt nhau
+   dù deck đổi palette. Loop animation ~4.5s kiểu YouTube/TikTok.
+   ============================================ */
+.slide-bg-outro {
+  background:
+    radial-gradient(circle 2px at 12% 18%, rgba(255, 255, 255, 0.35), transparent 100%),
+    radial-gradient(circle 1.5px at 82% 24%, rgba(255, 255, 255, 0.3), transparent 100%),
+    radial-gradient(circle 1.5px at 20% 64%, rgba(255, 255, 255, 0.25), transparent 100%),
+    radial-gradient(circle 2.5px at 70% 58%, rgba(255, 255, 255, 0.2), transparent 100%),
+    radial-gradient(circle 1.5px at 48% 12%, rgba(255, 255, 255, 0.3), transparent 100%),
+    radial-gradient(circle 2px at 88% 70%, rgba(255, 255, 255, 0.18), transparent 100%),
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.09), transparent 60%),
+    #040507;
+}
+
+.outro-content {
+  justify-content: center;
+  gap: 28px;
+}
+
+.outro-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.outro-logo-ring {
+  position: relative;
+  width: 118px;
+  height: 118px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 70%);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.22), inset 0 0 22px rgba(255, 255, 255, 0.08);
+  animation: outroLogoBreathe 4.5s ease-in-out infinite;
+}
+
+.outro-logo-ring::after {
+  content: '';
+  position: absolute;
+  inset: -11px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.6);
+  opacity: 0.4;
+  animation: outroRingSpin 16s linear infinite;
+}
+
+@keyframes outroRingSpin { to { transform: rotate(360deg); } }
+
+@keyframes outroLogoBreathe {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.22), inset 0 0 22px rgba(255, 255, 255, 0.08); }
+  50% { box-shadow: 0 0 44px rgba(255, 255, 255, 0.32), inset 0 0 26px rgba(255, 255, 255, 0.12); }
+}
+
+.outro-logo {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Badge follow "+" -> "✓" dưới avatar, kiểu TikTok */
+.outro-follow-badge {
+  position: absolute;
+  left: 50%;
+  bottom: -13px;
+  transform: translateX(-50%);
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #ff0000;
+  border: 2px solid #040507;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 14px rgba(255, 0, 0, 0.55);
+  z-index: 5;
+  animation: outroBadgePop 4.5s ease-in-out infinite;
+}
+
+@keyframes outroBadgePop {
+  0%, 17% { transform: translateX(-50%) scale(1); }
+  20% { transform: translateX(-50%) scale(1.35); }
+  24%, 100% { transform: translateX(-50%) scale(1); }
+}
+
+.outro-follow-badge span {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outro-follow-badge i {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.outro-follow-plus { animation: outroPlusOut 4.5s ease infinite; }
+.outro-follow-check { animation: outroCheckIn 4.5s ease infinite; }
+
+@keyframes outroPlusOut {
+  0%, 18% { opacity: 1; transform: rotate(0deg) scale(1); }
+  22%, 96% { opacity: 0; transform: rotate(90deg) scale(0.4); }
+  100% { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
+@keyframes outroCheckIn {
+  0%, 18% { opacity: 0; transform: rotate(-90deg) scale(0.4); }
+  22% { opacity: 1; transform: rotate(0deg) scale(1.15); }
+  26%, 96% { opacity: 1; transform: rotate(0deg) scale(1); }
+  100% { opacity: 0; }
+}
+
+.outro-name {
+  font-size: 30px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin-top: 6px;
+}
+
+.outro-name span { color: #ff0000; }
+
+.outro-tagline {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.outro-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.outro-cta-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.outro-cta-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #ff0000;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  box-shadow: 0 0 26px rgba(255, 0, 0, 0.5);
+  animation: outroBtnPress 4.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+.outro-cta-btn i { font-size: 17px; }
+
+@keyframes outroBtnPress {
+  0%, 11% { transform: scale(1); }
+  14% { transform: scale(0.92); }
+  19% { transform: scale(1.05); }
+  23%, 100% { transform: scale(1); }
+}
+
+.outro-btn-ripple {
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 2.5px solid rgba(255, 90, 90, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  animation: outroRipple 4.5s ease-out infinite;
+}
+
+@keyframes outroRipple {
+  0%, 13% { opacity: 0; transform: scale(0.95); }
+  16% { opacity: 0.95; transform: scale(1); }
+  29% { opacity: 0; transform: scale(1.5); }
+  100% { opacity: 0; }
+}
+
+/* Tay bấm: đứng gần nút, nhấn xuống rồi mờ đi — không quét ngang che chữ */
+.outro-tap-hand {
+  position: absolute;
+  right: 46px;
+  top: 30px;
+  z-index: 20;
+  animation: outroHandLife 4.5s ease-in-out infinite;
+}
+
+.outro-tap-hand i {
+  display: block;
+  font-size: 28px;
+  color: #ffffff;
+  transform: rotate(-18deg);
+  filter: drop-shadow(0 3px 7px rgba(0, 0, 0, 0.6));
+}
+
+@keyframes outroHandLife {
+  0%, 5% { opacity: 0; transform: translate(14px, 20px); }
+  9% { opacity: 1; transform: translate(0, 0); }
+  13% { opacity: 1; transform: translate(-2px, -5px) scale(0.94); }
+  16% { opacity: 1; transform: translate(0, 0) scale(1); }
+  24% { opacity: 0; transform: translate(10px, 16px); }
+  100% { opacity: 0; transform: translate(14px, 20px); }
+}
+
+.outro-tap-ring {
+  position: absolute;
+  left: 2px;
+  top: -4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.95);
+  opacity: 0;
+  pointer-events: none;
+  animation: outroTapRing 4.5s ease-out infinite;
+}
+
+@keyframes outroTapRing {
+  0%, 12% { opacity: 0; transform: scale(0.3); }
+  15% { opacity: 1; transform: scale(0.7); }
+  24% { opacity: 0; transform: scale(1.5); }
+  100% { opacity: 0; }
+}
+
+/* Tim bay kiểu TikTok sau cú bấm */
+.outro-heart {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.outro-heart i { display: block; }
+.outro-heart-1 { left: 30%; bottom: 46px; font-size: 15px; color: #ff2d55; animation: outroHeartUp1 4.5s ease-out infinite; }
+.outro-heart-2 { left: 48%; bottom: 50px; font-size: 12px; color: #ff5c8a; animation: outroHeartUp2 4.5s ease-out infinite; }
+.outro-heart-3 { left: 64%; bottom: 44px; font-size: 14px; color: #ff2d55; animation: outroHeartUp3 4.5s ease-out infinite; }
+
+@keyframes outroHeartUp1 {
+  0%, 18% { opacity: 0; transform: translateY(0) scale(0.5); }
+  22% { opacity: 1; transform: translateY(-14px) scale(1); }
+  40% { opacity: 0; transform: translateY(-58px) scale(1.15) rotate(-14deg); }
+  100% { opacity: 0; }
+}
+
+@keyframes outroHeartUp2 {
+  0%, 21% { opacity: 0; transform: translateY(0) scale(0.5); }
+  25% { opacity: 1; transform: translateY(-16px) scale(1.1); }
+  45% { opacity: 0; transform: translateY(-68px) scale(1.2) rotate(10deg); }
+  100% { opacity: 0; }
+}
+
+@keyframes outroHeartUp3 {
+  0%, 24% { opacity: 0; transform: translateY(0) scale(0.5); }
+  28% { opacity: 1; transform: translateY(-12px) scale(0.95); }
+  47% { opacity: 0; transform: translateY(-52px) scale(1.05) rotate(-8deg); }
+  100% { opacity: 0; }
+}
+
+.outro-cta-bell {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1.5px solid #ffab40;
+  box-shadow: 0 0 20px rgba(255, 171, 64, 0.35);
+}
+
+.outro-cta-bell > i {
+  font-size: 20px;
+  color: #ffab40;
+  transform-origin: 50% 12%;
+  animation: outroBellRing 4.5s ease-in-out infinite;
+}
+
+@keyframes outroBellRing {
+  0%, 46% { transform: rotate(0deg); }
+  50% { transform: rotate(-24deg); }
+  54% { transform: rotate(19deg); }
+  58% { transform: rotate(-13deg); }
+  62% { transform: rotate(8deg); }
+  66% { transform: rotate(-3deg); }
+  69%, 100% { transform: rotate(0deg); }
+}
+
+/* Sóng chuông hai bên như hiệu ứng bell của YouTube */
+.outro-bell-wave {
+  position: absolute;
+  width: 12px;
+  height: 22px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.outro-bell-wave-left { left: -14px; top: 12px; }
+.outro-bell-wave-right { right: -14px; top: 12px; }
+
+.outro-bell-wave::before,
+.outro-bell-wave::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-left: 2.5px solid #ffab40;
+  border-radius: 50% 0 0 50%;
+}
+
+.outro-bell-wave::after {
+  right: 6px;
+  opacity: 0.55;
+  transform: scale(0.7);
+}
+
+.outro-bell-wave-left { animation: outroWaveL 4.5s ease-out infinite; }
+.outro-bell-wave-right { animation: outroWaveR 4.5s ease-out infinite; }
+
+@keyframes outroWaveL {
+  0%, 47% { opacity: 0; transform: translateX(4px); }
+  52% { opacity: 1; transform: translateX(0); }
+  60% { opacity: 1; transform: translateX(-3px); }
+  70% { opacity: 0; transform: translateX(-6px); }
+  100% { opacity: 0; }
+}
+
+@keyframes outroWaveR {
+  0%, 47% { opacity: 0; transform: scaleX(-1) translateX(4px); }
+  52% { opacity: 1; transform: scaleX(-1) translateX(0); }
+  60% { opacity: 1; transform: scaleX(-1) translateX(-3px); }
+  70% { opacity: 0; transform: scaleX(-1) translateX(-6px); }
+  100% { opacity: 0; }
+}
+
+.outro-cta-note {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.46);
+}

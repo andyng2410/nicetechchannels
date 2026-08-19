@@ -5,9 +5,12 @@ import re
 from pathlib import Path
 from urllib.parse import quote, unquote
 
+from branding import BRANDING, BRANDING_DEFAULTS, OUTRO_SCRIPT_LINE, brand_hashtag
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SLIDE_ROOT = REPO_ROOT / "slide"
 YOUTUBE_TITLE_LIMIT = 90
+OUTRO_SLIDE_MARKER = "data-outro"
 
 
 def validate_project_name(project: str) -> str:
@@ -85,6 +88,35 @@ def read_script_lines(project_dir: Path) -> list[str]:
     return [line.strip() for line in source_script.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
+def project_has_outro_slide(project_dir: Path) -> bool:
+    index_path = project_dir / "index.html"
+    if not index_path.is_file():
+        return False
+    try:
+        return OUTRO_SLIDE_MARKER in index_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return False
+
+
+def normalized_script_line(line: str) -> str:
+    return re.sub(r"\s+", " ", str(line or "")).strip().lower()
+
+
+def strip_outro_line(project_dir: Path, lines: list[str]) -> list[str]:
+    # Chỉ drop dòng cuối khi deck có outro slide VÀ dòng cuối đúng là câu outro,
+    # tránh drop nhầm nội dung thật khi user đã xoá dòng outro nhưng DOM còn marker.
+    if len(lines) < 2 or not project_has_outro_slide(project_dir):
+        return lines
+    last = normalized_script_line(lines[-1])
+    if not last:
+        return lines
+    brand_norm = normalized_script_line(BRANDING["name"])
+    is_outro = last == normalized_script_line(OUTRO_SCRIPT_LINE) or (
+        brand_norm in last and ("đăng ký" in last or "theo dõi" in last)
+    )
+    return lines[:-1] if is_outro else lines
+
+
 def lead_icon_for_line(line: str, index: int) -> str:
     text = line.lower()
     keyword_icons = [
@@ -116,7 +148,7 @@ def related_tags_for_script(lines: list[str], project_dir: Path | None = None) -
     if project_dir:
         text_parts.append(project_dir.name.replace("-", " "))
     text = " ".join(text_parts).lower()
-    tags = ["NiceTechChannels"]
+    tags = [BRANDING["name"]]
 
     def add(tag: str) -> None:
         if tag not in tags:
@@ -150,7 +182,9 @@ def hashtag_block_from_tags(tags: list[str]) -> str:
         tag_text = re.sub(r"[^0-9A-Za-z_]", "", str(tag or ""))
         if tag_text and tag_text not in cleaned:
             cleaned.append(tag_text)
-    return " ".join(f"#{tag}" for tag in cleaned) if cleaned else "#NiceTechChannels"
+    if cleaned:
+        return " ".join(f"#{tag}" for tag in cleaned)
+    return f"#{brand_hashtag()}"
 
 
 def limit_youtube_title(value: str) -> str:
@@ -240,6 +274,7 @@ def merge_upload_metadata(defaults: dict, custom: dict) -> dict:
 
 def generated_upload_metadata(project_dir: Path, script_lines: list[str], existing: dict | None = None) -> dict:
     existing = existing if isinstance(existing, dict) else {}
+    script_lines = strip_outro_line(project_dir, list(script_lines or []))
     first_line = script_lines[0] if script_lines else project_dir.name.replace("-", " ").title()
     title = limit_youtube_title(first_line)
     source_url = first_url_from_source(project_dir)

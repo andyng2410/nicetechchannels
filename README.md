@@ -216,3 +216,36 @@ cp config/social-upload.example.json config/social-upload.json
 
 - `docs/upload/youtube-api-upload.md`
 - `docs/upload/facebook-api-upload.md`
+
+## Chi phí per slide (cost tracking)
+
+Mọi hoạt động tốn tiền/tài nguyên quanh một deck được tự ghi vào `slide/<project>/cost-ledger.jsonl` (JSONL append-only, nằm ở project root nên sống sót khi xoá `output/`):
+
+- `codex_run` — mỗi lần `codex exec` (drafts / build / revise / auto): token input/cached/output/reasoning lấy từ dòng `Token usage:` cuối log hoặc rollout `~/.codex/sessions/`.
+- `tts` — mỗi lần gọi ElevenLabs/Edge: số ký tự bill thật, ký tự từng dòng (để phân bổ per slide), cache hit ghi `cached: true` với 0 ký tự.
+- `render` — mỗi lần `auto_render.py`: thời gian chạy thật + duration từng slide.
+- `output_delete` — đánh dấu audio ElevenLabs trả phí đã bị xoá (lần render sau bill lại).
+
+Ledger chỉ lưu số lượng thô (token/chars/giây); USD tính lại lúc đọc theo bảng giá:
+
+```bash
+cp config/pricing.example.json config/pricing.json   # rồi điền giá API-equivalent thật
+```
+
+Xem báo cáo (phân bổ per slide: TTS theo ký tự từng dòng, render theo duration, Codex chia đều — riêng revise có ghi "slide 3", "slide 2-4" trong yêu cầu sửa thì tính đúng các slide đó):
+
+```bash
+python3 cost_report.py slide/<project>          # bảng per-slide + vòng đời build/sửa/re-render
+python3 cost_report.py slide/<project> --json   # report JSON
+```
+
+Web UI: bảng chi phí hiện trên `/create` sau khi build xong, và dòng chi phí luỹ kế trên màn hình render sau mỗi lần render. API: `GET /api/costs?project=<tên>`.
+
+Backfill lịch sử cũ (chạy trên host, đọc `~/.codex/sessions` + meta ElevenLabs có sẵn, chạy lại an toàn nhờ dedupe theo session):
+
+```bash
+python3 cost_backfill.py --dry-run   # xem trước
+python3 cost_backfill.py
+```
+
+Lưu ý: container không thấy `config/pricing.json` trên host (config/ là volume riêng) — hoặc `docker compose cp config/pricing.json nicetechchannels:/app/config/`, hoặc chấp nhận bảng giá mặc định built-in. Không sửa tay `cost-ledger.jsonl`.
