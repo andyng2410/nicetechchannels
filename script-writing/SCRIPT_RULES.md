@@ -16,6 +16,7 @@ Luật gốc để agent viết script cho NiceTechChannels.
 - Ai muốn đào sâu thì họ tự đọc source tiếp; script không cần nhồi hết mọi fact vào một chỗ.
 - Với video, bài viết, thread, hoặc website nguồn: viết trực tiếp về chủ đề chính. Source là bằng chứng để dựng câu chuyện, không phải cái cớ để mở bằng `bài này nói` hay `video này nói`.
 - Script không kể chuyện nội bộ sản xuất như đã tải file bằng gì, lưu source ở đâu, workflow yêu cầu gì, slide này dùng reveal nào, phụ đề đang nói gì, hay agent đã xử lý ra sao. Những thứ đó chỉ để trong note/source, không đưa vào lời đọc.
+- Các dòng nội dung KHÔNG chứa CTA đăng ký kênh/theo dõi kênh: dòng outro cố định do hệ thống quản lý (starter/wizard tự thêm làm dòng cuối `script-90s.txt`, map vào slide outro `data-outro`) và không tính vào nội dung script.
 
 ## 2. Hook
 

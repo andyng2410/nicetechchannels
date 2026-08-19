@@ -130,6 +130,7 @@ Lấy `slide/alex-nguyen-ai-apps/` làm chuẩn tham chiếu mặc định cho p
 - Giữ letter-spacing bằng 0 cho text thường; chỉ dùng spacing nhẹ cho tag/kicker uppercase rất ngắn.
 - Dùng màu theo vai trò: cyan cho hệ thống/flow/source; xanh lá cho success/money/forward; cam/vàng cho opportunity/warning; đỏ/magenta cho risk/attention.
 - Không để cả deck hoặc contact sheet thành một tone màu. Mỗi nhóm slide nên có palette/role color khác nhau theo nội dung, nhưng vẫn giữ tương phản cao và đọc rõ trên điện thoại.
+- Ngoại lệ: slide outro cố định (marker `data-outro`, copy từ starter) được miễn visual-first gate, adjacent-slide variation và color-diversity — giữ nguyên DOM/CSS/copy của starter, không redesign theo deck.
 - Visual plan phải ghi `color roles`; DOM/CSS phải thể hiện đúng các role đó, không chỉ đổi màu nền nhẹ.
 
 ## 7. Animation semantic

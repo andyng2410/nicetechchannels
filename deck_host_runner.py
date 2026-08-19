@@ -28,6 +28,7 @@ HEARTBEAT_INTERVAL = 3.0
 POLL_INTERVAL = 1.0
 
 sys.path.insert(0, str(REPO_ROOT))
+import cost_tracking  # noqa: E402
 from web_server import build_deck_command, codex_binary_path, load_agent_config  # noqa: E402
 
 
@@ -165,7 +166,39 @@ def run_deck_job(request_path: Path) -> None:
         reader.join(timeout=10)
         returncode = proc.wait()
 
-    write_status(job_id, {"status": "exited", "returncode": returncode, "finished_at": time.time(), "cancelled": cancelled})
+    # Đọc lại FULL log (file runner không bị cắt 240k như log in-memory của web_server)
+    # để lấy token usage + session id; rollout trong ~/.codex/sessions cho số chính xác hơn.
+    usage = None
+    session_id = None
+    model = None
+    tokens_source = "missing"
+    try:
+        log_text = log_path.read_text(encoding="utf-8", errors="replace")
+        usage = cost_tracking.parse_token_usage(log_text)
+        session_id = cost_tracking.parse_session_id(log_text)
+        model = cost_tracking.parse_model_line(log_text)
+        if usage:
+            tokens_source = "stdout"
+        rollout = cost_tracking.find_rollout_file(session_id)
+        parsed = cost_tracking.parse_rollout(rollout) if rollout else None
+        if parsed:
+            model = parsed.get("model") or model
+            if parsed.get("tokens"):
+                usage = parsed["tokens"]
+                tokens_source = "rollout"
+    except Exception as exc:
+        log(f"Không parse được token usage cho job {job_id}: {exc}")
+
+    write_status(job_id, {
+        "status": "exited",
+        "returncode": returncode,
+        "finished_at": time.time(),
+        "cancelled": cancelled,
+        "usage": usage,
+        "session_id": session_id,
+        "model": model,
+        "tokens_source": tokens_source,
+    })
     request_path.unlink(missing_ok=True)
     log(f"Deck job {job_id} kết thúc (returncode {returncode}{', cancelled' if cancelled else ''})")
 

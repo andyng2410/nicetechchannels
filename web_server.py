@@ -35,7 +35,14 @@ from social_upload import (
     update_facebook_page_config,
     youtube_upload_video,
 )
+import cost_tracking
 import social_upload.metadata as social_metadata
+import branding
+
+BRANDING_CLIENT_JSON = json.dumps(
+    {"name": branding.BRANDING["name"], "handle": branding.BRANDING["handle"]},
+    ensure_ascii=False,
+)
 from tts.elevenlabs import (
     elevenlabs_api_key,
     elevenlabs_config,
@@ -147,8 +154,8 @@ Project slug bắt buộc: {slug} — toàn bộ output nằm trong slide/{slug}
 Quy trình bắt buộc (theo đúng WORKFLOW.md, mục Link Autopilot):
 1. Đọc kỹ AGENTS.md, WORKFLOW.md và các skill/rule được workflow gọi tới (skills/source-assets, skills/x-sources nếu là X/Twitter, skills/slide-visuals, script-writing/*) trước khi làm.
 2. Thu source: tạo slide/{slug}/source/, lưu source gốc, facts, visual assets local và inventory source/source.md theo checklist source-assets.
-3. Viết slide/{slug}/script-90s.txt theo đúng style chỉ định ở trên. Tạo visual-plan.md với "Status: AUTO-APPROVED", ghi rõ style đã dùng.
-4. Copy starter template/nicetechchannels-slide-starter, dựng đủ DOM/CSS/animation theo visual-first gate. Nếu starter có preview-assets/bgm/meta.mp3 thì copy kèm; nếu không có, ghi chú "BGM MISSING" rồi tiếp tục ngay, ĐỪNG mất thời gian đi tìm file này ở nơi khác.
+3. Viết slide/{slug}/script-90s.txt theo đúng style chỉ định ở trên. Dòng CUỐI CÙNG của script-90s.txt phải là đúng nguyên văn câu outro cố định: "__OUTRO_LINE__" — dòng này KHÔNG tính vào nội dung, không viết thêm CTA đăng ký kênh nào khác trong các dòng nội dung. Tạo visual-plan.md với "Status: AUTO-APPROVED", ghi rõ style đã dùng.
+4. Copy starter template/nicetechchannels-slide-starter, dựng đủ DOM/CSS/animation theo visual-first gate. Starter đã có sẵn SLIDE OUTRO cố định (marker data-outro, slide cuối): giữ nguyên DOM/CSS/copy/animation của nó, chỉ đổi data-slide cho đúng thứ tự cuối; KHÔNG redesign, KHÔNG tạo slide mới cho dòng outro. Slide outro được miễn visual-first gate, adjacent-slide variation và color-diversity (nó cố tình giống nhau ở mọi deck).__BRAND_NOTE__ Nếu starter có preview-assets/bgm/meta.mp3 thì copy kèm; nếu không có, ghi chú "BGM MISSING" rồi tiếp tục ngay, ĐỪNG mất thời gian đi tìm file này ở nơi khác.
 5. Validate: {validate_cmd} — tự sửa đến khi PASS.
 6. Capture QA: {capture_cmd} — bắt buộc dùng đúng --out này. Mở xem từng ảnh, tự sửa lỗi visual rồi capture lại đến khi đạt chuẩn bàn giao.
 
@@ -178,7 +185,7 @@ Project slug bắt buộc: {slug} — chỉ được ghi vào slide/{slug}/sourc
 Quy trình bắt buộc:
 1. Đọc kỹ AGENTS.md, WORKFLOW.md, script-writing/START_HERE.md, SCRIPT_RULES.md, SCRIPT_PATTERNS.md, STYLE_INDEX.md và toàn bộ script-writing/style1.md..style5.md, cùng skills/source-assets/SKILL.md (và skills/x-sources/SKILL.md nếu nguồn là X/Twitter).
 2. In dòng marker (nguyên văn, một dòng riêng): [PHASE] nguon — rồi thu source: tạo slide/{slug}/source/, lưu facts, visual assets local, links.txt và inventory source/source.md đúng checklist source-assets. Visual assets thu ở bước này sẽ được dùng khi build deck ở bước sau.
-3. In dòng marker: [PHASE] drafts — rồi viết 5 bản script-90s HOÀN CHỈNH, mỗi bản đúng một style (style1..style5), theo đúng SCRIPT_RULES: 1 dòng = 1 slide (thường 6 dòng), slide 1 là hook một câu, không dùng dấu gạch dài, số câu mỗi dòng = số reveal.
+3. In dòng marker: [PHASE] drafts — rồi viết 5 bản script-90s HOÀN CHỈNH, mỗi bản đúng một style (style1..style5), theo đúng SCRIPT_RULES: 1 dòng = 1 slide (thường 6 dòng), slide 1 là hook một câu, không dùng dấu gạch dài, số câu mỗi dòng = số reveal. KHÔNG viết dòng outro hay CTA đăng ký kênh trong bất kỳ bản nháp nào — hệ thống tự thêm dòng outro cố định khi build.
 4. Ghi file slide/{slug}/source/script-drafts.json đúng định dạng JSON sau (không markdown, không chú thích):
 {{"drafts": [{{"style": "style1", "label": "tên ngắn của style", "hook": "dòng 1 của bản đó", "lines": ["dòng 1", "dòng 2", "..."]}}, ...đúng 5 phần tử, style1 đến style5...]}}
 
@@ -196,7 +203,7 @@ Yêu cầu sửa từ user (làm đúng và đủ, không sửa lan man phần k
 {tools_note}
 Quy trình bắt buộc:
 1. Đọc AGENTS.md, WORKFLOW.md, skills/slide-visuals/SKILL.md. Xem ảnh QA hiện có trong slide/{slug}/qa/ để hiểu hiện trạng.
-2. In dòng marker (nguyên văn, một dòng riêng): [PHASE] visual — rồi sửa deck theo yêu cầu. KHÔNG đổi script-90s.txt trừ khi yêu cầu nói rõ; nếu đổi thì phải đồng bộ slideScripts trong app.js và scriptLines trong preview-settings.json đúng WORKFLOW.
+2. In dòng marker (nguyên văn, một dòng riêng): [PHASE] visual — rồi sửa deck theo yêu cầu. KHÔNG đổi script-90s.txt trừ khi yêu cầu nói rõ; nếu đổi thì phải đồng bộ slideScripts trong app.js và scriptLines trong preview-settings.json đúng WORKFLOW. KHÔNG sửa/xoá slide outro (marker data-outro) và dòng script cuối của nó, trừ khi yêu cầu user nêu đích danh outro.
 3. In dòng marker: [PHASE] validate — rồi chạy: {validate_cmd} — tự sửa đến khi PASS.
 4. In dòng marker: [PHASE] capture — rồi chạy: {capture_cmd} — capture lại toàn bộ, mở xem từng ảnh, tự sửa đến chuẩn bàn giao.
 
@@ -206,6 +213,33 @@ Kết thúc: dòng CUỐI CÙNG của message cuối cùng phải là đúng M�
 DECK_BUILD: SUCCESS {slug}
 DECK_BUILD: FAILED <lý do ngắn gọn một dòng>
 """
+DECK_PROMPT_TEMPLATE = DECK_PROMPT_TEMPLATE.replace("__OUTRO_LINE__", branding.OUTRO_SCRIPT_LINE)
+_brand_note_parts = []
+if (
+    branding.BRANDING["name"],
+    branding.BRANDING["handle"],
+    branding.BRANDING["tagline"],
+) != (
+    branding.BRANDING_DEFAULTS["name"],
+    branding.BRANDING_DEFAULTS["handle"],
+    branding.BRANDING_DEFAULTS["tagline"],
+):
+    _brand_note_parts.append(
+        ' Brand lấy từ config/branding.json: trong outro slide thay tên kênh thành "{name}" và tagline thành "{tagline}"; '
+        'thay handle ở .brand-top-left/.brand-bottom-right thành "{handle}". Ngoài các text đó, giữ nguyên outro.'.format(
+            name=branding.BRANDING["name"],
+            tagline=branding.BRANDING["tagline"],
+            handle=branding.BRANDING["handle"],
+        )
+    )
+if branding.branding_logo_path():
+    _brand_note_parts.append(
+        ' Logo brand lấy từ config: copy file "{logo}" vào deck GHI ĐÈ lên logo-nicetechchannels.ico (giữ nguyên tên file, không sửa src trong DOM).'.format(
+            logo=branding.branding_logo_path()
+        )
+    )
+DECK_BRAND_NOTE = "".join(_brand_note_parts)
+DECK_PROMPT_TEMPLATE = DECK_PROMPT_TEMPLATE.replace("__BRAND_NOTE__", DECK_BRAND_NOTE)
 
 
 ANSI_ENABLED = os.environ.get("NO_COLOR") is None and (sys.stdout.isatty() or sys.stderr.isatty())
@@ -369,24 +403,57 @@ def choose_source_root_dialog() -> Path:
     return Path(selected)
 
 
+def project_created_at(project_dir: Path) -> float | None:
+    """Ước thời điểm tạo project: mtime cũ nhất của file gốc (root + source/) — các file
+    viết lúc build đầu và ít bị sửa lại. Kèm st_birthtime khi filesystem có (macOS)."""
+    candidates: list[float] = []
+    entries: list[Path] = []
+    try:
+        entries += [p for p in project_dir.iterdir() if p.is_file()]
+    except OSError:
+        return None
+    source_dir = project_dir / "source"
+    if source_dir.is_dir():
+        try:
+            entries += [p for p in source_dir.iterdir() if p.is_file()]
+        except OSError:
+            pass
+    for path in entries:
+        try:
+            stat = path.stat()
+        except OSError:
+            continue
+        candidates.append(stat.st_mtime)
+        birthtime = getattr(stat, "st_birthtime", None)
+        if birthtime:
+            candidates.append(float(birthtime))
+    return min(candidates) if candidates else None
+
+
 def list_projects() -> list[dict]:
     if not SLIDE_ROOT.exists():
         return []
 
-    def project_sort_key(path: Path) -> tuple[float, str]:
-        try:
-            updated_at = path.stat().st_mtime
-        except OSError:
-            updated_at = 0
-        return (-updated_at, path.name.lower())
-
     projects = []
-    project_dirs = sorted(iter_project_dirs(), key=project_sort_key)
+    project_dirs = list(iter_project_dirs())
+    try:
+        pricing = cost_tracking.load_pricing()
+    except Exception:  # noqa: BLE001
+        pricing = None
     for project_dir in project_dirs:
         if not project_dir.is_dir():
             continue
         if not (project_dir / "index.html").exists():
             continue
+        try:
+            cost = cost_tracking.project_cost_totals(project_dir, pricing) if pricing else None
+        except Exception:  # noqa: BLE001
+            cost = None
+        try:
+            updated_at = project_dir.stat().st_mtime
+        except OSError:
+            updated_at = 0
+        created_at = project_created_at(project_dir) or updated_at
         script_path = project_dir / "script-90s.txt"
         output_dir = project_dir / "output"
         final_video = project_dir / "output" / "final_video.mp4"
@@ -406,8 +473,12 @@ def list_projects() -> list[dict]:
                 "has_output": has_output,
                 "output_url": output_url,
                 "video_url": output_url if final_video.exists() else None,
+                "cost": cost,
+                "created_at": created_at,
+                "updated_at": updated_at,
             }
         )
+    projects.sort(key=lambda item: (-(item["created_at"] or 0), item["name"].lower()))
     return projects
 
 
@@ -539,8 +610,11 @@ def clean_brand_name(value: object) -> str:
 
 
 def append_render_asset_options(cmd: list[str], payload: dict, project_dir: Path) -> None:
+    # Checkbox Outro theo cùng logic với Logo/Brand: bỏ tick = không outro,
+    # tick = outro slide mặc định của deck, tick + upload = video upload THAY THẾ.
+    # outro.mp4 mẫu ở repo root không còn được dashboard nối mặc định.
+    has_outro_slide = social_metadata.project_has_outro_slide(project_dir)
     if bool(payload.get("outro", True)):
-        cmd.append("--outro")
         outro_video = decode_render_asset_payload(
             payload.get("outroFile") or payload.get("outro_file"),
             project_dir,
@@ -549,7 +623,16 @@ def append_render_asset_options(cmd: list[str], payload: dict, project_dir: Path
             max_bytes=MAX_UPLOAD_BYTES,
         )
         if outro_video:
-            cmd.extend(["--outro-video", str(outro_video)])
+            cmd.extend(["--outro", "--outro-video", str(outro_video)])
+            if has_outro_slide:
+                cmd.append("--skip-outro-slide")
+        elif not has_outro_slide:
+            print(
+                f"[render] {project_dir.name}: deck chưa có outro slide; outro mẫu đã bỏ, video sẽ không có outro",
+                flush=True,
+            )
+    elif has_outro_slide:
+        cmd.append("--skip-outro-slide")
 
     if not bool(payload.get("branding", True)):
         cmd.append("--no-branding")
@@ -564,10 +647,18 @@ def append_render_asset_options(cmd: list[str], payload: dict, project_dir: Path
     )
     if brand_logo:
         cmd.extend(["--brand-logo", str(brand_logo)])
+    else:
+        config_logo = branding.branding_logo_path()
+        if config_logo:
+            # Không upload logo riêng: overlay render dùng logo từ config/branding.json.
+            cmd.extend(["--brand-logo", str(config_logo)])
 
     brand_name = clean_brand_name(payload.get("brandName") or payload.get("brand_name"))
     if brand_name:
         cmd.extend(["--brand-name", brand_name])
+    elif branding.BRANDING["handle"] != branding.BRANDING_DEFAULTS["handle"]:
+        # Deck cũ còn handle mặc định trong DOM: overlay render đè handle theo config.
+        cmd.extend(["--brand-name", branding.BRANDING["handle"]])
 
 
 def quote_relative_url(path: str) -> str:
@@ -1015,11 +1106,21 @@ def run_job(job_id: str, cmd: list[str], project: str, stdin_data: str | None = 
             append_log(job_id, f"Không gửi được prompt qua stdin: {exc}\n")
 
     assert proc.stdout is not None
+    # Bắt session id ngay khi stream: log bị cắt giữ tail 240k nên header có thể mất sau này.
+    session_scan_remaining = 80 if job_type == "deck" else 0
     for line in proc.stdout:
         append_log(job_id, line)
+        if session_scan_remaining > 0:
+            session_scan_remaining -= 1
+            session_id = cost_tracking.parse_session_id(line)
+            if session_id:
+                set_job_state(job_id, codex_session_id=session_id)
+                session_scan_remaining = 0
 
     returncode = proc.wait()
     set_job_state(job_id, process=None, pid=None)
+    if job_type == "deck":
+        record_deck_run_cost(job_id, project, returncode)
     if job_cancel_requested(job_id):
         finish_deck_job_cleanup(job_id)
         if job_field(job_id, "timeout_hit"):
@@ -1439,6 +1540,7 @@ def build_deck_prompt(
             "Script đã được user chốt ở wizard. Ghi slide/"
             f"{slug}/script-90s.txt NGUYÊN VĂN các dòng sau (1 dòng = 1 slide, không viết lại, không đổi số dòng):\n"
             f"{numbered}\n"
+            "Dòng cuối cùng trong danh sách trên là câu outro cố định: map nó vào slide outro có sẵn trong starter (marker data-outro), không tạo slide mới cho nó.\n"
             f"Source đã được thu sẵn ở slide/{slug}/source/ từ bước drafts — kiểm tra và dùng lại, chỉ thu bổ sung nếu thiếu."
         )
     else:
@@ -1763,6 +1865,107 @@ def finalize_deck_stage(job_id: str, slug: str, returncode: int | None) -> None:
         finalize_deck_job(job_id, slug, returncode)
 
 
+def record_deck_run_cost(job_id: str, slug: str, returncode: int) -> None:
+    """Ghi event codex_run vào cost-ledger sau khi codex exec (local mode) kết thúc. Không raise."""
+    try:
+        with JOBS_LOCK:
+            job = JOBS.get(job_id) or {}
+            logs = str(job.get("logs") or "")
+            stage = str(job.get("stage") or "auto")
+            notes = str(job.get("notes") or "")
+            started_at = job.get("started_at")
+            session_id = job.get("codex_session_id")
+            cancelled = bool(job.get("cancel_requested"))
+        config = load_agent_config()
+        session_id = session_id or cost_tracking.parse_session_id(logs)
+        tokens = cost_tracking.parse_token_usage(logs)
+        tokens_source = "stdout" if tokens else "missing"
+        model = str(config.get("model") or "").strip()
+        if tokens is None or not model:
+            # Job bị cancel/timeout thì codex không in dòng Token usage -> đọc rollout theo session id
+            rollout = cost_tracking.find_rollout_file(session_id)
+            parsed = cost_tracking.parse_rollout(rollout) if rollout else None
+            if parsed:
+                if tokens is None and parsed.get("tokens"):
+                    tokens = parsed["tokens"]
+                    tokens_source = "rollout"
+                model = model or str(parsed.get("model") or "")
+        model = model or cost_tracking.parse_model_line(logs) or "unknown"
+        duration_s = round(time.time() - started_at, 1) if isinstance(started_at, (int, float)) else None
+        project_dir = project_lookup_root() / slug
+        cost_tracking.safe_append_event(project_dir, {
+            "type": "codex_run",
+            "writer": "web_server",
+            "job_id": job_id,
+            "stage": stage,
+            "mode": "local",
+            "model": model,
+            "reasoning_effort": str(config.get("reasoning_effort") or ""),
+            "tokens": tokens,
+            "tokens_source": tokens_source,
+            "session_id": session_id,
+            "usd": cost_tracking.codex_usd(tokens, model, cost_tracking.load_pricing()),
+            "duration_s": duration_s,
+            "returncode": returncode,
+            "cancelled": cancelled,
+            "slide_count": cost_tracking.count_script_lines(project_dir),
+            "notes": notes,
+            "usage_missing": tokens is None,
+        })
+    except Exception as exc:  # noqa: BLE001
+        print(f"[cost] Không ghi được codex_run cho job {job_id}: {exc}")
+
+
+def record_deck_run_cost_from_runner(job_id: str, slug: str, status: dict) -> None:
+    """Ghi event codex_run từ status.json của host runner — phải gọi TRƯỚC khi cleanup xoá file job."""
+    try:
+        with JOBS_LOCK:
+            job = JOBS.get(job_id) or {}
+            logs = str(job.get("logs") or "")
+            stage = str(job.get("stage") or "auto")
+            notes = str(job.get("notes") or "")
+            started_at = job.get("started_at")
+            cancelled = bool(job.get("cancel_requested"))
+        config = load_agent_config()
+        tokens = status.get("usage") if isinstance(status.get("usage"), dict) else None
+        tokens_source = str(status.get("tokens_source") or "")
+        if tokens is None:
+            # Runner cũ chưa ghi usage vào status.json: dòng Token usage nằm cuối log nên sống sót cắt 240k
+            tokens = cost_tracking.parse_token_usage(logs)
+            tokens_source = "stdout" if tokens else "missing"
+        session_id = status.get("session_id") or cost_tracking.parse_session_id(logs)
+        model = (
+            str(status.get("model") or "")
+            or str(config.get("model") or "").strip()
+            or cost_tracking.parse_model_line(logs)
+            or "unknown"
+        )
+        returncode = status.get("returncode")
+        duration_s = round(time.time() - started_at, 1) if isinstance(started_at, (int, float)) else None
+        project_dir = project_lookup_root() / slug
+        cost_tracking.safe_append_event(project_dir, {
+            "type": "codex_run",
+            "writer": "web_server",
+            "job_id": job_id,
+            "stage": stage,
+            "mode": "runner",
+            "model": model,
+            "reasoning_effort": str(config.get("reasoning_effort") or ""),
+            "tokens": tokens,
+            "tokens_source": tokens_source,
+            "session_id": session_id,
+            "usd": cost_tracking.codex_usd(tokens, model, cost_tracking.load_pricing()),
+            "duration_s": duration_s,
+            "returncode": returncode if isinstance(returncode, int) else -1,
+            "cancelled": cancelled,
+            "slide_count": cost_tracking.count_script_lines(project_dir),
+            "notes": notes,
+            "usage_missing": tokens is None,
+        })
+    except Exception as exc:  # noqa: BLE001
+        print(f"[cost] Không ghi được codex_run (runner) cho job {job_id}: {exc}")
+
+
 def create_deck_job(payload: dict) -> dict:
     config = load_agent_config()
     available, reason, mode = deck_feature_state(config)
@@ -1816,6 +2019,20 @@ def create_deck_job(payload: dict) -> dict:
             raise ValueError("Script có dòng trống.")
         if len(lines) > 20 or any(len(line) > 600 for line in lines):
             raise ValueError("Script quá dài (tối đa 20 dòng, 600 ký tự mỗi dòng).")
+        # Dòng outro cố định luôn do server append làm dòng cuối; bỏ bản user paste kèm để tránh outro kép.
+        outro_norm = social_metadata.normalized_script_line(social_metadata.OUTRO_SCRIPT_LINE)
+        brand_norm = social_metadata.normalized_script_line(social_metadata.BRANDING["name"])
+        while lines:
+            last_norm = social_metadata.normalized_script_line(lines[-1])
+            if last_norm == outro_norm or (
+                brand_norm in last_norm and ("đăng ký" in last_norm or "theo dõi" in last_norm)
+            ):
+                lines.pop()
+                continue
+            break
+        if not lines:
+            raise ValueError("Script chỉ có dòng outro, thiếu nội dung.")
+        lines.append(social_metadata.OUTRO_SCRIPT_LINE)
     if stage == "revise" and not notes:
         raise ValueError("Nhập yêu cầu sửa trước khi gửi.")
 
@@ -1825,7 +2042,7 @@ def create_deck_job(payload: dict) -> dict:
     prompt = build_deck_stage_prompt(stage, url, style, slug, notes, lines, container_tools=(mode == "runner"))
 
     if mode == "runner":
-        return create_deck_job_via_runner(config, url, style, slug, stage, prompt, bool(payload.get("force")))
+        return create_deck_job_via_runner(config, url, style, slug, stage, prompt, bool(payload.get("force")), notes)
 
     lock = read_deck_lock()
     if lock:
@@ -1858,6 +2075,7 @@ def create_deck_job(payload: dict) -> dict:
         "video_url": None,
         "source_url": url,
         "style": style,
+        "notes": notes,
         "qa_urls": [],
         "deck_url": None,
         "warnings": [],
@@ -1875,7 +2093,7 @@ def create_deck_job(payload: dict) -> dict:
     return public_job(job)
 
 
-def create_deck_job_via_runner(config: dict, url: str, style: str, slug: str, stage: str, prompt: str, force: bool) -> dict:
+def create_deck_job_via_runner(config: dict, url: str, style: str, slug: str, stage: str, prompt: str, force: bool, notes: str = "") -> dict:
     running_ids = deck_runner_running_job_ids()
     if running_ids and not force:
         raise RuntimeError(
@@ -1909,6 +2127,7 @@ def create_deck_job_via_runner(config: dict, url: str, style: str, slug: str, st
         "video_url": None,
         "source_url": url,
         "style": style,
+        "notes": notes,
         "qa_urls": [],
         "deck_url": None,
         "warnings": [],
@@ -1922,6 +2141,7 @@ def create_deck_job_via_runner(config: dict, url: str, style: str, slug: str, st
     request = {
         "job_id": job_id,
         "slug": slug,
+        "stage": stage,
         "prompt": prompt,
         "timeout_minutes": timeout_minutes,
         "created_at": now,
@@ -1967,6 +2187,8 @@ def run_deck_via_runner(job_id: str, slug: str, timeout_minutes: int) -> None:
                     command=f"codex exec (host runner, pid {status.get('pid')})",
                 )
             if status and status.get("status") == "exited":
+                # Ghi cost TRƯỚC mọi nhánh kết thúc: finally bên dưới xoá status.json/log ngay khi job terminal.
+                record_deck_run_cost_from_runner(job_id, slug, status)
                 returncode = status.get("returncode")
                 returncode = returncode if isinstance(returncode, int) else -1
                 if job_cancel_requested(job_id):
@@ -2041,8 +2263,17 @@ def delete_project_output(payload: dict) -> dict:
     existed = output_dir.is_dir() and any(output_dir.iterdir())
     if output_dir.exists() and not output_dir.is_dir():
         raise ValueError("Output path exists but is not a directory.")
+    paid_voiceover = output_dir / "elevenlabs_full_voiceover.mp3"
+    paid_files = [name for name in (paid_voiceover.name, "elevenlabs_full_voiceover.meta.json") if (output_dir / name).exists()]
     if existed:
         shutil.rmtree(output_dir)
+        # Ghi lại việc audio trả phí bị xoá: lần render sau ElevenLabs sẽ bill lại cả deck.
+        cost_tracking.safe_append_event(project_dir, {
+            "type": "output_delete",
+            "writer": "web_server",
+            "had_paid_voiceover": bool(paid_files),
+            "files_lost": paid_files,
+        })
 
     return {
         "ok": True,
@@ -2095,7 +2326,7 @@ def social_callback_html(title: str, message: str, ok: bool = True) -> bytes:
   <main style="max-width:680px;margin:0 auto;border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:24px;background:rgba(255,255,255,.06);">
     <h1 style="margin-top:0;color:{color};">{html.escape(title)}</h1>
     <p style="line-height:1.6;">{html.escape(message)}</p>
-    <p style="opacity:.72;">Bạn có thể đóng tab này và quay lại NiceTechChannels Upload Center.</p>
+    <p style="opacity:.72;">Bạn có thể đóng tab này và quay lại {html.escape(branding.BRANDING['name'])} Upload Center.</p>
   </main>
 </body>
 </html>""".encode("utf-8")
@@ -3817,10 +4048,11 @@ DASHBOARD_PAGE_STYLE = """
     .list-head,
     .project-row {
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) 112px minmax(0, 460px);
-      gap: 12px;
+      grid-template-columns: minmax(150px, 1fr) 96px 96px minmax(0, 460px);
+      gap: 10px;
       align-items: center;
     }
+    .project-row.filtered-out { display: none; }
     .list-head {
       padding: 0 18px 10px;
       color: var(--muted);
@@ -3850,9 +4082,9 @@ DASHBOARD_PAGE_STYLE = """
     }
     .project-row .actions {
       display: grid;
-      grid-template-columns: 82px 74px 88px 70px 64px;
+      grid-template-columns: minmax(60px, 82px) minmax(54px, 74px) minmax(62px, 88px) minmax(52px, 70px) minmax(50px, 64px);
       justify-content: end;
-      gap: 7px;
+      gap: 6px;
       min-width: 0;
       white-space: nowrap;
     }
@@ -3889,6 +4121,8 @@ DASHBOARD_PAGE_STYLE = """
       justify-content: center;
       width: fit-content;
       min-height: 26px;
+      white-space: nowrap;
+      flex: none;
       padding: 4px 10px;
       border: 1px solid var(--control-line-soft);
       border-radius: var(--r-sm);
@@ -3911,6 +4145,19 @@ DASHBOARD_PAGE_STYLE = """
     .muted, .empty { color: var(--muted); }
     .row-video-slot { display: inline-flex; align-items: center; flex: 0 0 auto; }
     [hidden] { display: none !important; }
+    /* Dải trung gian: shell 2 cột nhưng panel danh sách hẹp -> row xếp 2 tầng
+       (tên + chi phí tầng 1, trạng thái + thao tác tầng 2) thay vì 4 cột tràn ngang. */
+    @media (min-width: 1061px) and (max-width: 1460px) {
+      .list-head { display: none; }
+      .project-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        row-gap: 10px;
+      }
+      .project-main { grid-column: 1; grid-row: 1; }
+      .project-cost { grid-column: 2; grid-row: 1; justify-self: end; text-align: right; }
+      .project-row .status-pill { grid-column: 1; grid-row: 2; align-self: center; }
+      .project-row .actions { grid-column: 2; grid-row: 2; justify-self: end; }
+    }
     @media (max-width: 1060px) {
       body { height: auto; min-height: 100vh; overflow: auto; display: block; }
       .dashboard-header { align-items: flex-start; }
@@ -4001,6 +4248,69 @@ DASHBOARD_PAGE_STYLE = """
       white-space: pre-wrap;
       margin: 8px 0 0;
     }
+    .project-meta-line { display: inline-flex; align-items: center; gap: 8px; min-width: 0; flex-wrap: wrap; }
+    .project-created {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      white-space: nowrap;
+    }
+    .project-cost {
+      display: grid;
+      gap: 2px;
+      font-family: var(--font-mono);
+      white-space: nowrap;
+      min-width: 0;
+    }
+    .project-cost .cost-usd { font-size: 13px; font-weight: 600; }
+    .project-cost .cost-tok { font-size: 10px; color: var(--muted); }
+    .project-cost.empty { color: var(--muted); font-size: 12px; }
+    .list-toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .list-toolbar input,
+    .list-toolbar select {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      padding: 7px 10px;
+    }
+    .list-toolbar input { flex: 1; min-width: 0; }
+    .list-pager {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .list-pager button:disabled { opacity: 0.4; cursor: default; }
+    .deck-cost {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .deck-cost strong { color: var(--text); }
+    .deck-cost table {
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+    .deck-cost th, .deck-cost td {
+      padding: 2px 10px 2px 0;
+      text-align: right;
+      color: var(--muted);
+    }
+    .deck-cost th:first-child, .deck-cost td:first-child { text-align: left; }
+    .deck-cost th { color: var(--text); font-weight: 600; }
     @media (max-width: 720px) {
       .deck-form-grid { grid-template-columns: 1fr; }
     }
@@ -4028,13 +4338,32 @@ def render_home_html(selected_project: str | None = None) -> bytes:
         status = "Sẵn sàng" if project["has_script"] else "Thiếu script"
         status_class = "ok" if project["has_script"] else "bad"
         selected_class = " selected" if project["name"] == selected_project else ""
+        cost = project.get("cost")
+        if cost:
+            tokens = int(cost.get("tokens") or 0)
+            if tokens >= 1_000_000:
+                tokens_str = f"{tokens / 1_000_000:.1f}M tok"
+            elif tokens >= 1_000:
+                tokens_str = f"{tokens / 1_000:.0f}k tok"
+            else:
+                tokens_str = ""
+            approx = "" if cost.get("pricing_known") else "+"
+            tok_html = f'<span class="cost-tok">{tokens_str}</span>' if tokens_str else ""
+            cost_html = f'<div class="project-cost"><span class="cost-usd">≈ ${cost["usd"]:,.2f}{approx}</span>{tok_html}</div>'
+        else:
+            cost_html = '<div class="project-cost empty">—</div>'
+        created_at = float(project.get("created_at") or 0)
+        updated_at = float(project.get("updated_at") or 0)
+        created_str = time.strftime("%d/%m/%Y", time.localtime(created_at)) if created_at else ""
+        created_html = f'<span class="project-created">tạo {created_str}</span>' if created_str else ""
         rows.append(
             f"""
-            <li class="project-row{selected_class}" data-project="{name}">
+            <li class="project-row{selected_class}" data-project="{name}" data-has-video="{1 if has_video else 0}" data-created="{created_at:.0f}" data-updated="{updated_at:.0f}">
               <div class="project-main">
                 <span class="project-name">{name}</span>
-                <span class="project-slide-count">{project["script_count"] or "?"} slide</span>
+                <span class="project-meta-line"><span class="project-slide-count">{project["script_count"] or "?"} slide</span>{created_html}</span>
               </div>
+              {cost_html}
               <span class="status-pill {status_class}">{status}</span>
               <div class="actions">
                 <button class="select-btn icon-btn" type="button" data-project="{name}"><span class="btn-icon">✓</span><span>Chọn</span></button>
@@ -4049,13 +4378,13 @@ def render_home_html(selected_project: str | None = None) -> bytes:
 
     body = "\n".join(rows) or '<li class="empty">Chưa có dự án slide nào.</li>'
     return render_page_shell(
-        title="NiceTechChannels Template Web UI",
+        title=f"{branding.BRANDING['name']} Template Web UI",
         body=f"""
   <header class="dashboard-header">
     <div class="brand-lockup">
-      <img src="/web/logo-nicetechchannels.png" alt="NiceTechChannels" class="brand-mark" />
+      <img src="/web/brand-logo" alt="{html.escape(branding.BRANDING['name'])}" class="brand-mark" />
       <div>
-        <h1>NiceTechChannels</h1>
+        <h1>{html.escape(branding.BRANDING['name'])}</h1>
         <p>Template WebUI</p>
       </div>
     </div>
@@ -4135,6 +4464,7 @@ def render_home_html(selected_project: str | None = None) -> bytes:
         </div>
         <ol class="state-list" id="stateList"></ol>
       </div>
+      <div class="deck-cost" id="renderCostLine" hidden></div>
 
       <details class="advanced-settings" id="advancedSettings">
         <summary>
@@ -4181,7 +4511,7 @@ def render_home_html(selected_project: str | None = None) -> bytes:
             </label>
             <div class="render-options-stack">
               <div class="render-option-row">
-                <label class="check render-option-check">
+                <label class="check render-option-check" title="Deck đã có outro slide trong DOM sẽ tự bỏ nối outro.mp4, trừ khi bạn upload file outro riêng.">
                   <input id="renderOutro" type="checkbox" checked />
                   Outro
                 </label>
@@ -4229,7 +4559,7 @@ def render_home_html(selected_project: str | None = None) -> bytes:
           </label>
           <label class="field brand-modal-field">
             <span class="field-label"><span class="field-icon">@</span><span>Tên brand</span></span>
-            <input id="brandNameInput" type="text" maxlength="64" value="@nicetechchannels" placeholder="@nicetechchannels" />
+            <input id="brandNameInput" type="text" maxlength="64" value="{html.escape(branding.BRANDING['handle'])}" placeholder="{html.escape(branding.BRANDING['handle'])}" />
           </label>
           <div class="brand-modal-actions">
             <button class="brand-modal-button secondary" id="cancelBrandConfig" type="button">Huỷ</button>
@@ -4247,14 +4577,34 @@ def render_home_html(selected_project: str | None = None) -> bytes:
           <h2>Slide trong source folder</h2>
         </div>
       </div>
+      <div class="list-toolbar">
+        <input type="search" id="projectSearch" placeholder="Lọc theo tên dự án..." autocomplete="off" />
+        <select id="projectSort">
+          <option value="created_desc">Mới tạo nhất</option>
+          <option value="created_asc">Cũ nhất</option>
+          <option value="updated_desc">Vừa cập nhật</option>
+          <option value="name">Tên A-Z</option>
+        </select>
+        <select id="projectFilter">
+          <option value="all">Tất cả</option>
+          <option value="video">Đã render</option>
+          <option value="novideo">Chưa render</option>
+        </select>
+      </div>
       <div class="list-head">
         <span>Dự án</span>
+        <span>Chi phí</span>
         <span>Trạng thái</span>
         <span>Thao tác</span>
       </div>
       <ol class="project-list" id="projectList">
         {body}
       </ol>
+      <div class="list-pager" id="projectPager" hidden>
+        <button class="icon-btn" id="pagerPrev" type="button">‹ Trước</button>
+        <span id="pagerInfo"></span>
+        <button class="icon-btn" id="pagerNext" type="button">Sau ›</button>
+      </div>
     </aside>
   </main>
 """,
@@ -4265,7 +4615,7 @@ def render_home_html(selected_project: str | None = None) -> bytes:
     window.__INITIAL_PROJECT__ = {json.dumps(selected_project, ensure_ascii=False)};
     window.__PROJECT_SOURCE_ROOT__ = {json.dumps(str(SLIDE_ROOT), ensure_ascii=False)};
   </script>
-  <script src="/web/render_page.js?v=20260817-deck-wizard-v2"></script>
+  <script src="/web/render_page.js?v=20260819-cost-v3"></script>
 """,
     )
 
@@ -4316,11 +4666,11 @@ def render_create_html(deck_allowed: bool = True) -> bytes:
         for item in DECK_STYLES
     )
     return render_page_shell(
-        title="Tạo slide mới — NiceTechChannels",
+        title=f"Tạo slide mới — {branding.BRANDING['name']}",
         body=f"""
   <header class="dashboard-header">
     <div class="brand-lockup">
-      <img src="/web/logo-nicetechchannels.png" alt="NiceTechChannels" class="brand-mark" />
+      <img src="/web/brand-logo" alt="{html.escape(branding.BRANDING['name'])}" class="brand-mark" />
       <div>
         <h1>Tạo slide mới</h1>
         <p>Wizard từ link nguồn</p>
@@ -4408,6 +4758,7 @@ def render_create_html(deck_allowed: bool = True) -> bytes:
         <a class="small-link icon-btn" id="deckRenderLink" href="#"><span class="btn-icon">▶</span><span>Mở màn hình render</span></a>
       </div>
       <div class="status warn" id="deckWarnings" hidden></div>
+      <div class="deck-cost" id="deckCostSummary" hidden></div>
     </section>
   </main>
 """,
@@ -4417,7 +4768,7 @@ def render_create_html(deck_allowed: bool = True) -> bytes:
     window.__PROJECTS__ = [];
     window.__DECK__ = {json.dumps(deck_status, ensure_ascii=False)};
   </script>
-  <script src="/web/render_page.js?v=20260817-deck-wizard-v2"></script>
+  <script src="/web/render_page.js?v=20260819-cost-v3"></script>
 """,
     )
 
@@ -4436,13 +4787,13 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
         for project in projects
     )
     return render_page_shell(
-        title="NiceTechChannels Upload Center",
+        title=f"{branding.BRANDING['name']} Upload Center",
         body=f"""
   <main class="upload-shell">
     <section class="upload-machine">
       <div class="top-upload-bar">
         <div class="top-project-row">
-          <img src="/web/logo-nicetechchannels.png" alt="NiceTechChannels" class="upload-brand-mark" />
+          <img src="/web/brand-logo" alt="{html.escape(branding.BRANDING['name'])}" class="upload-brand-mark" />
           <label class="field project-select-field field-project top-project-field">
           <span class="project-field-head">
             <span class="field-label"><span class="field-icon">P</span><span>Project</span></span>
@@ -5316,7 +5667,7 @@ def render_upload_html(selected_project: str | None = None) -> bytes:
     window.__INITIAL_PROJECT__ = {json.dumps(selected_project, ensure_ascii=False)};
     window.__PROJECT_SOURCE_ROOT__ = {json.dumps(str(SLIDE_ROOT), ensure_ascii=False)};
   </script>
-  <script src="/web/render_page.js?v=20260817-deck-wizard-v2"></script>
+  <script src="/web/render_page.js?v=20260819-cost-v3"></script>
 """,
     )
 
@@ -5330,6 +5681,7 @@ def render_page_shell(title: str, body: str, extra_style: str = "", extra_script
   <title>{html.escape(title)}</title>
   <link rel="icon" href="/web/favicon.ico" sizes="any" />
   <link rel="shortcut icon" href="/web/favicon.ico" type="image/x-icon" />
+  <script>window.__BRANDING__ = {BRANDING_CLIENT_JSON};</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -5585,6 +5937,19 @@ class WebHandler(SimpleHTTPRequestHandler):
             self.send_redirect("/web/favicon.ico")
             return
 
+        if path == "/web/brand-logo":
+            logo_path = branding.branding_logo_path()
+            if not logo_path:
+                self.send_redirect("/web/logo-nicetechchannels.png")
+                return
+            data = logo_path.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", self.guess_type(str(logo_path)))
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+
         if path in {"/upload", "/upload/"}:
             selected = (parse_qs(parsed.query).get("project") or [None])[0]
             self.send_html(200, render_upload_html(selected))
@@ -5702,6 +6067,24 @@ class WebHandler(SimpleHTTPRequestHandler):
                 self.send_json(400, {"error": str(exc)})
                 return
             self.send_json(200, result)
+            return
+
+        if path == "/api/costs":
+            project = (parse_qs(parsed.query).get("project") or [""])[0]
+            try:
+                project_dir = require_slide_project(project)
+            except FileNotFoundError as exc:
+                self.send_json(404, {"error": str(exc)})
+                return
+            except Exception as exc:
+                self.send_json(400, {"error": str(exc)})
+                return
+            try:
+                report = cost_tracking.build_report(project_dir, cost_tracking.load_pricing())
+            except Exception as exc:
+                self.send_json(500, {"error": str(exc)})
+                return
+            self.send_json(200, report)
             return
 
         if path == "/render":

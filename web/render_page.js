@@ -2,6 +2,7 @@
   const MAX_AUDIO_BYTES = 200 * 1024 * 1024;
   const MAX_RENDER_VIDEO_BYTES = 200 * 1024 * 1024;
   const MAX_BRAND_LOGO_BYTES = 20 * 1024 * 1024;
+  const BRAND_HANDLE = (window.__BRANDING__ && window.__BRANDING__.handle) || '@nicetechchannels';
   const fallbackProject = window.__RENDER_PROJECT__;
   const fallbackOutputUrl = window.__RENDER_OUTPUT_URL__;
   const projects = Array.isArray(window.__PROJECTS__) && window.__PROJECTS__.length
@@ -29,7 +30,7 @@
     renderOptions: {
       outroFile: null,
       brandLogoFile: null,
-      brandName: '@nicetechchannels',
+      brandName: BRAND_HANDLE,
     },
   };
   let elevenVoiceSaveTimer = null;
@@ -1059,7 +1060,7 @@
     const nameInput = $('#brandNameInput');
     const logoInput = $('#brandLogoFile');
     const logoName = $('#brandLogoFileName');
-    if (nameInput) nameInput.value = state.renderOptions.brandName || '@nicetechchannels';
+    if (nameInput) nameInput.value = state.renderOptions.brandName || BRAND_HANDLE;
     if (logoInput) logoInput.value = '';
     if (logoName) {
       logoName.textContent = state.renderOptions.brandLogoFile
@@ -1087,7 +1088,7 @@
       setStatus(error.message || String(error), 'bad');
       return;
     }
-    state.renderOptions.brandName = name || '@nicetechchannels';
+    state.renderOptions.brandName = name || BRAND_HANDLE;
     if (logoFile) state.renderOptions.brandLogoFile = logoFile;
     closeBrandConfigModal();
     setStatus('Đã áp dụng tuỳ chỉnh Logo + brand cho lần render tới.', 'good');
@@ -1129,7 +1130,7 @@
         };
       }
       if (payload.branding) {
-        payload.brandName = state.renderOptions.brandName || '@nicetechchannels';
+        payload.brandName = state.renderOptions.brandName || BRAND_HANDLE;
         if (state.renderOptions.brandLogoFile) {
           assertFileSize(state.renderOptions.brandLogoFile, MAX_BRAND_LOGO_BYTES, 'File logo');
           setRenderState('Đang chuẩn bị render', [`Đang nạp logo: ${state.renderOptions.brandLogoFile.name}`]);
@@ -1255,6 +1256,7 @@
         }
         setRevealOutputButton(job.project || state.project, true);
         markProjectHasOutput(job.project || state.project, finalUrl);
+        updateRenderCostLine(job.project || state.project);
         await showUploadPanel(job.project || state.project, finalUrl);
       } else if (job.status === 'failed') {
         if (state.pollTimer) window.clearInterval(state.pollTimer);
@@ -1721,6 +1723,94 @@
     refreshProjects.addEventListener('click', () => window.location.reload());
   }
 
+  // --- Lọc + phân trang danh sách project (trang chủ) ---
+
+  const PROJECT_PAGE_SIZE = 8;
+  const projectListView = { page: 1, query: '', filter: 'all', sort: 'created_desc' };
+
+  const PROJECT_SORTERS = {
+    created_desc: (a, b) => Number(b.dataset.created || 0) - Number(a.dataset.created || 0),
+    created_asc: (a, b) => Number(a.dataset.created || 0) - Number(b.dataset.created || 0),
+    updated_desc: (a, b) => Number(b.dataset.updated || 0) - Number(a.dataset.updated || 0),
+    name: (a, b) => String(a.dataset.project || '').localeCompare(String(b.dataset.project || '')),
+  };
+
+  function applyProjectListView() {
+    const rows = $all('.project-row[data-project]');
+    if (!rows.length) return;
+    const list = $('#projectList');
+    const sorter = PROJECT_SORTERS[projectListView.sort];
+    if (list && sorter) {
+      rows.sort(sorter);
+      rows.forEach((row) => list.appendChild(row));
+    }
+    const query = projectListView.query.trim().toLowerCase();
+    const visible = rows.filter((row) => {
+      const name = String(row.dataset.project || '').toLowerCase();
+      const hasVideo = row.dataset.hasVideo === '1';
+      if (query && !name.includes(query)) return false;
+      if (projectListView.filter === 'video' && !hasVideo) return false;
+      if (projectListView.filter === 'novideo' && hasVideo) return false;
+      return true;
+    });
+    const pages = Math.max(1, Math.ceil(visible.length / PROJECT_PAGE_SIZE));
+    if (projectListView.page > pages) projectListView.page = pages;
+    if (projectListView.page < 1) projectListView.page = 1;
+    const start = (projectListView.page - 1) * PROJECT_PAGE_SIZE;
+    const pageSet = new Set(visible.slice(start, start + PROJECT_PAGE_SIZE));
+    rows.forEach((row) => row.classList.toggle('filtered-out', !pageSet.has(row)));
+    const pager = $('#projectPager');
+    if (pager) {
+      pager.hidden = pages <= 1;
+      const info = $('#pagerInfo');
+      if (info) info.textContent = `Trang ${projectListView.page}/${pages} · ${visible.length} dự án`;
+      const prev = $('#pagerPrev');
+      const next = $('#pagerNext');
+      if (prev) prev.disabled = projectListView.page <= 1;
+      if (next) next.disabled = projectListView.page >= pages;
+    }
+  }
+
+  const projectSearch = $('#projectSearch');
+  if (projectSearch) {
+    projectSearch.addEventListener('input', () => {
+      projectListView.query = projectSearch.value;
+      projectListView.page = 1;
+      applyProjectListView();
+    });
+  }
+  const projectFilter = $('#projectFilter');
+  if (projectFilter) {
+    projectFilter.addEventListener('change', () => {
+      projectListView.filter = projectFilter.value;
+      projectListView.page = 1;
+      applyProjectListView();
+    });
+  }
+  const projectSort = $('#projectSort');
+  if (projectSort) {
+    projectSort.addEventListener('change', () => {
+      projectListView.sort = projectSort.value;
+      projectListView.page = 1;
+      applyProjectListView();
+    });
+  }
+  const pagerPrev = $('#pagerPrev');
+  if (pagerPrev) {
+    pagerPrev.addEventListener('click', () => {
+      projectListView.page -= 1;
+      applyProjectListView();
+    });
+  }
+  const pagerNext = $('#pagerNext');
+  if (pagerNext) {
+    pagerNext.addEventListener('click', () => {
+      projectListView.page += 1;
+      applyProjectListView();
+    });
+  }
+  applyProjectListView();
+
   $all('[data-source-root-select]').forEach((button) => {
     button.addEventListener('click', selectSourceRootFromFinder);
   });
@@ -1824,6 +1914,100 @@
     pre.scrollTop = pre.scrollHeight;
   }
 
+  function fmtUsd(value) {
+    const num = Number(value);
+    if (value == null || Number.isNaN(num)) return '—';
+    return num >= 1 ? `$${num.toFixed(2)}` : `$${num.toFixed(4)}`;
+  }
+
+  function fmtTokens(value) {
+    const num = Number(value) || 0;
+    if (num >= 1000000) return `${(num / 1000000).toFixed(2)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
+    return String(num);
+  }
+
+  async function fetchCostReport(project) {
+    if (!project) return null;
+    try {
+      const response = await fetch(`/api/costs?project=${encodeURIComponent(project)}`, { cache: 'no-store' });
+      if (!response.ok) return null;
+      const report = await response.json();
+      if (!report || !report.events_count) return null;
+      return report;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async function renderDeckCost(project) {
+    const box = $('#deckCostSummary');
+    if (!box) return;
+    const report = await fetchCostReport(project);
+    if (!report) {
+      box.hidden = true;
+      return;
+    }
+    const totals = report.totals || {};
+    const byCat = totals.usd_by_category || {};
+    box.textContent = '';
+    const line = document.createElement('div');
+    const strong = document.createElement('strong');
+    strong.textContent = `Chi phí deck: ${fmtTokens((totals.tokens || {}).total)} tokens ≈ ${fmtUsd(totals.usd)}`;
+    line.appendChild(strong);
+    line.appendChild(document.createTextNode(
+      ` (build ${fmtUsd(byCat.build)} · sửa ${fmtUsd(byCat.edit)} · TTS ${fmtUsd(byCat.tts)})`
+      + (report.pricing_known ? '' : ' — thiếu giá một phần, xem config/pricing.json')
+    ));
+    box.appendChild(line);
+
+    const slides = Array.isArray(report.per_slide) ? report.per_slide : [];
+    if (slides.length) {
+      const table = document.createElement('table');
+      const head = document.createElement('tr');
+      ['Slide', 'Tokens', '$ build', '$ sửa', '$ TTS', '$ tổng'].forEach((label) => {
+        const th = document.createElement('th');
+        th.textContent = label;
+        head.appendChild(th);
+      });
+      table.appendChild(head);
+      slides.forEach((row) => {
+        const cats = row.usd_by_category || {};
+        const tr = document.createElement('tr');
+        [
+          `${row.slide}${row.removed ? ' (đã xoá)' : ''}`,
+          fmtTokens(row.tokens_total),
+          fmtUsd(cats.build),
+          fmtUsd(cats.edit),
+          fmtUsd(cats.tts),
+          fmtUsd(row.usd),
+        ].forEach((value) => {
+          const td = document.createElement('td');
+          td.textContent = value;
+          tr.appendChild(td);
+        });
+        table.appendChild(tr);
+      });
+      box.appendChild(table);
+    }
+    box.hidden = false;
+  }
+
+  async function updateRenderCostLine(project) {
+    const box = $('#renderCostLine');
+    if (!box) return;
+    const report = await fetchCostReport(project);
+    if (!report) {
+      box.hidden = true;
+      return;
+    }
+    const totals = report.totals || {};
+    box.textContent = `Chi phí luỹ kế project: ${fmtUsd(totals.usd)} · ${fmtTokens((totals.tokens || {}).total)} tokens`
+      + ` · ${totals.codex_runs || 0} lần Codex · ${totals.renders || 0} render`
+      + (report.pricing_known ? '' : ' (thiếu giá một phần)');
+    box.hidden = false;
+  }
+
   function renderDeckDone(job) {
     state.deckSlug = job.project;
     const grid = $('#deckQaGrid');
@@ -1858,6 +2042,7 @@
     if (notes) notes.value = '';
     const result = $('#deckResult');
     if (result) result.hidden = false;
+    renderDeckCost(job.project);
   }
 
   function selectDraft(index) {

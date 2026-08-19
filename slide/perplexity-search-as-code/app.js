@@ -176,7 +176,7 @@ const defaultPreviewSettings = {
   },
   "bgm": {
     "mode": "custom",
-    "preset": "ambient",
+    "preset": "piano",
     "volume": 0.3,
     "custom": {
       "name": "meta.mp3",

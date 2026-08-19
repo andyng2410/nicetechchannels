@@ -9,8 +9,31 @@ from typing import Any, Awaitable, Callable
 
 from slide_media import discover_slide_videos
 
+try:
+    import cost_tracking
+except ImportError:
+    cost_tracking = None
+
 LineGenerator = Callable[[int, str, Path, Path], Awaitable[None] | None]
 CacheMetadataBuilder = Callable[[int, str], dict[str, Any]]
+# (index, line, cached) -> None: cho engine biết line nào cache hit / line nào generate thật (cost tracking)
+LineResultCallback = Callable[[int, str, bool], None]
+
+
+def record_tts_cost(slide_dir: Path | None, output_dir: Path, event: dict) -> None:
+    """Ghi event `tts` vào cost-ledger ở project root. Không bao giờ raise."""
+    if cost_tracking is None:
+        return
+    project_dir = slide_dir if slide_dir else output_dir.parent
+    payload = {"type": "tts", "writer": "tts", **event}
+    if payload.get("usd") is None:
+        try:
+            payload["usd"] = cost_tracking.tts_usd(
+                payload.get("chars"), str(payload.get("engine") or ""), cost_tracking.load_pricing()
+            )
+        except Exception:  # noqa: BLE001
+            payload["usd"] = None
+    cost_tracking.safe_append_event(project_dir, payload)
 
 
 async def get_duration(audio_file: Path) -> float:
@@ -180,6 +203,7 @@ async def generate_project_tts(
     cooldown: float = 5.0,
     post_process_speed: float | None = None,
     cache_metadata: CacheMetadataBuilder | None = None,
+    on_line_result: LineResultCallback | None = None,
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     line_durations = []
@@ -214,6 +238,8 @@ async def generate_project_tts(
         if not force and meta_cache_matches and audio_file.exists() and audio_file.stat().st_size > 0:
             original_duration = await get_duration(audio_file)
             print(f"Slide {i + 1} TTS: {original_duration:.2f}s -> {audio_file} (cached)")
+            if on_line_result is not None:
+                on_line_result(i, line, True)
         else:
             if srt_file.exists():
                 srt_file.unlink()
@@ -232,6 +258,8 @@ async def generate_project_tts(
                 meta_cache_file.write_text(json.dumps(expected_meta, ensure_ascii=False, indent=2), encoding="utf-8")
             original_duration = await get_duration(audio_file)
             print(f"Slide {i + 1} TTS: {original_duration:.2f}s -> {audio_file}")
+            if on_line_result is not None:
+                on_line_result(i, line, False)
 
         if not srt_file.exists() or srt_file.stat().st_size == 0:
             write_line_srt(srt_file, line, original_duration)

@@ -1,0 +1,14 @@
+{
+  "_comment": "Copy thành config/pricing.json rồi chỉnh nếu giá đổi. Giá model là API-equivalent (Codex chạy qua subscription nên $ là quy đổi tương đương API) — số dưới đây theo bảng giá OpenAI 08/2026: Sol $5 input / $0.50 cached (10%) / $30 output per 1M tokens, cache write 1.25x input. ElevenLabs $0.10/1K ký tự cho Multilingual v2/v3. Model không có trong bảng -> report ghi token nhưng usd bỏ trống. Lưu ý Docker: config/ là volume ntc-config, container KHÔNG thấy file này trên host — `docker compose cp config/pricing.json nicetechchannels:/app/config/`, hoặc chấp nhận defaults built-in (cùng số này) trong cost_tracking.py.",
+  "models": {
+    "gpt-5.6-sol": {
+      "usd_per_1m_input": 5.0,
+      "usd_per_1m_cached_input": 0.5,
+      "usd_per_1m_cache_write_input": 6.25,
+      "usd_per_1m_output": 30.0
+    }
+  },
+  "elevenlabs": { "usd_per_1k_chars": 0.10 },
+  "edge": { "usd_per_1k_chars": 0.0 },
+  "machine": { "usd_per_hour": 0.0 }
+}
